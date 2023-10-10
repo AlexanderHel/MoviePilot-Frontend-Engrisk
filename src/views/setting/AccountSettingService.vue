@@ -3,16 +3,16 @@ import { useToast } from 'vue-toast-notification'
 import api from '@/api'
 import type { ScheduleInfo } from '@/api/types'
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 定时服务列表
+//  List of timed services
 const schedulerList = ref<ScheduleInfo[]>([])
 
-// 定时器
+//  Timers
 let refreshTimer: NodeJS.Timer | null = null
 
-// 调用API加载定时服务列表
+//  Call (programming)API Load timed service list
 async function loadSchedulerList() {
   try {
     const res: ScheduleInfo[] = await api.get('dashboard/schedule')
@@ -24,31 +24,31 @@ async function loadSchedulerList() {
   }
 }
 
-// 任务状态颜色
+//  Task status color
 function getSchedulerColor(status: string) {
   switch (status) {
-    case '正在运行':
+    case ' Running':
       return 'success'
-    case '已停止':
+    case ' Ceased':
       return 'error'
-    case '等待':
+    case ' Wait for':
       return ''
     default:
       return ''
   }
 }
 
-// 执行命令
+//  Execute a command
 function runCommand(id: string) {
   try {
-    // 异步提交
+    //  Asynchronous submission
     api.get('system/runscheduler', {
       params: {
         jobid: id,
       },
     })
-    $toast.success('定时作业执行请求提交成功！')
-    // 1秒后刷新数据
+    $toast.success(' Timed job execution request submitted successfully！')
+    // 1 Refresh data after seconds
     setTimeout(() => {
       loadSchedulerList()
     }, 1000)
@@ -61,13 +61,13 @@ function runCommand(id: string) {
 onMounted(() => {
   loadSchedulerList()
 
-  // 启动定时器
+  //  Start timer
   refreshTimer = setInterval(() => {
     loadSchedulerList()
   }, 5000)
 })
 
-// 组件卸载时停止定时器
+//  Stop timer when component is unloaded
 onUnmounted(() => {
   if (refreshTimer) {
     clearInterval(refreshTimer)
@@ -77,20 +77,20 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <VCard title="定时作业">
-    <VCardText> 手动执行不会影响作业正常的时间表。 </VCardText>
+  <VCard title=" Timing work">
+    <VCardText>  Manual implementation does not affect the normal schedule of operations。 </VCardText>
 
     <VTable class="text-no-wrap">
       <thead>
         <tr>
           <th scope="col">
-            任务名称
+            Task name
           </th>
           <th scope="col">
-            任务状态
+            Mission status
           </th>
           <th scope="col">
-            下一次执行时间
+            Next execution time
           </th>
           <th scope="col" />
         </tr>
@@ -114,13 +114,13 @@ onUnmounted(() => {
           <td>
             <VBtn
               size="small"
-              :disabled="scheduler.status === '正在运行'"
+              :disabled="scheduler.status === ' Running'"
               @click="runCommand(scheduler.id)"
             >
               <template #prepend>
                 <VIcon>mdi-play</VIcon>
               </template>
-              执行
+              Fulfillment
             </VBtn>
           </td>
         </tr>
@@ -129,7 +129,7 @@ onUnmounted(() => {
             colspan="4"
             class="text-center"
           >
-            没有后台服务
+            No backend services
           </td>
         </tr>
       </tbody>

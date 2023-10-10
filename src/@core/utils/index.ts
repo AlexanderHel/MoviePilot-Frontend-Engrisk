@@ -33,7 +33,7 @@ export function isToday(date: Date) {
   )
 }
 
-// 计算时间差，返回xx天xx小时xx分钟
+//  Calculate the time difference， Come (or go) backxx Skyxx Hourlyxx Minutes
 export function calculateTimeDifference(inputTime: string): string {
   if (!inputTime)
     return ''
@@ -45,40 +45,40 @@ export function calculateTimeDifference(inputTime: string): string {
   const secondsDifference = Math.floor(timeDifference / 1000)
 
   if (secondsDifference < 60) {
-    return `${secondsDifference}秒`
+    return `${secondsDifference} Unit of angle or arc equivalent one sixtieth of a degree`
   }
   else if (secondsDifference < 3600) {
     const minutes = Math.floor(secondsDifference / 60)
 
-    return `${minutes}分钟`
+    return `${minutes} Minutes`
   }
   else if (secondsDifference < 86400) {
     const hours = Math.floor(secondsDifference / 3600)
 
-    return `${hours}小时`
+    return `${hours} Hourly`
   }
   else {
     const days = Math.floor(secondsDifference / 86400)
 
-    return `${days}天`
+    return `${days} Sky`
   }
 }
 
-// 判断一个数组subArray是不是在另一个数组mainArray中
+//  Determining an arraysubArray Is it in another arraymainArray Center
 export function isContained(subArray: any[], mainArray: any[]): boolean {
   return subArray.every(element => mainArray.includes(element))
 }
 
-// 判断两个数组是否存在交集
+//  Determine if there is an intersection of two arrays
 export function isIntersected(array1: any[], array2: any[]): boolean {
   return array1.some(element => array2.includes(element))
 }
 
 export function isNullOrEmptyObject(obj: any): boolean {
-  // 首先判断是否为 null 或 undefined
+  //  First determine if the null  Maybe undefined
   if (obj === null || obj === undefined)
     return true
 
-  // 然后判断是否为空对象
+  //  Then determine if the object is empty
   return !!(typeof obj === 'object' && Object.keys(obj).length === 0)
 }

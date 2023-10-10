@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import PersonDetailView from '@/views/discover/PersonDetailView.vue'
 
-// 路由参数
+//  Routing parameter
 const route = useRoute()
 
 // Person Id
 const personid = route.query?.personid?.toString()
 
-// 类型
+//  Typology
 const type = route.query?.type?.toString()
 </script>
 

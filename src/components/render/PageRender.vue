@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { type PropType, ref } from 'vue'
 
-// 组件接口
+//  Component interface
 interface RenderProps {
   component: string
   text: string
@@ -10,12 +10,12 @@ interface RenderProps {
   props?: any
 }
 
-// 输入参数
+//  Input parameter
 const elementProps = defineProps({
   config: Object as PropType<RenderProps>,
 })
 
-// 配置元素
+//  Configuration element
 const formItem = ref<RenderProps>(elementProps.config ?? {
   component: 'div',
   text: '',

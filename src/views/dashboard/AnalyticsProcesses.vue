@@ -3,16 +3,16 @@ import { formatSeconds } from '@/@core/utils/formatters'
 import api from '@/api'
 import type { Process } from '@/api/types'
 
-// 表头
-const headers = ['进程ID', '进程名称', '运行时间', '内存占用']
+//  Meter header
+const headers = [' StepID', ' Process name', ' Running time', ' Memory footprint']
 
-// 数据列表
+//  Data sheet
 const processList = ref<Process[]>([])
 
-// 定时器
+//  Timers
 let refreshTimer: NodeJS.Timer | null = null
 
-// 调用API加载数据
+//  Call (programming)API Load data
 async function loadProcessList() {
   try {
     const res: Process[] = await api.get('dashboard/processes')
@@ -27,13 +27,13 @@ async function loadProcessList() {
 onMounted(() => {
   loadProcessList()
 
-  // 启动定时器
+  //  Start timer
   refreshTimer = setInterval(() => {
     loadProcessList()
   }, 5000)
 })
 
-// 组件卸载时停止定时器
+//  Stop timer when component is unloaded
 onUnmounted(() => {
   if (refreshTimer) {
     clearInterval(refreshTimer)
@@ -43,7 +43,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <VCard title="系统进程">
+  <VCard title=" System process">
     <VTable
       item-key="fullName"
       class="table-rounded"

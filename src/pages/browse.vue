@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import MediaCardListView from '@/views/discover/MediaCardListView.vue'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
-  // API路径
+  // API Trails
   paths: Array as PropType<string[]> | PropType<string>,
 })
 
-// 路由参数
+//  Routing parameter
 const route = useRoute()
 
-// 标题
+//  Caption
 const title = route.query?.title?.toString()
 
-// 计算API路径
+//  CountAPI Trails
 function getApiPath(paths: string[] | string) {
   if (Array.isArray(paths))
     return paths.join('/')

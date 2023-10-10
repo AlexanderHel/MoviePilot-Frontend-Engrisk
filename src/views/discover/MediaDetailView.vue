@@ -9,37 +9,37 @@ import { doneNProgress, startNProgress } from '@/api/nprogress'
 import { formatSeason } from '@/@core/utils/formatters'
 import router from '@/router'
 
-// 输入参数
+//  Input parameter
 const mediaProps = defineProps({
   mediaid: String,
   type: String,
 })
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 媒体详情
+//  Media details
 const mediaDetail = ref<MediaInfo>({} as MediaInfo)
 
-// 本地是否存在
+//  Local availability
 const isExists = ref(false)
 
-// 是否已订阅
+//  Subscribed or not
 const isSubscribed = ref(false)
 
-// 是否已加载完成
+//  Whether or not the loading has been completed
 const isRefreshed = ref(false)
 
-// 存储每一季的集信息
+//  Stores episode information for each season
 const seasonEpisodesInfo = ref({} as { [key: number]: TmdbEpisode[] })
 
-// 各季缺失状态：0-已存在 1-部分缺失 2-全部缺失，没有数据也是已存在
+//  Missing status by season：0- Pre-existing 1- Partially missing 2- Missing in its entirety， No data exists.
 const seasonsNotExisted = ref<{ [key: number]: number }>({})
 
-// 各季的订阅状态
+//  Subscription status by season
 const seasonsSubscribed = ref<{ [key: number]: boolean }>({})
 
-// 调用API查询详情
+//  InvocationsAPI Inquiry details
 async function getMediaDetail() {
   if (mediaProps.mediaid && mediaProps.type) {
     mediaDetail.value = await api.get(`media/${mediaProps.mediaid}`, {
@@ -51,20 +51,20 @@ async function getMediaDetail() {
     if (!mediaDetail.value.tmdb_id && !mediaDetail.value.douban_id)
       return
 
-    // 检查存在状态
-    if (mediaDetail.value.type === '电影')
+    //  Checking the presence status
+    if (mediaDetail.value.type === ' Cinematic')
       checkMovieExists()
     else
       checkSeasonsNotExists()
-    // 检查订阅状态
-    if (mediaDetail.value.type === '电影')
+    //  Checking subscription status
+    if (mediaDetail.value.type === ' Cinematic')
       checkMovieSubscribed()
     else
       checkSeasonsSubscribed()
   }
 }
 
-// 调用API加载季集信息
+//  Call (programming)API Loading season episode information
 async function loadSeasonEpisodes(season: number) {
   if (seasonEpisodesInfo.value[season])
     return
@@ -78,7 +78,7 @@ async function loadSeasonEpisodes(season: number) {
   }
 }
 
-// 查询当前媒体是否已存在
+//  Check if the current media already exists
 async function checkMovieExists() {
   try {
     const result: { [key: string]: any } = await api.get('media/exists', {
@@ -99,7 +99,7 @@ async function checkMovieExists() {
   }
 }
 
-// 查询当前媒体是否已订阅
+//  Check if the current media is subscribed
 async function checkSubscribe(season = 0) {
   try {
     const mediaid = `tmdb:${mediaDetail.value.tmdb_id}`
@@ -120,9 +120,9 @@ async function checkSubscribe(season = 0) {
   return false
 }
 
-// 检查所有季的缺失状态
+//  Check the missing status of all seasons
 async function checkSeasonsNotExists() {
-  if (mediaDetail.value.type !== '电视剧')
+  if (mediaDetail.value.type !== ' Dramas')
     return
   try {
     const result: NotExistMediaInfo[] = await api.post('download/notexists', mediaDetail.value)
@@ -131,7 +131,7 @@ async function checkSeasonsNotExists() {
         isExists.value = true
 
       result.forEach((item) => {
-        // 0-已存在 1-部分缺失 2-全部缺失
+        // 0- Pre-existing 1- Partially missing 2- Missing in its entirety
         let state = 0
         if (item.episodes.length === 0)
           state = 2
@@ -148,21 +148,21 @@ async function checkSeasonsNotExists() {
   }
 }
 
-// 检查电影订阅状态
+//  Check movie subscription status
 async function checkMovieSubscribed() {
-  if (mediaDetail.value.type !== '电影')
+  if (mediaDetail.value.type !== ' Cinematic')
     return
   isSubscribed.value = await checkSubscribe()
 }
 
-// 过滤掉第0季
+//  Filter out the first0 Classifier for seasonal crop yield or seasons of a tv series
 const getMediaSeasons = computed(() => {
   return mediaDetail.value?.season_info?.filter(season => season.season_number !== 0)
 })
 
-// 检查所有季的订阅状态
+//  Check the subscription status of all seasons
 async function checkSeasonsSubscribed() {
-  if (mediaDetail.value.type !== '电视剧')
+  if (mediaDetail.value.type !== ' Dramas')
     return
   try {
     mediaDetail.value?.season_info?.forEach(async (item) => {
@@ -174,17 +174,17 @@ async function checkSeasonsSubscribed() {
   }
 }
 
-// 调用API添加订阅，电视剧的话需要指定季
+//  Call (programming)API Add subscription， For a tv show, you need a season.
 async function addSubscribe(season = 0) {
-  // 开始处理
+  //  Commencement of processing
   startNProgress()
   try {
-    // 是否洗版
+    //  Whether or not to wash the plate
     let best_version = isExists.value ? 1 : 0
     if (season)
-      // 全部存在时洗版
+      //  Washout when all are present
       best_version = !seasonsNotExisted.value[season] ? 1 : 0
-    // 请求API
+    //  RequestingAPI
     const result: { [key: string]: any } = await api.post('subscribe/', {
       name: mediaDetail.value?.title,
       type: mediaDetail.value?.type,
@@ -195,15 +195,15 @@ async function addSubscribe(season = 0) {
       best_version,
     })
 
-    // 订阅状态
+    //  Subscription status
     if (result.success) {
-      // 订阅成功
+      //  Subscription success
       isSubscribed.value = true
       if (season)
         seasonsSubscribed.value[season] = true
     }
 
-    // 提示
+    //  Draw attention to sth.
     showSubscribeAddToast(
       result.success,
       mediaDetail.value?.title ?? '',
@@ -218,7 +218,7 @@ async function addSubscribe(season = 0) {
   doneNProgress()
 }
 
-// 弹出添加订阅提示
+//  Pop-up alert to add subscription
 function showSubscribeAddToast(result: boolean,
   title: string,
   season: number,
@@ -227,19 +227,19 @@ function showSubscribeAddToast(result: boolean,
   if (season)
     title = `${title} ${formatSeason(season.toString())}`
 
-  let subname = '订阅'
+  let subname = ' Subscribe to'
   if (best_version > 0)
-    subname = '洗版订阅'
+    subname = ' Wash edition subscription'
 
   if (result)
-    $toast.success(`${title} 添加${subname}成功！`)
+    $toast.success(`${title}  Increase${subname} Successes！`)
   else
-    $toast.error(`${title} 添加${subname}失败：${message}！`)
+    $toast.error(`${title}  Increase${subname} Fail (e.g. experiments)：${message}！`)
 }
 
-// 调用API取消订阅
+//  Call (programming)API Unsubscribe
 async function removeSubscribe(season: number) {
-  // 开始处理
+  //  Commencement of processing
   startNProgress()
   try {
     const mediaid = mediaDetail.value?.tmdb_id
@@ -259,10 +259,10 @@ async function removeSubscribe(season: number) {
       isSubscribed.value = false
       if (season)
         seasonsSubscribed.value[season] = false
-      $toast.success(`${mediaDetail.value?.title} 已取消订阅！`)
+      $toast.success(`${mediaDetail.value?.title}  Unsubscribe！`)
     }
     else {
-      $toast.error(`${mediaDetail.value?.title} 取消订阅失败：${result.message}！`)
+      $toast.error(`${mediaDetail.value?.title}  Failed to unsubscribe：${result.message}！`)
     }
   }
   catch (error) {
@@ -271,7 +271,7 @@ async function removeSubscribe(season: number) {
   doneNProgress()
 }
 
-// 订阅按钮响应
+//  Subscribe button response
 function handleSubscribe(season = 0) {
   if (isSubscribed.value)
     removeSubscribe(season)
@@ -279,57 +279,57 @@ function handleSubscribe(season = 0) {
     addSubscribe(season)
 }
 
-// 从genres中获取name，使用、分隔
+//  Through (a gap)genres Gettingname， Utilization、 Segregation
 function getGenresName(genres: any[]) {
   return genres.map(genre => genre.name).join('、')
 }
 
-// 拼装TheMovieDb地址
+//  AssembleTheMovieDb Address
 function getTheMovieDbLink() {
-  const mtype = mediaProps.type === '电影' ? 'movie' : 'tv'
+  const mtype = mediaProps.type === ' Cinematic' ? 'movie' : 'tv'
   return `https://www.themoviedb.org/${mtype}/${mediaDetail.value.tmdb_id}`
 }
 
-// 拼装豆瓣地址
+//  Patchwork doula address
 function getDoubanLink() {
   return `https://movie.douban.com/subject/${mediaDetail.value.douban_id}`
 }
 
-// 拼装IMDB地址
+//  AssembleIMDB Address
 function getImdbLink() {
   return `https://www.imdb.com/title/${mediaDetail.value.imdb_id}`
 }
 
-// 拼装TVDB地址
+//  AssembleTVDB Address
 function getTvdbLink() {
   return `https://www.thetvdb.com/series/${mediaDetail.value.tvdb_id}`
 }
 
-// 拼装集图片地址
+//  Picture address of the assembly set
 function getEpisodeImage(stillPath: string) {
   if (!stillPath)
     return ''
   return `https://image.tmdb.org/t/p/w500${stillPath}`
 }
 
-// TMDB图片转换为w500大小
+// TMDB Images are converted tow500 Adults and children
 function getW500Image(url = '') {
   if (!url)
     return ''
   return url.replace('original', 'w500')
 }
 
-// 获取发行国家名称
+//  Get the name of the country of issue
 const getProductionCountries = computed(() => {
   return mediaDetail.value.production_countries?.map(country => country.name)
 })
 
-// 获取发行公司名称
+//  Get the name of the issuing company
 const getProductionCompanies = computed(() => {
   return mediaDetail.value.production_companies?.map(company => company.name)
 })
 
-// 计算存在状态的颜色
+//  Calculate the color of the state of being
 function getExistColor(season: number) {
   const state = seasonsNotExisted.value[season]
   if (!state)
@@ -343,21 +343,21 @@ function getExistColor(season: number) {
     return 'success'
 }
 
-// 计算存在状态的文本
+//  Calculate the text of the state of being
 function getExistText(season: number) {
   const state = seasonsNotExisted.value[season]
   if (!state)
-    return '已存在'
+    return ' Pre-existing'
 
   if (state === 1)
-    return '部分缺失'
+    return ' Partially missing'
   else if (state === 2)
-    return '缺失'
+    return ' Deficiencies'
   else
-    return '已存在'
+    return ' Pre-existing'
 }
 
-// 计算订阅图标
+//  Calculate subscription icon
 const getSubscribeIcon = computed(() => {
   if (isSubscribed.value)
     return 'mdi-heart'
@@ -365,7 +365,7 @@ const getSubscribeIcon = computed(() => {
     return 'mdi-heart-outline'
 })
 
-// 计算订阅按钮颜色
+//  Calculate subscription button color
 const getSubscribeColor = computed(() => {
   if (isSubscribed.value)
     return 'error'
@@ -373,12 +373,12 @@ const getSubscribeColor = computed(() => {
     return 'warning'
 })
 
-// 使用、拼装数组为字符串
+//  Utilization、 Assembling arrays as strings
 function joinArray(arr: string[]) {
   return arr.join('、')
 }
 
-// 开始搜索
+//  Start searching
 function handleSearch(area: string) {
   router.push({
     path: '/resource',
@@ -427,7 +427,7 @@ onBeforeMount(() => {
         <div class="media-title">
           <div v-if="isExists" class="media-status">
             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full whitespace-nowrap transition !no-underline bg-green-500 bg-opacity-80 border border-green-500 !text-green-100 hover:bg-green-500 hover:bg-opacity-100 false overflow-hidden">
-              <div class="relative z-20 flex items-center false"><span>已入库</span></div>
+              <div class="relative z-20 flex items-center false"><span> In stock</span></div>
             </span>
           </div>
           <h1 class="d-flex flex-column flex-lg-row align-baseline justify-center justify-lg-start">
@@ -439,7 +439,7 @@ onBeforeMount(() => {
             </div>
           </h1>
           <span class="media-attributes">
-            <span v-if="mediaDetail.runtime || mediaDetail.episode_run_time[0]">{{ mediaDetail.runtime || mediaDetail.episode_run_time[0] }} 分钟</span>
+            <span v-if="mediaDetail.runtime || mediaDetail.episode_run_time[0]">{{ mediaDetail.runtime || mediaDetail.episode_run_time[0] }}  Minutes</span>
             <span v-if="(mediaDetail.runtime || mediaDetail.episode_run_time[0]) && mediaDetail.genres" class="mx-1"> | </span>
             <span v-if="mediaDetail.genres">{{ getGenresName(mediaDetail.genres || []) }}</span>
           </span>
@@ -449,7 +449,7 @@ onBeforeMount(() => {
             <template #prepend>
               <VIcon icon="mdi-magnify" />
             </template>
-            搜索资源
+            Search resources
             <VMenu
               activator="parent"
               close-on-content-click
@@ -459,23 +459,23 @@ onBeforeMount(() => {
                   variant="plain"
                   @click="handleSearch('title')"
                 >
-                  <VListItemTitle>标题</VListItemTitle>
+                  <VListItemTitle> Caption</VListItemTitle>
                 </VListItem>
                 <VListItem
                   v-show="mediaDetail.imdb_id"
                   variant="plain"
                   @click="handleSearch('imdbid')"
                 >
-                  <VListItemTitle>IMDB链接</VListItemTitle>
+                  <VListItemTitle>IMDB Link (on a website)</VListItemTitle>
                 </VListItem>
               </VList>
             </VMenu>
           </VBtn>
-          <VBtn v-if="mediaDetail.type === '电影'" class="ms-2" :color="getSubscribeColor" variant="tonal" @click="handleSubscribe(0)">
+          <VBtn v-if="mediaDetail.type === ' Cinematic'" class="ms-2" :color="getSubscribeColor" variant="tonal" @click="handleSubscribe(0)">
             <template #prepend>
               <VIcon :icon="getSubscribeIcon" />
             </template>
-            {{ isSubscribed ? '已订阅' : '订阅' }}
+            {{ isSubscribed ? ' Subscribed' : ' Subscribe to' }}
           </VBtn>
         </div>
       </div>
@@ -485,7 +485,7 @@ onBeforeMount(() => {
             {{ mediaDetail.tagline }}
           </div>
           <h2 v-if="mediaDetail.overview">
-            简介
+            Synopsis
           </h2>
           <p>{{ mediaDetail.overview }}</p>
           <ul v-if="mediaDetail.tmdb_id" class="media-crew">
@@ -514,7 +514,7 @@ onBeforeMount(() => {
             <a v-if="mediaDetail.douban_id" class="mb-2 mr-2 inline-flex last:mr-0" :href="getDoubanLink()" target="_blank">
               <div class="inline-flex cursor-pointer items-center rounded-full bg-gray-600 px-2 py-1 text-sm text-gray-200 ring-1 ring-gray-500 transition hover:bg-gray-700">
                 <VIcon icon="mdi-link" />
-                <span class="ms-1">豆瓣</span>
+                <span class="ms-1"> Douban, prc social networking website</span>
               </div>
             </a>
             <a v-if="mediaDetail.imdb_id" class="mb-2 mr-2 inline-flex last:mr-0" :href="getImdbLink()" target="_blank">
@@ -530,10 +530,10 @@ onBeforeMount(() => {
               </div>
             </a>
           </div>
-          <h2 v-if="mediaDetail.type === '电视剧' && mediaDetail.tmdb_id" class="py-4">
-            季
+          <h2 v-if="mediaDetail.type === ' Dramas' && mediaDetail.tmdb_id" class="py-4">
+            Classifier for seasonal crop yield or seasons of a tv series
           </h2>
-          <div v-if="mediaDetail.type === '电视剧' && mediaDetail.tmdb_id" class="flex w-full flex-col space-y-2">
+          <div v-if="mediaDetail.type === ' Dramas' && mediaDetail.tmdb_id" class="flex w-full flex-col space-y-2">
             <VExpansionPanels>
               <VExpansionPanel
                 v-for="season in getMediaSeasons"
@@ -543,9 +543,9 @@ onBeforeMount(() => {
                 <VExpansionPanelTitle>
                   <template #default>
                     <div class="flex flex-row items-center justify-between">
-                      <span class="font-weight-bold">第 {{ season.season_number }} 季</span>
+                      <span class="font-weight-bold">第 {{ season.season_number }} Classifier for seasonal crop yield or seasons of a tv series</span>
                       <VChip size="small" class="ms-1">
-                        {{ season.episode_count }}集
+                        {{ season.episode_count }} Classifier for sections of a tv series e.g. episode
                       </VChip>
                       <div class="absolute right-12">
                         <VChip
@@ -617,15 +617,15 @@ onBeforeMount(() => {
               <span class="media-fact-value">{{ mediaDetail.tmdb_id }}</span>
             </div>
             <div v-if="mediaDetail.original_title || mediaDetail.original_name" class="media-fact">
-              <span>原始标题</span>
+              <span> Original title</span>
               <span class="media-fact-value">{{ mediaDetail.original_title || mediaDetail.original_name }}</span>
             </div>
             <div v-if="mediaDetail.status" class="media-fact">
-              <span>状态</span>
+              <span> State of affairs</span>
               <span class="media-fact-value">{{ mediaDetail.status }}</span>
             </div>
             <div v-if="mediaDetail.release_date || mediaDetail.first_air_date" class="media-fact">
-              <span>上映日期</span>
+              <span> Release date</span>
               <span class="media-fact-value">
                 <span class="flex items-center justify-end">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
@@ -635,11 +635,11 @@ onBeforeMount(() => {
               </span>
             </div>
             <div v-if="mediaDetail.original_language" class="media-fact">
-              <span>原始语言</span>
+              <span> Original language</span>
               <span class="media-fact-value">{{ mediaDetail.original_language }}</span>
             </div>
             <div v-if="mediaDetail.production_countries" class="media-fact">
-              <span>出品国家</span>
+              <span> Producing country</span>
               <span class="media-fact-value">
                 <span v-for="country in getProductionCountries" :key="country" class="flex items-center justify-end text-end">
                   {{ country }}
@@ -647,7 +647,7 @@ onBeforeMount(() => {
               </span>
             </div>
             <div class="media-fact border-b-0">
-              <span>制作公司</span>
+              <span> Production company</span>
               <span class="media-fact-value text-end">
                 <span v-for="company in getProductionCompanies" :key="company" class="block">{{ company }}</span>
               </span>
@@ -658,22 +658,22 @@ onBeforeMount(() => {
       <div v-if="mediaDetail.tmdb_id">
         <PersonCardSlideView
           :apipath="`tmdb/credits/${mediaDetail.tmdb_id}/${mediaProps.type}`"
-          :linkurl="`/credits/tmdb/credits/${mediaDetail.tmdb_id}/${mediaProps.type}?title=演员阵容`"
-          title="演员阵容"
+          :linkurl="`/credits/tmdb/credits/${mediaDetail.tmdb_id}/${mediaProps.type}?title= Dramatis personae`"
+          title=" Dramatis personae"
         />
       </div>
       <div v-if="mediaDetail.tmdb_id">
         <MediaCardSlideView
           :apipath="`tmdb/recommend/${mediaDetail.tmdb_id}/${mediaProps.type}`"
-          :linkurl="`/browse/tmdb/recommend/${mediaDetail.tmdb_id}/${mediaProps.type}?title=推荐`"
-          title="推荐"
+          :linkurl="`/browse/tmdb/recommend/${mediaDetail.tmdb_id}/${mediaProps.type}?title= Testimonials`"
+          title=" Testimonials"
         />
       </div>
       <div v-if="mediaDetail.tmdb_id">
         <MediaCardSlideView
           :apipath="`tmdb/similar/${mediaDetail.tmdb_id}/${mediaProps.type}`"
-          :linkurl="`/browse/tmdb/similar/${mediaDetail.tmdb_id}/${mediaProps.type}?title=类似`"
-          title="类似"
+          :linkurl="`/browse/tmdb/similar/${mediaDetail.tmdb_id}/${mediaProps.type}?title= Analog`"
+          title=" Analog"
         />
       </div>
     </div>
@@ -681,8 +681,8 @@ onBeforeMount(() => {
   <NoDataFound
     v-if="!mediaDetail.tmdb_id && !mediaDetail.douban_id && isRefreshed"
     error-code="500"
-    error-title="出错啦！"
-    error-description="未识别到TMDB媒体信息。"
+    error-title=" There's been a mistake.！"
+    error-description=" Not recognizedTMDB Media information。"
   />
 </template>
 

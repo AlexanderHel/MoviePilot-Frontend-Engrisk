@@ -3,14 +3,14 @@ import { useToast } from 'vue-toast-notification'
 import { useTheme } from 'vuetify'
 import store from './store'
 
-// 第一时间应用主题
+//  First time application theme
 const { global: globalTheme } = useTheme()
 globalTheme.name.value = localStorage.getItem('theme') || 'light'
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// SSE持续接收消息
+// SSE Continuously receive messages
 function startSSEMessager() {
   const token = store.state.auth.token
   if (token) {
@@ -30,7 +30,7 @@ function startSSEMessager() {
   }
 }
 
-// 页面加载时，加载当前用户数据
+//  When the page loads， Load current user data
 onBeforeMount(async () => {
   startSSEMessager()
 })

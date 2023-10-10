@@ -11,10 +11,10 @@ const endpoints = {
   rename: { url: '/filebrowser/rename?path={path}&new_name={newname}', method: 'get' },
 }
 
-// 读取下载目录
+//  Read the download directory
 const path = ref('/')
 
-// 调用API，加载当前系统环境设置
+//  Call (programming)API， Load the current system environment settings
 async function loadSystemSettings() {
   try {
     const result: { [key: string]: any } = await api.get('system/env')

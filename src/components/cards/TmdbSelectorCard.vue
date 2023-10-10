@@ -9,40 +9,40 @@ interface TmdbItem {
   poster: string
 }
 
-// update:modelValue 事件
+// update:modelValue  Event
 const emit = defineEmits(['update:modelValue', 'close'])
 
 const items = ref<TmdbItem[]>([])
 
-// 搜索词
+//  Search term
 const keyword = ref('')
 
-// 加载中
+//  Loading
 const loading = ref(false)
 
 // ref
 const tmdbKeyword = ref<HTMLElement | null>(null)
 
-// 选中条目
+//  Selected entries
 function selectMedia(item: TmdbItem) {
   console.log(item)
   emit('update:modelValue', item.tmdbid)
   emit('close')
 }
 
-// TMDB图片转换为w500大小
+// TMDB Images are converted tow500 Adults and children
 function getW500Image(url = '') {
   if (!url)
     return ''
   return url.replace('original', 'w500')
 }
 
-// 搜索词条
+//  Search term条
 async function searchMedias() {
   if (!keyword)
     return
 
-  // 调用API搜索词条
+  //  Call (programming)API Search terms
   try {
     loading.value = true
     const result: MediaInfo[] = await api.get('media/search', {
@@ -53,10 +53,10 @@ async function searchMedias() {
       },
     })
 
-    // 清空
+    //  Empty
     items.value = []
 
-    // 赋值
+    //  Assign a value to something
     for (const item of result) {
       items.value.push({
         tmdbid: item.tmdb_id || 0,
@@ -72,9 +72,9 @@ async function searchMedias() {
   }
 }
 
-// 加载时聚焦搜索框
+//  Focus search box when loading
 onMounted(() => {
-  // 500ms后聚焦
+  // 500ms Backward focus
   setTimeout(() => {
     tmdbKeyword.value?.focus()
   }, 500)
@@ -90,9 +90,9 @@ onMounted(() => {
       <VTextField
         ref="tmdbKeyword"
         v-model="keyword"
-        label="输入名称搜索"
+        label=" Search by name"
         single-line
-        placeholder="电影或电视剧名称"
+        placeholder=" Name of movie or tv series"
         variant="solo"
         append-inner-icon="mdi-magnify"
         flat

@@ -5,16 +5,16 @@ import type { DownloadingInfo } from '@/api/types'
 import NoDataFound from '@/components/NoDataFound.vue'
 import DownloadingCard from '@/components/cards/DownloadingCard.vue'
 
-// 定时器
+//  Timers
 let refreshTimer: NodeJS.Timer | null = null
 
-// 数据列表
+//  Data sheet
 const dataList = ref<DownloadingInfo[]>([])
 
-// 是否刷新过
+//  Is it refreshed
 const isRefreshed = ref(false)
 
-// 获取订阅列表数据
+//  Get subscription list data
 async function fetchData() {
   try {
     dataList.value = await api.get('download/')
@@ -25,27 +25,27 @@ async function fetchData() {
   }
 }
 
-// 刷新状态
+//  Refresh state
 const loading = ref(false)
 
-// 下拉刷新
+//  Drop-down refresh
 function onRefresh() {
   loading.value = true
   fetchData()
   loading.value = false
 }
 
-// 加载时获取数据
+//  Getting data on load
 onBeforeMount(() => {
   fetchData()
 
-  // 启动定时器
+  //  Start timer
   refreshTimer = setInterval(() => {
     fetchData()
   }, 3000)
 })
 
-// 组件卸载时停止定时器
+//  Stop timer when component is unloaded
 onUnmounted(() => {
   if (refreshTimer) {
     clearInterval(refreshTimer)
@@ -83,8 +83,8 @@ onUnmounted(() => {
     <NoDataFound
       v-if="dataList.length === 0 && isRefreshed"
       error-code="404"
-      error-title="没有任务"
-      error-description="正在下载的任务将会显示在这里。"
+      error-title=" No mandate"
+      error-description=" Tasks being downloaded will be shown here。"
     />
   </PullRefresh>
 </template>

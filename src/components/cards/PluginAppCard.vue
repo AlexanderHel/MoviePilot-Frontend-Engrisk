@@ -3,23 +3,23 @@ import { useToast } from 'vue-toast-notification'
 import api from '@/api'
 import type { Plugin } from '@/api/types'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   plugin: Object as PropType<Plugin>,
   width: String,
   height: String,
 })
 
-// 定义触发的自定义事件
+//  Define custom events that are triggered
 const emit = defineEmits(['install'])
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 图片是否加载完成
+//  Whether the image has finished loading
 const isImageLoaded = ref(false)
 
-// 安装插件
+//  Installation of plug-ins
 async function installPlugin() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -27,13 +27,13 @@ async function installPlugin() {
     )
 
     if (result.success) {
-      $toast.success(`插件 ${props.plugin?.plugin_name} 安装成功！`)
+      $toast.success(` Plug-in (software component) ${props.plugin?.plugin_name}  Successful installation！`)
 
-      // 通知父组件刷新
+      //  Notify the parent component of a refresh
       emit('install')
     }
     else {
-      $toast.error(`插件 ${props.plugin?.plugin_name} 安装失败：${result.message}}`)
+      $toast.error(` Plug-in (software component) ${props.plugin?.plugin_name}  Installation failure：${result.message}}`)
     }
   }
   catch (error) {
@@ -70,7 +70,7 @@ async function installPlugin() {
       {{ props.plugin?.plugin_desc }}
     </VCardText>
     <VCardText>
-      作者：<a
+      Author：<a
         :href="props.plugin?.author_url"
         target="_blank"
         @click.stop

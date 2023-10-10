@@ -12,18 +12,18 @@ const triangleBg = computed(() =>
   global.name.value === 'light' ? triangleLight : triangleDark,
 )
 
-// 总存储空间
+//  Total storage space
 const storage = ref(0)
 
-// 已使用存储空间
+//  Used storage space
 const used = ref(0)
 
-// 计算已使用存储空间百分比，精确到小数点后1位
+//  Calculating percentage of used storage space， Accurate to the decimal point1 Classifier for honorific people
 const usedPercent = computed(() => {
   return Math.round((used.value / (storage.value || 1)) * 1000) / 10
 })
 
-// 调用API，查询存储空间
+//  Call (programming)API， Querying the storage space
 async function getStorage() {
   try {
     const res: Storage = await api.get('dashboard/storage')
@@ -43,7 +43,7 @@ onMounted(() => {
 
 <template>
   <VCard
-    title="存储空间"
+    title=" Storage space"
     subtitle=""
     class="position-relative"
   >
@@ -52,7 +52,7 @@ onMounted(() => {
         {{ formatFileSize(storage) }}
       </h5>
       <p class="mt-2">
-        已使用 {{ usedPercent }}% 🚀
+        Utilized {{ usedPercent }}% 🚀
       </p>
       <p class="mt-1">
         <VProgressLinear

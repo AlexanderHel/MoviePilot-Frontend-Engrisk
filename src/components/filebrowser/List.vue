@@ -12,7 +12,7 @@ import api from '@/api'
 import MediaInfoCard from '@/components/cards/MediaInfoCard.vue'
 import TmdbSelectorCard from '@/components/cards/TmdbSelectorCard.vue'
 
-// 输入参数
+//  Input parameter
 const inProps = defineProps({
   icons: Object,
   storage: String,
@@ -23,55 +23,55 @@ const inProps = defineProps({
   sort: String,
 })
 
-// 对外事件
+//  External events
 const emit = defineEmits(['loading', 'pathchanged', 'refreshed', 'filedeleted', 'renamed'])
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 是否正在加载
+//  Is it loading
 const loading = ref(true)
 
-// 确认框
+//  Confirmation box
 const createConfirm = useConfirm()
 
-// 存储空间类型
+//  Storage space type
 const storage = ref(inProps.storage ?? '')
 
-// axios实例
+// axios An actual example
 const axiosInstance = ref<Axios>(inProps.axios ?? axios)
 
-// 内容列表
+//  Content list
 const items = ref<FileItem[]>([])
 
-// 过滤条件
+//  Filtration conditions
 const filter = ref('')
 
-// 重命名弹窗
+//  Rename a pop-up window
 const renamePopper = ref(false)
 
-// 整理弹窗
+//  Organize pop-ups
 const transferPopper = ref(false)
 
-// 整理进度条
+//  Organize the progress bar
 const progressDialog = ref(false)
 
-// 整理进度文本
-const progressText = ref('请稍候 ...')
+//  Organize progress text
+const progressText = ref(' Please wait. ...')
 
-// 整理进度
+//  Organize progress
 const progressValue = ref(0)
 
-// 加载进度SSE
+//  Loading progressSSE
 const progressEventSource = ref<EventSource>()
 
-// 新名称
+//  New name
 const newName = ref('')
 
-// 当前名称
+//  Current name
 const currentItem = ref<FileItem>()
 
-// 文件转移表单
+//  File transfer form
 const transferForm = reactive({
   path: '',
   target: '',
@@ -87,50 +87,50 @@ const transferForm = reactive({
 
 })
 
-// 识别结果
+//  Identification results
 const nameTestResult = ref<Context>()
 
-// 识别结果对话框
+//  Identification results对话框
 const nameTestDialog = ref(false)
 
-// TMDB选择对话框
+// TMDB Selection dialog box
 const tmdbSelectorDialog = ref(false)
 
-// 生成1到50季的下拉框选项
+//  Generating1 Until (a time)50 Quarterly drop-down box options
 const seasonItems = ref(
   Array.from({ length: 51 }, (_, i) => i).map(item => ({
-    title: `第 ${item} 季`,
+    title: ` (prefix indicating ordinal number, e.g. first, number two etc) ${item}  Classifier for seasonal crop yield or seasons of a tv series`,
     value: item,
   })),
 )
 
-// 目录过滤
+//  Catalog filtering
 const dirs = computed(() =>
   items.value.filter(item => item.type === 'dir' && item.basename.includes(filter.value)),
 )
 
-// 文件过滤
+//  File filtering
 const files = computed(() =>
   items.value.filter(item => item.type === 'file' && item.basename.includes(filter.value)),
 )
 
-// 是否目录
+//  Catalog or not
 const isDir = computed(() => inProps.path?.endsWith('/'))
 
-// 是否文件
+//  Documentation
 const isFile = computed(() => !isDir.value)
 
-// 是否为图片文件
+//  Whether it is an image file
 const isImage = computed(() => {
   const ext = inProps.path?.split('.').pop()?.toLowerCase()
   return ['png', 'jpg', 'jpeg', 'gif', 'bmp'].includes(ext ?? '')
 })
 
-// 调API加载内容
+//  HarmonizeAPI Loading content
 async function load() {
   loading.value = true
   emit('loading', true)
-  // 参数
+  //  Parameters
   const url = inProps.endpoints?.list.url
     .replace(/{storage}/g, storage.value)
     .replace(/{path}/g, encodeURIComponent(inProps.path || ''))
@@ -140,21 +140,21 @@ async function load() {
     url,
     method: inProps.endpoints?.list.method || 'get',
   }
-  // 加载数据
+  //  Load data
   items.value = await axiosInstance.value.request(config) ?? []
   emit('loading', false)
   loading.value = false
 }
 
-// 删除项目
+//  Deleting items
 async function deleteItem(item: FileItem) {
   const confirmed = await createConfirm({
-    title: '确认',
-    content: `是否确认删除${
-                item.type === 'dir' ? '目录' : '文件'
+    title: ' Recognize',
+    content: ` Confirmation of deletion${
+                item.type === 'dir' ? ' Catalogs' : ' File'
             } ${item.basename}？`,
-    confirmationText: '确认',
-    cancellationText: '取消',
+    confirmationText: ' Recognize',
+    cancellationText: ' Abolish',
     dialogProps: {
       maxWidth: '50rem',
     },
@@ -174,17 +174,17 @@ async function deleteItem(item: FileItem) {
     await axiosInstance.value.request(config)
     emit('filedeleted')
     emit('loading', false)
-    // 重新加载
+    //  Reload
     load()
   }
 }
 
-// 切换路径
+//  Switching paths
 function changePath(_path: string) {
   emit('pathchanged', _path)
 }
 
-// 新窗口中下载文件
+//  Download file in new window
 function download(path: string) {
   if (!path)
     return
@@ -193,11 +193,11 @@ function download(path: string) {
     .replace(/{storage}/g, storage.value)
     .replace(/{path}/g, encodeURIComponent(path))
   const url = `${import.meta.env.VITE_API_BASE_URL}${url_path.slice(1)}&token=${token}`
-  // 下载文件
+  //  Download file
   window.open(url, '_blank')
 }
 
-// 显示图片
+//  Show picture
 function getImgLink(path: string) {
   if (!path)
     return ''
@@ -208,14 +208,14 @@ function getImgLink(path: string) {
   return `${import.meta.env.VITE_API_BASE_URL}${url_path.slice(1)}&token=${token}`
 }
 
-// 显示重命名弹窗
+//  Show rename popup
 function showRenmae(item: FileItem) {
   currentItem.value = item
   newName.value = item.name
   renamePopper.value = true
 }
 
-// 重命名
+//  Rename
 async function rename() {
   emit('loading', true)
   const url = inProps.endpoints?.rename.url
@@ -228,50 +228,50 @@ async function rename() {
     method: inProps.endpoints?.mkdir.method || 'post',
   }
 
-  // 调API
+  //  HarmonizeAPI
   await inProps.axios?.request(config)
 
   renamePopper.value = false
   newName.value = ''
   emit('loading', false)
 
-  // 通知重新加载
+  //  Notification reload
   emit('renamed')
 }
 
-// 显示整理对话框
+//  Displaying the organizer dialog
 function showTransfer(item: FileItem) {
   currentItem.value = item
   transferPopper.value = true
 }
 
-// 整理文件
+//  Organize documents
 async function transfer() {
   transferForm.path = currentItem.value?.path ?? ''
-  // 开始整理文件
+  //  Start organizing documents
   try {
-    // 关闭弹窗
+    //  Close pop-up window
     transferPopper.value = false
-    // 显示进度条
+    //  Show progress bar
     progressDialog.value = true
-    // 开始监听进度
+    //  Start listening to progress
     startLoadingProgress()
-    // 异步调API，结束后关闭进度条
+    //  Asynchronous transferAPI， Close the progress bar when finished
     api.post('transfer/manual', {}, {
       params: transferForm,
     }).then((res: any) => {
-      // 关闭进度条
+      //  Close the progress bar
       progressDialog.value = false
-      // 停止监听进度
+      //  Stop listening to progress
       stopLoadingProgress()
-      // 显示结果
+      //  Show results
       if (res.success) {
-        $toast.success(`${currentItem.value?.name} 整理完成！`)
-        // 重新加载
+        $toast.success(`${currentItem.value?.name}  Finishing！`)
+        //  Reload
         load()
       }
       else {
-        $toast.error(`${currentItem.value?.name} 整理失败：${res.message}！`)
+        $toast.error(`${currentItem.value?.name}  Failure to organize：${res.message}！`)
       }
     })
   }
@@ -280,12 +280,12 @@ async function transfer() {
   }
 }
 
-// 将文件修改时间（timestape）转换为本地时间
+//  Modify the document to the time（timestape） Convert to local time
 function formatTime(timestape: number) {
   return new Date(timestape * 1000).toLocaleString()
 }
 
-// 监听path变化
+//  Monitorpath Variations
 watch(
   () => inProps.path,
   async () => {
@@ -296,7 +296,7 @@ watch(
   },
 )
 
-// 监听refreshPending变化
+//  MonitorrefreshPending Variations
 watch(
   () => inProps.refreshpending,
   async () => {
@@ -307,9 +307,9 @@ watch(
   },
 )
 
-// 使用SSE监听加载进度
+//  UtilizationSSE Listening to loading progress
 function startLoadingProgress() {
-  progressText.value = '请稍候 ...'
+  progressText.value = ' Please wait. ...'
 
   const token = store.state.auth.token
 
@@ -325,27 +325,27 @@ function startLoadingProgress() {
   }
 }
 
-// 停止监听加载进度
+//  Stop listening for loading progress
 function stopLoadingProgress() {
   progressEventSource.value?.close()
 }
 
-// 调用API识别
+//  Call (programming)API Recognize
 async function recognize(path: string) {
   try {
-    // 显示进度条
+    //  Show progress bar
     progressDialog.value = true
-    progressText.value = `正在识别 ${path} ...`
+    progressText.value = ` Recognition in progress ${path} ...`
     progressValue.value = 0
     nameTestResult.value = await api.get('media/recognize_file', {
       params: {
         path,
       },
     })
-    // 关闭进度条
+    //  Close the progress bar
     progressDialog.value = false
     if (!nameTestResult.value)
-      $toast.error(`${path} 识别失败！`)
+      $toast.error(`${path}  Recognition failure！`)
     nameTestDialog.value = !!nameTestResult.value?.meta_info?.name
   }
   catch (error) {
@@ -353,10 +353,10 @@ async function recognize(path: string) {
   }
 }
 
-// 弹出菜单
+//  Pop-up menu
 const dropdownItems = ref([
   {
-    title: '识别',
+    title: ' Recognize',
     value: 1,
     props: {
       prependIcon: 'mdi-text-recognition',
@@ -365,7 +365,7 @@ const dropdownItems = ref([
       },
     },
   }, {
-    title: '重命名',
+    title: ' Rename',
     value: 2,
     props: {
       prependIcon: 'mdi-rename',
@@ -373,7 +373,7 @@ const dropdownItems = ref([
     },
   },
   {
-    title: '整理',
+    title: ' Collate (data, files)',
     value: 3,
     props: {
       prependIcon: 'mdi-folder-arrow-right',
@@ -381,7 +381,7 @@ const dropdownItems = ref([
     },
   },
   {
-    title: '删除',
+    title: ' Removing',
     value: 4,
     props: {
       prependIcon: 'mdi-delete-outline',
@@ -412,15 +412,15 @@ onMounted(() => {
       v-if="!path"
       class="grow d-flex justify-center align-center grey--text"
     >
-      选择目录或文件
+      Select a directory or file
     </VCardText>
     <VCardText
       v-else-if="isFile && !isImage"
       class="text-center break-all"
     >
       <strong>{{ items[0]?.name }}</strong><br>
-      大小：{{ formatBytes(items[0]?.size || 0) }}<br>
-      修改时间：{{ formatTime(items[0]?.modify_time || 0) }}
+      Adults and children：{{ formatBytes(items[0]?.size || 0) }}<br>
+      Modify time：{{ formatTime(items[0]?.modify_time || 0) }}
     </VCardText>
     <VCardText
       v-else-if="isFile && isImage"
@@ -430,7 +430,7 @@ onMounted(() => {
     </VCardText>
     <VCardText v-else-if="dirs.length || files.length" class="p-0">
       <VList v-if="dirs.length" subheader>
-        <VListSubheader>目录</VListSubheader>
+        <VListSubheader> Catalogs</VListSubheader>
         <VListItem
           v-for="(item, index) in dirs"
           :key="index"
@@ -483,7 +483,7 @@ onMounted(() => {
       </VList>
       <VDivider v-if="dirs.length && files.length" />
       <VList v-if="files.length" subheader>
-        <VListSubheader>文件</VListSubheader>
+        <VListSubheader> File</VListSubheader>
         <VListItem
           v-for="(item, index) in files"
           :key="index"
@@ -542,13 +542,13 @@ onMounted(() => {
       v-else-if="filter"
       class="grow d-flex justify-center align-center grey--text py-5"
     >
-      没有目录或文件
+      No directories or files
     </VCardText>
     <VCardText
       v-else-if="!loading"
       class="grow d-flex justify-center align-center grey--text py-5"
     >
-      空目录
+      Empty directory
     </VCardText>
     <VDivider v-if="path" />
     <VToolbar v-if="!loading" density="compact" flat color="gray">
@@ -559,7 +559,7 @@ onMounted(() => {
         flat
         density="compact"
         variant="solo-filled"
-        placeholder="搜索 ..."
+        placeholder=" Look for sth. ..."
         prepend-inner-icon="mdi-filter-outline"
         class="me-2"
       />
@@ -581,47 +581,47 @@ onMounted(() => {
       </IconBtn>
     </VToolbar>
   </VCard>
-  <!-- 重命名弹窗 -->
+  <!--  Rename a pop-up window -->
   <VDialog
     v-model="renamePopper"
     max-width="50rem"
   >
     <template #activator="{ props }">
-      <IconBtn title="重命名" v-bind="props">
+      <IconBtn title=" Rename" v-bind="props">
         <VIcon icon="mdi-rename-outline" />
       </IconBtn>
     </template>
-    <VCard title="重命名">
+    <VCard title=" Rename">
       <VCardText>
-        <VTextField v-model="newName" label="名称" />
+        <VTextField v-model="newName" label=" Name (of a thing)" />
       </VCardText>
       <VCardActions>
         <div class="flex-grow-1" />
         <VBtn depressed @click="renamePopper = false">
-          取消
+          Abolish
         </VBtn>
         <VBtn
           :disabled="!newName"
           depressed
           @click="rename"
         >
-          重命名
+          Rename
         </VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
-  <!-- 文件整理弹窗 -->
+  <!--  File organizer popup -->
   <VDialog
     v-model="transferPopper"
     max-width="50rem"
     scrollable
   >
     <template #activator="{ props }">
-      <IconBtn title="整理" v-bind="props">
+      <IconBtn title=" Collate (data, files)" v-bind="props">
         <VIcon icon="mdi-folder-arrow-right-outline" />
       </IconBtn>
     </template>
-    <VCard :title="`文件整理 - ${currentItem?.name}`">
+    <VCard :title="` Documentation - ${currentItem?.name}`">
       <DialogCloseBtn @click="transferPopper = false" />
       <VCardText class="pt-2">
         <VForm @submit.prevent="() => {}">
@@ -632,8 +632,8 @@ onMounted(() => {
             >
               <VTextField
                 v-model="transferForm.target"
-                label="目的路径"
-                placeholder="留空自动"
+                label=" Destination path"
+                placeholder=" Leave blank spaces in writing"
               />
             </VCol>
             <VCol
@@ -642,13 +642,13 @@ onMounted(() => {
             >
               <VSelect
                 v-model="transferForm.transfer_type"
-                label="整理方式"
+                label=" Organization"
                 :items="[
-                  { title: '默认', value: '' },
-                  { title: '移动', value: 'move' },
-                  { title: '复制', value: 'copy' },
-                  { title: '硬链接', value: 'link' },
-                  { title: '软链接', value: 'softlink' },
+                  { title: ' Default (setting)', value: '' },
+                  { title: ' Mobility', value: 'move' },
+                  { title: ' Make a copy of', value: 'copy' },
+                  { title: ' Hard link', value: 'link' },
+                  { title: ' Soft link (computing)', value: 'softlink' },
                 ]"
               />
             </VCol>
@@ -660,8 +660,8 @@ onMounted(() => {
             >
               <VSelect
                 v-model="transferForm.type_name"
-                label="类型"
-                :items="[{ title: '请选择', value: '' }, { title: '电影', value: '电影' }, { title: '电视剧', value: '电视剧' }]"
+                label=" Typology"
+                :items="[{ title: ' Please select', value: '' }, { title: ' Cinematic', value: ' Cinematic' }, { title: ' Dramas', value: ' Dramas' }]"
               />
             </VCol>
             <VCol
@@ -672,7 +672,7 @@ onMounted(() => {
                 v-model="transferForm.tmdbid"
                 :disabled="transferForm.type_name === ''"
                 label="TMDBID"
-                placeholder="留空自动识别"
+                placeholder=" Leave blank spaces in automatic recognition (computing)"
                 :rules="[numberValidator]"
                 append-inner-icon="mdi-magnify"
                 @click:append-inner="tmdbSelectorDialog = true"
@@ -683,9 +683,9 @@ onMounted(() => {
               md="4"
             >
               <VSelect
-                v-show="transferForm.type_name === '电视剧'"
+                v-show="transferForm.type_name === ' Dramas'"
                 v-model.number="transferForm.season"
-                label="季"
+                label=" Classifier for seasonal crop yield or seasons of a tv series"
                 :items="seasonItems"
               />
             </VCol>
@@ -694,35 +694,35 @@ onMounted(() => {
             <VCol cols="12" md="8">
               <VTextField
                 v-model="transferForm.episode_format"
-                label="集数定位"
-                placeholder="使用{ep}定位集数"
+                label=" Episode positioning"
+                placeholder=" Utilization{ep} Positioning episodes"
               />
             </VCol>
             <VCol cols="12" md="4">
               <VTextField
                 v-model="transferForm.episode_detail"
-                label="指定集数"
-                placeholder="起始集,终止集，如1或1,2"
+                label=" Specify the number of episodes"
+                placeholder=" Starting set, End of set (math.)， As if1 Maybe1,2"
               />
             </VCol>
             <VCol cols="12" md="4">
               <VTextField
                 v-model="transferForm.episode_part"
-                label="指定Part"
-                placeholder="如part1"
+                label=" Indicate clearly and with certaintyPart"
+                placeholder=" As ifpart1"
               />
             </VCol>
             <VCol cols="12" md="4">
               <VTextField
                 v-model.number="transferForm.episode_offset"
-                label="集数偏移"
-                placeholder="如-10"
+                label=" Offset of set number (math.)"
+                placeholder=" As if-10"
               />
             </VCol>
             <VCol cols="12" md="4">
               <VTextField
                 v-model.number="transferForm.min_filesize"
-                label="最小文件大小（MB）"
+                label=" Minimum file size（MB）"
                 :rules="[numberValidator]"
                 placeholder="0"
               />
@@ -732,18 +732,18 @@ onMounted(() => {
       </VCardText>
       <VCardActions>
         <VBtn depressed @click="transferPopper = false">
-          取消
+          Abolish
         </VBtn>
         <VSpacer />
         <VBtn
           @click="transfer"
         >
-          开始整理
+          Start organizing
         </VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
-  <!-- 手动整理进度框 -->
+  <!--  Manually organizing progress boxes -->
   <vDialog
     v-model="progressDialog"
     :scrim="false"
@@ -763,7 +763,7 @@ onMounted(() => {
       </vCardText>
     </vCard>
   </vDialog>
-  <!-- 识别结果对话框 -->
+  <!--  Recognition results dialog box -->
   <vDialog
     v-model="nameTestDialog"
     width="50rem"
@@ -775,7 +775,7 @@ onMounted(() => {
       </VCardItem>
     </vCard>
   </vDialog>
-  <!-- TMDB ID搜索框 -->
+  <!-- TMDB ID Search box -->
   <vDialog
     v-model="tmdbSelectorDialog"
     width="40rem"

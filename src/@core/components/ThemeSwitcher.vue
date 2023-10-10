@@ -26,7 +26,7 @@ function changeTheme() {
   globalTheme.name.value = nextTheme
   savedTheme.value = nextTheme
   localStorage.setItem('theme', nextTheme)
-  // 修改载入时背景色
+  //  Change the background color when loading
   localStorage.setItem('materio-initial-loader-bg', globalTheme.current.value.colors.background)
 
   themeTransition()

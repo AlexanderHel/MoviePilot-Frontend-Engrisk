@@ -6,56 +6,56 @@ import MediaCardSlideView from '@/views/discover/MediaCardSlideView.vue'
   <div>
     <MediaCardSlideView
       apipath="tmdb/trending"
-      linkurl="/browse/tmdb/trending?title=流行趋势"
-      title="流行趋势"
+      linkurl="/browse/tmdb/trending?title= Fashionable trend"
+      title=" Fashionable trend"
     />
 
     <MediaCardSlideView
       apipath="douban/showing"
-      linkurl="/browse/douban/showing?title=正在热映"
-      title="正在热映"
+      linkurl="/browse/douban/showing?title= Currently in theaters"
+      title=" Currently in theaters"
     />
 
     <MediaCardSlideView
       apipath="tmdb/movies"
-      linkurl="/browse/tmdb/movies?title=热门电影"
-      title="热门电影"
+      linkurl="/browse/tmdb/movies?title= Hot movies"
+      title=" Hot movies"
     />
 
     <MediaCardSlideView
       apipath="tmdb/tvs?with_original_language=zh|en|ja|ko"
-      linkurl="/browse/tmdb/tvs??with_original_language=zh|en|ja|ko&title=热门电视剧"
-      title="热门电视剧"
+      linkurl="/browse/tmdb/tvs??with_original_language=zh|en|ja|ko&title= Popular tv series"
+      title=" Popular tv series"
     />
 
     <MediaCardSlideView
       apipath="douban/movies"
-      linkurl="/browse/douban/movies?title=最新电影"
-      title="最新电影"
+      linkurl="/browse/douban/movies?title= Latest movies"
+      title=" Latest movies"
     />
 
     <MediaCardSlideView
       apipath="douban/tvs"
-      linkurl="/browse/douban/tvs?title=最新电视剧"
-      title="最新电视剧"
+      linkurl="/browse/douban/tvs?title= Latest tv series"
+      title=" Latest tv series"
     />
 
     <MediaCardSlideView
       apipath="douban/movie_top250"
-      linkurl="/browse/douban/movie_top250?title=电影TOP250"
-      title="电影TOP250"
+      linkurl="/browse/douban/movie_top250?title= CinematicTOP250"
+      title=" CinematicTOP250"
     />
 
     <MediaCardSlideView
       apipath="douban/tv_weekly_chinese"
-      linkurl="/browse/douban/tv_weekly_chinese?title=国产剧集榜"
-      title="国产剧集榜"
+      linkurl="/browse/douban/tv_weekly_chinese?title= Domestic drama series list"
+      title=" Domestic drama series list"
     />
 
     <MediaCardSlideView
       apipath="douban/tv_weekly_global"
-      linkurl="/browse/douban/tv_weekly_global?title=全球剧集榜"
-      title="全球剧集榜"
+      linkurl="/browse/douban/tv_weekly_global?title= Global drama series list"
+      title=" Global drama series list"
     />
   </div>
 </template>

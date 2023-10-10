@@ -5,15 +5,15 @@ import NoDataFound from '@/components/NoDataFound.vue'
 <template>
   <NoDataFound
     error-code="404"
-    error-title="页面不存在 ⚠️"
-    error-description="您想要访问的页面不存在，请检查地址是否正确。"
+    error-title=" Page does not exist ⚠️"
+    error-description=" The page you are trying to access does not exist， Please check if the address is correct。"
   >
     <template #button>
       <VBtn
         to="/"
         class="mt-10"
       >
-        返回
+        Come (or go) back
       </VBtn>
     </template>
   </NoDataFound>

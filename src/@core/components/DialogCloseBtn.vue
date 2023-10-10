@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-// 定义触发的自定义事件
+//  Define custom events that are triggered
 const emit = defineEmits(['click'])
 
-// 按钮点击
+//  Button click
 function onClick() {
   emit('click')
 }

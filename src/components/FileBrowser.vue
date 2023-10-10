@@ -7,7 +7,7 @@ import Tree from './filebrowser/Tree.vue'
 import List from './filebrowser/List.vue'
 import type { EndPoints } from '@/api/types'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   storages: String,
   storage: String,
@@ -18,12 +18,12 @@ const props = defineProps({
   axiosconfig: Object,
 })
 
-// 对外事件
+//  External events
 const emit = defineEmits(['pathchanged'])
 
 const availableStorages = [
   {
-    name: '本地',
+    name: ' This locality',
     code: 'local',
     icon: 'mdi-folder-multiple-outline',
   },
@@ -51,24 +51,24 @@ const fileIcons = {
   other: 'mdi-file-outline',
 }
 
-// 加载次数
+//  Number of times loaded
 const loading = ref(0)
-// 当前存储
+//  Current storage
 const activeStorage = ref('local')
-// 刷新
+//  Refresh (computer window)
 const refreshPending = ref(false)
-// 排序
+//  Arrange in order
 const sort = ref('name')
-// axios实例
+// axios An actual example
 const axiosInstance = ref<Axios>()
 
-// 计算属性
+//  Calculating properties
 const storagesArray = computed(() => {
   const storageCodes = props.storages?.split(',')
   return availableStorages.filter(item => storageCodes?.includes(item.code))
 })
 
-// 方法
+//  Methodologies
 function loadingChanged(loading: number) {
   if (loading)
     loading++
@@ -80,18 +80,18 @@ function storageChanged(storage: string) {
   activeStorage.value = storage
 }
 
-// 路径变化
+//  Route changes
 function pathChanged(_path: string) {
   emit('pathchanged', _path)
 }
 
-// 排序变化
+//  Arrange in order变化
 function sortChanged(s: string) {
   sort.value = s
   refreshPending.value = true
 }
 
-// 初始化
+//  Initialization
 onBeforeMount(() => {
   activeStorage.value = props.storage ?? 'local'
   axiosInstance.value = props.axios ?? axios.create(props.axiosconfig)

@@ -7,7 +7,7 @@ import api from '@/api'
 import { doneNProgress, startNProgress } from '@/api/nprogress'
 import type { Context } from '@/api/types'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   torrent: Object as PropType<Context>,
   more: Array as PropType<Context[]>,
@@ -15,28 +15,28 @@ const props = defineProps({
   height: String,
 })
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 确认框
+//  Confirmation box
 const createConfirm = useConfirm()
 
-// 更多来源界面
+//  More sources interface
 const showMoreTorrents = ref(false)
 
-// 种子信息
+//  Seed information
 const torrent = ref(props.torrent?.torrent_info)
 
-// 媒体信息
+//  Media information
 const media = ref(props.torrent?.media_info)
 
-// 识别元数据
+//  Identifying metadata
 const meta = ref(props.torrent?.meta_info)
 
-// 站点图标
+//  Site icon
 const siteIcon = ref('')
 
-// 查询站点图标
+//  Query site icon
 async function getSiteIcon() {
   try {
     siteIcon.value = (await api.get(`site/icon/${torrent?.value?.site}`)).data.icon
@@ -46,7 +46,7 @@ async function getSiteIcon() {
   }
 }
 
-// 询问并添加下载
+//  Ask and add downloads
 async function handleAddDownload(_site: any = undefined,
   _media: any = undefined,
   _torrent: any = undefined) {
@@ -57,10 +57,10 @@ async function handleAddDownload(_site: any = undefined,
   }
 
   const isConfirmed = await createConfirm({
-    title: '确认',
-    content: `是否确认下载【${_site}】${_torrent?.title} ?`,
-    confirmationText: '确认',
-    cancellationText: '取消',
+    title: ' Recognize',
+    content: ` Confirm download【${_site}】${_torrent?.title} ?`,
+    confirmationText: ' Recognize',
+    cancellationText: ' Abolish',
     dialogProps: {
       maxWidth: '50rem',
     },
@@ -72,7 +72,7 @@ async function handleAddDownload(_site: any = undefined,
   addDownload(_media, _torrent)
 }
 
-// 添加下载
+//  Add download
 async function addDownload(_media: any, _torrent: any) {
   startNProgress()
   try {
@@ -82,12 +82,12 @@ async function addDownload(_media: any, _torrent: any) {
     })
 
     if (result.success) {
-      // 添加下载成功
-      $toast.success(`${_torrent?.site_name} ${_torrent?.title} 添加下载成功！`)
+      //  Add download成功
+      $toast.success(`${_torrent?.site_name} ${_torrent?.title}  Add download successfully！`)
     }
     else {
-      // 添加下载失败
-      $toast.error(`${_torrent?.site_name} ${_torrent?.title} 添加下载失败！`)
+      //  Add download失败
+      $toast.error(`${_torrent?.site_name} ${_torrent?.title}  Failed to add download！`)
     }
   }
   catch (error) {
@@ -96,17 +96,17 @@ async function addDownload(_media: any, _torrent: any) {
   doneNProgress()
 }
 
-// 打开种子详情页面
+//  Open the seed details page
 function openTorrentDetail() {
   window.open(torrent.value?.page_url, '_blank')
 }
 
-// 下载种子文件
+//  Download seed file
 async function downloadTorrentFile() {
   window.open(torrent.value?.enclosure, '_blank')
 }
 
-// 促销Chip类
+//  PromoteChip Resemble
 function getVolumeFactorClass(downloadVolume: number, uploadVolume: number) {
   if (downloadVolume === 0)
     return 'text-white bg-lime-500'
@@ -118,7 +118,7 @@ function getVolumeFactorClass(downloadVolume: number, uploadVolume: number) {
     return 'text-white bg-gray-500'
 }
 
-// 装载时查询站点图标
+//  Query site icon when loading
 onMounted(() => {
   getSiteIcon()
 })
@@ -166,7 +166,7 @@ onMounted(() => {
                   <template #prepend>
                     <VIcon icon="mdi-information" />
                   </template>
-                  <VListItemTitle>查看详情</VListItemTitle>
+                  <VListItemTitle> View details</VListItemTitle>
                 </VListItem>
                 <VListItem
                   v-if="props.torrent?.torrent_info?.enclosure?.startsWith('http')"
@@ -176,7 +176,7 @@ onMounted(() => {
                   <template #prepend>
                     <VIcon icon="mdi-download" />
                   </template>
-                  <VListItemTitle>下载种子</VListItemTitle>
+                  <VListItemTitle> Download seeds</VListItemTitle>
                 </VListItem>
               </VList>
             </VMenu>
@@ -262,7 +262,7 @@ onMounted(() => {
         <template #append>
           <VIcon :icon="showMoreTorrents ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
         </template>
-        更多来源
+        More sources
       </VBtn>
     </VCardActions>
     <VExpandTransition>

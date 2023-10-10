@@ -6,79 +6,79 @@ import api from '@/api'
 import type { TransferHistory } from '@/api/types'
 import TmdbSelectorCard from '@/components/cards/TmdbSelectorCard.vue'
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 重新整理对话框
+//  Reorganize the dialog box
 const redoDialog = ref(false)
 
-// TMDB编号
+// TMDB Serial number
 const redoTmdbId = ref('')
 
-// 类型
-const redoType = ref('电影')
+//  Typology
+const redoType = ref(' Cinematic')
 
-// 类型下拉框：电影、电视剧
+//  Typology下拉框：电影、电视剧
 const redoTypeItems = ref([
-  { title: '自动', value: '' },
-  { title: '电影', value: '电影' },
-  { title: '电视剧', value: '电视剧' },
+  { title: ' Automation', value: '' },
+  { title: ' Cinematic', value: ' Cinematic' },
+  { title: ' Dramas', value: ' Dramas' },
 ])
 
-// 当前操作记录
+//  Current operation record
 const currentHistory = ref<TransferHistory>()
 
-// 已选中的数据
+//  Selected data
 const selected = ref<TransferHistory[]>([])
 
-// 表头
+//  Meter header
 const headers = [
-  { title: '标题', key: 'title', sortable: false },
-  { title: '目录', key: 'src', sortable: false },
-  { title: '转移方式', key: 'mode', sortable: false },
-  { title: '时间', key: 'date', sortable: false },
-  { title: '状态', key: 'status', sortable: false },
-  { title: '失败原因', key: 'errmsg', sortable: false },
+  { title: ' Caption', key: 'title', sortable: false },
+  { title: ' Catalogs', key: 'src', sortable: false },
+  { title: ' Migration pattern', key: 'mode', sortable: false },
+  { title: ' Timing', key: 'date', sortable: false },
+  { title: ' State of affairs', key: 'status', sortable: false },
+  { title: ' Reasons for failure', key: 'errmsg', sortable: false },
   { title: '', key: 'actions', sortable: false },
 ]
 
-// 数据列表
+//  Data sheet
 const dataList = ref<TransferHistory[]>([])
 
-// 搜索
+//  Look for sth.
 const search = ref('')
 
-// 加载状态
+//  Loaded state
 const loading = ref(false)
 
-// 总条数
+//  Total number of articles
 const totalItems = ref(0)
 
-// 每页条数
+//  Number of articles per page
 const itemsPerPage = ref(25)
 
-// 当前页码
+//  Current page number
 const currentPage = ref(1)
 
-// 进度条
+//  Progress bar
 const progressDialog = ref(false)
 
-// 进度文本
-const progressText = ref('请稍候 ...')
+//  Progress text
+const progressText = ref(' Please wait. ...')
 
-// 进度值
+//  Progress value
 const progressValue = ref(0)
 
-// TMDB选择对话框
+// TMDB Selection dialog box
 const tmdbSelectorDialog = ref(false)
 
-// 删除确认对话框
+//  Delete confirmation dialog
 const deleteConfirmDialog = ref(false)
 
-// 确认框标题
+//  Confirmation box title
 const confirmTitle = ref('')
 
-// 获取订阅列表数据
+//  Get subscription list data
 async function fetchData({
   page,
   itemsPerPage,
@@ -107,100 +107,100 @@ async function fetchData({
   loading.value = false
 }
 
-// 根据 type 返回不同的图标
+//  According to type  Return to different icons
 function getIcon(type: string) {
-  if (type === '电影')
+  if (type === ' Cinematic')
     return 'mdi-movie'
-  else if (type === '电视剧')
+  else if (type === ' Dramas')
     return 'mdi-television-classic'
   else
     return 'mdi-help-circle'
 }
 
-// 计算颜色
+//  Calculate color
 function getStatusColor(status: boolean) {
   return status ? 'success' : 'error'
 }
 
-// 转移方式字典
+//  Dictionary of transfer methods
 const TransferDict: { [key: string]: string } = {
-  copy: '复制',
-  move: '移动',
-  link: '硬链接',
-  softlink: '软链接',
+  copy: ' Make a copy of',
+  move: ' Mobility',
+  link: ' Hard link',
+  softlink: ' Soft link (computing)',
 }
 
-// 删除历史记录
+//  Delete history
 async function removeHistory(item: TransferHistory) {
   currentHistory.value = item
-  confirmTitle.value = `确认删除 ${item.title} ${item.seasons}${item.episodes} ?`
+  confirmTitle.value = ` Confirm deletion ${item.title} ${item.seasons}${item.episodes} ?`
   deleteConfirmDialog.value = true
 }
 
-// 调用API删除记录
+//  Call (programming)API Deletion of records
 async function remove(item: TransferHistory, deleteSrc: boolean, deleteDest: boolean) {
   try {
-    // 调用删除API
+    //  Call deleteAPI
     const result: { [key: string]: any } = await api.delete(`history/transfer?deletesrc=${deleteSrc}&deletedest=${deleteDest}`, {
       data: item,
     })
 
     if (!result.success)
-      $toast.error(`删除失败: ${result.msg}`)
+      $toast.error(` Failed to delete: ${result.msg}`)
   }
   catch (error) {
     console.error(error)
   }
 }
 
-// 删除单条记录
+//  Deleting a single record
 async function removeSingle(deleteSrc: boolean, deleteDest: boolean) {
-  // 关闭弹窗
+  //  Close pop-up window
   deleteConfirmDialog.value = false
   if (!currentHistory.value)
     return
-  // 删除
+  //  Removing
   await remove(currentHistory.value, deleteSrc, deleteDest)
-  // 刷新
+  //  Refresh (computer window)
   fetchData({
     page: currentPage.value,
     itemsPerPage: itemsPerPage.value,
   })
 }
 
-// 批量删除记录
+//  Batch deletion of records
 async function removeBatch(deleteSrc: boolean, deleteDest: boolean) {
-  // 关闭弹窗
+  //  Close pop-up window
   deleteConfirmDialog.value = false
-  // 总条数
+  //  Total number of articles
   const total = selected.value.length
   if (total === 0)
     return
-  // 已处理条数
+  //  Number of articles processed
   let handled = 0
-  // 显示进度条
+  //  Show progress bar
   progressDialog.value = true
-  // 循环调用removeHistory
+  //  Call from a loopremoveHistory
   for (const item of selected.value) {
-    // 开始删除
-    progressText.value = `正在删除 ${item.title} ${item.seasons}${item.episodes} ...`
+    //  Start deleting
+    progressText.value = ` Deleting ${item.title} ${item.seasons}${item.episodes} ...`
     await remove(item, deleteSrc, deleteDest)
-    // 删除完成
+    //  Removing完成
     handled++
     progressValue.value = handled / total * 100
   }
-  // 清空选中项
+  //  Clear selected items
   selected.value = []
-  // 隐藏进度条
+  //  Hide the progress bar
   progressDialog.value = false
-  // 重新获取数据
+  //  Retrieve data
   fetchData({
     page: currentPage.value,
     itemsPerPage: itemsPerPage.value,
   })
 }
 
-// 响应删除操作
+//  Responding to delete operations
 async function deleteConfirmHandler(deleteSrc: boolean, deleteDest: boolean) {
   if (currentHistory.value)
     await removeSingle(deleteSrc, deleteDest)
@@ -208,30 +208,30 @@ async function deleteConfirmHandler(deleteSrc: boolean, deleteDest: boolean) {
     await removeBatch(deleteSrc, deleteDest)
 }
 
-// 批量删除历史记录
+//  Batch delete history
 async function removeHistoryBatch() {
   if (selected.value.length === 0)
     return
-  // 清空当前操作记录
+  //  Empty the current operation record
   currentHistory.value = undefined
-  confirmTitle.value = `确认删除 ${selected.value.length} 条记录 ?`
-  // 打开确认弹窗
+  confirmTitle.value = ` Confirm deletion ${selected.value.length}  Entry ?`
+  //  Open confirmation pop-up
   deleteConfirmDialog.value = true
 }
 
-// 批量重新整理
+//  Batch reorganization
 async function retransferBatch() {
   if (selected.value.length === 0)
     return
-  // 清空当前操作记录
+  //  Empty the current operation record
   currentHistory.value = undefined
-  // 打开识别弹窗
+  //  Open the recognition pop-up window
   redoType.value = ''
   redoTmdbId.value = ''
   redoDialog.value = true
 }
 
-// 调API重新整理
+//  HarmonizeAPI Reorganize
 async function retransfer(item: TransferHistory, redoType = '', redoTmdbId = 0) {
   try {
     const result: { [key: string]: any } = await api.post(
@@ -252,7 +252,7 @@ async function retransfer(item: TransferHistory, redoType = '', redoTmdbId = 0) 
       })
     }
     else {
-      $toast.error(`重新整理失败: ${result.message}！`)
+      $toast.error(` Failed to reorganize: ${result.message}！`)
     }
   }
   catch (e) {
@@ -260,10 +260,10 @@ async function retransfer(item: TransferHistory, redoType = '', redoTmdbId = 0) 
   }
 }
 
-// 重新整理
+//  Reorganize
 async function rehandleHistory() {
   try {
-    // 关闭弹窗
+    //  Close pop-up window
     redoDialog.value = false
 
     let tmdbid = 0
@@ -271,43 +271,43 @@ async function rehandleHistory() {
     if (redoTmdbId.value)
       tmdbid = parseInt(redoTmdbId.value)
 
-    // 转移当前选中记录
+    //  Transfer the currently selected record
     if (currentHistory.value) {
-      $toast.info(`正在重新整理 ${currentHistory.value?.title} ...`)
+      $toast.info(` It's being reorganized. ${currentHistory.value?.title} ...`)
       await retransfer(currentHistory.value, redoType.value, tmdbid)
     }
     else if (selected.value.length > 0) {
-      // 总条数
+      //  Total number of articles
       const total = selected.value.length
       if (total === 0)
         return
-      // 已处理条数
+      //  Number of articles processed
       let handled = 0
-      // 显示进度条
+      //  Show progress bar
       progressDialog.value = true
       for (const item of selected.value) {
-        progressText.value = `正在重新整理 ${item.src} ...`
+        progressText.value = ` It's being reorganized. ${item.src} ...`
         await retransfer(item, redoType.value, tmdbid)
         handled++
         progressValue.value = handled / total * 100
       }
-      // 清空选中项
+      //  Clear selected items
       selected.value = []
-      // 隐藏进度条
+      //  Hide the progress bar
       progressDialog.value = false
     }
-    // 批量转移
-    else { $toast.error('没有选中任何记录！') }
+    //  Bulk transfer
+    else { $toast.error(' No records are checked.！') }
   }
   catch (e) {
     console.log(e)
   }
 }
 
-// 弹出菜单
+//  Pop-up menu
 const dropdownItems = ref([
   {
-    title: '重新整理',
+    title: ' Reorganize',
     value: 1,
     props: {
       prependIcon: 'mdi-redo-variant',
@@ -320,7 +320,7 @@ const dropdownItems = ref([
     },
   },
   {
-    title: '删除',
+    title: ' Removing',
     value: 2,
     props: {
       prependIcon: 'mdi-trash-can-outline',
@@ -338,14 +338,14 @@ const dropdownItems = ref([
     <VCardItem>
       <VCardTitle>
         <VRow>
-          <VCol> 历史记录 </VCol>
+          <VCol>  Historical record </VCol>
           <VCol>
             <VTextField
               key="search_navbar"
               v-model="search"
               class="text-disabled"
               density="compact"
-              label="搜索"
+              label=" Look for sth."
               append-inner-icon="mdi-magnify"
               variant="solo-filled"
               single-line
@@ -370,8 +370,8 @@ const dropdownItems = ref([
       return-object
       fixed-header
       show-select
-      items-per-page-text="每页条数"
-      page-text="{0}-{1} 共 {2} 条"
+      items-per-page-text=" Number of articles per page"
+      page-text="{0}-{1}  Common {2}  Clause (of law or treaty)"
       @update:options="fetchData"
     >
       <template #item.title="{ item }">
@@ -404,7 +404,7 @@ const dropdownItems = ref([
           :color="getStatusColor(item.raw.status)"
           size="small"
         >
-          {{ item.raw.status ? "成功" : "失败" }}
+          {{ item.raw.status ? " Successes" : " Fail (e.g. experiments)" }}
         </VChip>
       </template>
       <template #item.date="{ item }">
@@ -438,7 +438,7 @@ const dropdownItems = ref([
         </IconBtn>
       </template>
       <template #no-data>
-        没有数据
+        No data
       </template>
     </VDataTableServer>
   </VCard>
@@ -447,21 +447,21 @@ const dropdownItems = ref([
     max-width="50rem"
   >
     <!-- Dialog Content -->
-    <VCard title="重新整理">
+    <VCard title=" Reorganize">
       <VCardText>
         <VRow>
           <VCol cols="12" md="4">
             <VSelect
               v-model="redoType"
-              label="类型"
+              label=" Typology"
               :items="redoTypeItems"
             />
           </VCol>
           <VCol cols="12" md="8">
             <VTextField
               v-model="redoTmdbId"
-              label="TMDB编号"
-              placeholder="留空自动识别"
+              label="TMDB Serial number"
+              placeholder=" Leave blank spaces in automatic recognition (computing)"
               :disabled="redoType === ''"
               :rules="[numberValidator]"
               append-inner-icon="mdi-magnify"
@@ -477,7 +477,7 @@ const dropdownItems = ref([
           @click="rehandleHistory"
           @keydown.enter="rehandleHistory"
         >
-          确定
+          Recognize
         </VBtn>
       </VCardActions>
     </VCard>
@@ -497,7 +497,7 @@ const dropdownItems = ref([
       @click="removeHistoryBatch"
     />
   </span>
-  <!-- 进度框 -->
+  <!--  Progress dialog -->
   <vDialog
     v-model="progressDialog"
     :scrim="false"
@@ -516,7 +516,7 @@ const dropdownItems = ref([
       </vCardText>
     </vCard>
   </vDialog>
-  <!-- TMDB ID搜索框 -->
+  <!-- TMDB ID Search box -->
   <vDialog
     v-model="tmdbSelectorDialog"
     width="600"
@@ -527,7 +527,7 @@ const dropdownItems = ref([
       @close="tmdbSelectorDialog = false"
     />
   </vDialog>
-  <!-- 底部弹窗 -->
+  <!--  Bottom pop-up -->
   <VBottomSheet v-model="deleteConfirmDialog" inset>
     <VCard class="text-center">
       <DialogCloseBtn @click="deleteConfirmDialog = false" />
@@ -540,28 +540,28 @@ const dropdownItems = ref([
           class="mb-2 mx-2"
           @click="deleteConfirmHandler(false, false)"
         >
-          仅删除历史记录
+          Delete history only
         </VBtn>
         <VBtn
           color="warning"
           class="mb-2 mx-2"
           @click="deleteConfirmHandler(true, false)"
         >
-          删除历史记录和源文件
+          Delete history and source files
         </VBtn>
         <VBtn
           color="info"
           class="mb-2 mx-2"
           @click="deleteConfirmHandler(false, true)"
         >
-          删除历史记录和媒体库文件
+          Delete history and media library files
         </VBtn>
         <VBtn
           color="error"
           class="mb-2 mx-2"
           @click="deleteConfirmHandler(true, true)"
         >
-          删除历史记录、源文件和媒体库文件
+          Delete history、 Source and media library files
         </VBtn>
       </div>
     </VCard>

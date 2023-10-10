@@ -3,33 +3,33 @@ import { reactive, ref } from 'vue'
 import { requiredValidator } from '@/@validators'
 import api from '@/api'
 
-// 识别结果
+//  Identification results
 const ruleTestResult = ref('')
 
-// 名称识别表单
+//  Name recognition form
 const ruleTestForm = reactive({
   title: '',
   subtitle: '',
   ruletype: '1',
 })
 
-// 识别按钮状态
+//  Recognize button status
 const ruleTestLoading = ref(false)
 
-// 识别按钮文本
-const ruleTestText = ref('测试')
+//  Recognize button text
+const ruleTestText = ref(' Beta (software)')
 
-// 是否显示结果
+//  Whether to display results
 const showResult = ref(false)
 
-// 调用API识别
+//  Call (programming)API Recognize
 async function ruleTest() {
   if (!ruleTestForm.title)
     return
 
   try {
     ruleTestLoading.value = true
-    ruleTestText.value = '正在测试...'
+    ruleTestText.value = ' Testing...'
     showResult.value = false
     const result: { [key: string]: any } = await api.get('system/ruletest', {
       params: {
@@ -39,13 +39,13 @@ async function ruleTest() {
       },
     })
     if (result.success)
-      ruleTestResult.value = `优先级：${result.data.priority}`
+      ruleTestResult.value = ` Prioritization：${result.data.priority}`
 
     else
-      ruleTestResult.value = '未命中任何优先级规则！'
+      ruleTestResult.value = ' No priority rules hit！'
 
     ruleTestLoading.value = false
-    ruleTestText.value = '重新测试'
+    ruleTestText.value = ' Retest'
     showResult.value = true
   }
   catch (error) {
@@ -60,22 +60,22 @@ async function ruleTest() {
       <VCol cols="12" md="8">
         <VTextField
           v-model="ruleTestForm.title"
-          label="标题"
+          label=" Caption"
           :rules="[requiredValidator]"
         />
       </VCol>
       <VCol cols="12" md="4">
         <VSelect
           v-model="ruleTestForm.ruletype"
-          label="规则类型"
+          label=" Type of rule"
           :items="[{
-            title: '订阅优先级',
+            title: ' Subscription priority',
             value: '1',
           }, {
-            title: '洗版优先级',
+            title: ' Prioritization of plate washing',
             value: '2',
           }, {
-            title: '搜索优先级',
+            title: ' Search priority',
             value: '3',
           }]"
         />
@@ -83,7 +83,7 @@ async function ruleTest() {
       <VCol cols="12">
         <VTextarea
           v-model="ruleTestForm.subtitle"
-          label="副标题"
+          label=" Subheading"
           rows="2"
           auto-grow
         />

@@ -9,7 +9,7 @@ configureNProgress()
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
-    // 如果页面有缓存那么恢复其位置, 否则始终滚动到顶部
+    //  If the page is cached then restore its location,  Otherwise always scroll to the top
     if (to.meta.keepAlive && savedPosition)
       return savedPosition
     return { top: 0 }
@@ -155,7 +155,7 @@ const router = createRouter({
   ],
 })
 
-// 路由导航守卫
+//  Route navigation guards
 router.beforeEach((to, from, next) => {
   const isAuthenticated = store.state.auth.token !== null
 

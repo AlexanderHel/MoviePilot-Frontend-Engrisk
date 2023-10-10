@@ -2,25 +2,25 @@
 import { useToast } from 'vue-toast-notification'
 import api from '@/api'
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 种子优先规则
+//  Seeding priority rule
 const selectedTorrentPriority = ref<string>('seeder')
 
-// 种子优先规则下拉框
+//  Seeding priority rule下拉框
 const TorrentPriorityItems = [
-  { title: '站点优先', value: 'site' },
-  { title: '做种数优先', value: 'seeder' },
+  { title: ' Site priority', value: 'site' },
+  { title: ' Prioritize the number of species (math.)', value: 'seeder' },
 ]
 
-// 包含与排除规则
+//  Inclusion and exclusion rules
 const defaultFilterRules = ref({
   include: '',
   exclude: '',
 })
 
-// 查询种子优先规则
+//  Query seed prioritization rules
 async function queryTorrentPriority() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -34,7 +34,7 @@ async function queryTorrentPriority() {
   }
 }
 
-// 查询包含与排除规则
+//  Query inclusion and exclusion rules
 async function queryDefaultFilter() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -48,26 +48,26 @@ async function queryDefaultFilter() {
   }
 }
 
-// 保存种子优先规则
+//  Saved seed priority rule
 async function saveTorrentPriority() {
   try {
-    // 用户名密码
+    //  User name and password
     const result: { [key: string]: any } = await api.post(
       'system/setting/TorrentsPriority',
       selectedTorrentPriority.value,
     )
 
     if (result.success)
-      $toast.success('优先规则保存成功')
+      $toast.success(' Priority rules saved successfully')
     else
-      $toast.error('优先规则保存失败！')
+      $toast.error(' Priority rule save failure！')
   }
   catch (error) {
     console.log(error)
   }
 }
 
-// 保存包含与排除规则
+//  Preserving inclusion and exclusion rules
 async function saveDefaultFilter() {
   try {
     const result: { [key: string]: any } = await api.post(
@@ -75,9 +75,9 @@ async function saveDefaultFilter() {
       defaultFilterRules.value,
     )
     if (result.success)
-      $toast.success('默认包含/排除规则保存成功')
+      $toast.success(' The default contains/ Exclusion rule saved successfully')
     else
-      $toast.error('默认包含/排除规则保存失败！')
+      $toast.error(' The default contains/ Exclusion rule save failure！')
   }
   catch (error) {
     console.log(error)
@@ -93,8 +93,8 @@ onMounted(() => {
 <template>
   <VRow>
     <VCol cols="12">
-      <VCard title="下载优先规则">
-        <VCardSubtitle> 按站点优先级或资源种子数量排序和择优下载。 </VCardSubtitle>
+      <VCard title=" Download priority rules">
+        <VCardSubtitle>  Sort and prioritize downloads by site priority or number of resource seeds。 </VCardSubtitle>
         <VCardText>
           <VForm>
             <VRow>
@@ -102,7 +102,7 @@ onMounted(() => {
                 <VSelect
                   v-model="selectedTorrentPriority"
                   :items="TorrentPriorityItems"
-                  label="优先规则"
+                  label=" Priority rules"
                   outlined
                 />
               </VCol>
@@ -114,14 +114,14 @@ onMounted(() => {
             type="submit"
             @click="saveTorrentPriority"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
         </VCardItem>
       </VCard>
     </VCol>
     <VCol cols="12">
-      <VCard title="默认过滤规则">
-        <VCardSubtitle> 设置在搜索和订阅时默认使用的过滤规则。 </VCardSubtitle>
+      <VCard title=" Default filtering rules">
+        <VCardSubtitle>  Set the filtering rules to be used by default when searching and subscribing。 </VCardSubtitle>
         <VCardText>
           <VForm>
             <VRow>
@@ -129,14 +129,14 @@ onMounted(() => {
                 <VTextField
                   v-model="defaultFilterRules.include"
                   type="text"
-                  label="包含（关键字、正则式）"
+                  label=" Embody（ Keywords.、 Regular formula）"
                 />
               </VCol>
               <VCol cols="12" md="6">
                 <VTextField
                   v-model="defaultFilterRules.exclude"
                   type="text"
-                  label="排除（关键字、正则式）"
+                  label=" Rule out（ Keywords.、 Regular formula）"
                 />
               </VCol>
             </VRow>
@@ -147,7 +147,7 @@ onMounted(() => {
             type="submit"
             @click="saveDefaultFilter"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
         </VCardItem>
       </VCard>

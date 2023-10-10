@@ -17,47 +17,47 @@ const activeTab = ref(route.params.tab)
 // tabs
 const tabs = [
   {
-    title: '用户',
+    title: ' Subscribers',
     icon: 'mdi-account',
     tab: 'account',
   },
   {
-    title: '站点',
+    title: ' Website',
     icon: 'mdi-web',
     tab: 'site',
   },
   {
-    title: '搜索',
+    title: ' Look for sth.',
     icon: 'mdi-magnify',
     tab: 'search',
   },
   {
-    title: '订阅',
+    title: ' Subscribe to',
     icon: 'mdi-rss',
     tab: 'subscribe',
   },
   {
-    title: '服务',
+    title: ' Service',
     icon: 'mdi-list-box',
     tab: 'service',
   },
   {
-    title: '规则',
+    title: ' Rules and regulations',
     icon: 'mdi-filter-cog',
     tab: 'filter',
   },
   {
-    title: '通知',
+    title: ' Notifications',
     icon: 'mdi-bell',
     tab: 'notification',
   },
   {
-    title: '词表',
+    title: ' Word list',
     icon: 'mdi-file-word-box',
     tab: 'words',
   },
   {
-    title: '关于',
+    title: ' With respect to',
     icon: 'mdi-information',
     tab: 'about',
   },
@@ -82,61 +82,61 @@ const tabs = [
       class="mt-5 disable-tab-transition"
       :touch="false"
     >
-      <!-- 用户 -->
+      <!--  Subscribers -->
       <VWindowItem value="account">
         <transition name="fade-slide" appear>
           <AccountSettingAccount />
         </transition>
       </VWindowItem>
 
-      <!-- 站点 -->
+      <!--  Website -->
       <VWindowItem value="site">
         <transition name="fade-slide" appear>
           <AccountSettingSite />
         </transition>
       </VWindowItem>
 
-      <!-- 搜索 -->
+      <!--  Look for sth. -->
       <VWindowItem value="search">
         <transition name="fade-slide" appear>
           <AccountSettingSearch />
         </transition>
       </VWindowItem>
 
-      <!-- 订阅 -->
+      <!--  Subscribe to -->
       <VWindowItem value="subscribe">
         <transition name="fade-slide" appear>
           <AccountSettingSubscribe />
         </transition>
       </VWindowItem>
 
-      <!-- 服务 -->
+      <!--  Service -->
       <VWindowItem value="service">
         <transition name="fade-slide" appear>
           <AccountSettingService />
         </transition>
       </VWindowItem>
 
-      <!-- 规则 -->
+      <!--  Rules and regulations -->
       <VWindowItem value="filter">
         <transition name="fade-slide" appear>
           <AccountSettingRule />
         </transition>
       </VWindowItem>
 
-      <!-- 通知 -->
+      <!--  Notifications -->
       <VWindowItem value="notification">
         <transition name="fade-slide" appear>
           <AccountSettingNotification />
         </transition>
       </VWindowItem>
-      <!-- 词表 -->
+      <!--  Word list -->
       <VWindowItem value="words">
         <transition name="fade-slide" appear>
           <AccountSettingWords />
         </transition>
       </VWindowItem>
-      <!-- 关于 -->
+      <!--  With respect to -->
       <VWindowItem value="about">
         <transition name="fade-slide" appear>
           <AccountSettingAbout />

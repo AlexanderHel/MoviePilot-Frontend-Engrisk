@@ -7,84 +7,84 @@ import api from '@/api'
 import type { Site, TorrentInfo } from '@/api/types'
 import ExistIcon from '@core/components/ExistIcon.vue'
 
-// 输入参数
+//  Input parameter
 const cardProps = defineProps({
   site: Object as PropType<Site>,
   width: String,
   height: String,
 })
 
-// 定义触发的自定义事件
+//  Define custom events that are triggered
 const emit = defineEmits(['remove', 'update'])
 
-// 密码输入
+//  Password input
 const isPasswordVisible = ref(false)
 
-// 图标
+//  Icon (computing)
 const siteIcon = ref<string>('')
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 测试按钮文字
-const testButtonText = ref('测试')
+//  Test button text
+const testButtonText = ref(' Beta (software)')
 
-// 测试按钮可用性
+//  Test button usability
 const testButtonDisable = ref(false)
 
-// 更新按钮文字
-const updateButtonText = ref('更新')
+//  Update button text
+const updateButtonText = ref(' Update')
 
-// 更新按钮可用性
+//  Update button usability
 const updateButtonDisable = ref(false)
 
-// 更新站点Cookie UA弹窗
+//  Updating the siteCookie UA Pop-up window
 const siteCookieDialog = ref(false)
 
-// 站点编辑弹窗
+//  Site editor popup
 const siteInfoDialog = ref(false)
 
-// 资源浏览弹窗
+//  Resource browsing popup
 const resourceDialog = ref(false)
 
-// 资源浏览表头
+//  Resource browser header
 const resourceHeaders = [
-  { title: '标题', key: 'title', sortable: false },
-  { title: '时间', key: 'pubdate', sortable: true },
-  { title: '大小', key: 'size', sortable: true },
-  { title: '做种', key: 'seeders', sortable: true },
-  { title: '下载', key: 'peers', sortable: true },
+  { title: ' Caption', key: 'title', sortable: false },
+  { title: ' Timing', key: 'pubdate', sortable: true },
+  { title: ' Adults and children', key: 'size', sortable: true },
+  { title: ' Breed', key: 'seeders', sortable: true },
+  { title: ' Downloading', key: 'peers', sortable: true },
   { title: '', key: 'actions', sortable: false },
 ]
 
-// 数据列表
+//  Data sheet
 const resourceDataList = ref<TorrentInfo[]>([])
 
-// 搜索
+//  Look for sth.
 const resourceSearch = ref('')
 
-// 加载状态
+//  Loaded state
 const resourceLoading = ref(false)
 
-// 总条数
+//  Total number of articles
 const resourceTotalItems = ref(0)
 
-// 每页条数
+//  Number of articles per page
 const resourceItemsPerPage = ref(25)
 
-// 用户名密码表单
+//  User name and password form
 const userPwForm = ref({
   username: '',
   password: '',
 })
 
-// 状态下拉项
+//  Status drop-down items
 const statusItems = [
-  { title: '启用', value: true },
-  { title: '停用', value: false },
+  { title: ' (computing) enable (a feature)', value: true },
+  { title: ' Deactivate', value: false },
 ]
 
-// 生成1到50的优先级下拉框选项
+//  Generating1 Until (a time)50 The prioritize drop-down box option for the
 const priorityItems = ref(
   Array.from({ length: 50 }, (_, i) => i + 1).map(item => ({
     title: item,
@@ -92,24 +92,24 @@ const priorityItems = ref(
   })),
 )
 
-// 站点编辑表单数据
+//  Site edit form data
 const siteForm = reactive<any>(cardProps.site ?? {})
 
-// 类型转换
+//  Type conversion
 siteForm.proxy = siteForm.proxy === 1
 siteForm.render = siteForm.render === 1
 
-// 打开种子详情页面
+//  Open the seed details page
 function openTorrentDetail(page_url: string) {
   window.open(page_url, '_blank')
 }
 
-// 下载种子文件
+//  Download seed file
 async function downloadTorrentFile(enclosure: string) {
   window.open(enclosure, '_blank')
 }
 
-// 查询站点图标
+//  Query site icon
 async function getSiteIcon() {
   try {
     siteIcon.value = (await api.get(`site/icon/${cardProps.site?.id}`)).data.icon
@@ -119,19 +119,19 @@ async function getSiteIcon() {
   }
 }
 
-// 测试站点连通性
+//  Test site connectivity
 async function testSite() {
   try {
-    testButtonText.value = '测试中 ...'
+    testButtonText.value = ' Under test ...'
     testButtonDisable.value = true
 
     const result: { [key: string]: any } = await api.get(`site/test/${cardProps.site?.id}`)
     if (result.success)
-      $toast.success(`${cardProps.site?.name} 连通性测试成功，可正常使用！`)
+      $toast.success(`${cardProps.site?.name}  Connectivity test successful， Serviceable！`)
     else
-      $toast.error(`${cardProps.site?.name} 连通性测试失败：${result.message}`)
+      $toast.error(`${cardProps.site?.name}  Failed connectivity test：${result.message}`)
 
-    testButtonText.value = '测试'
+    testButtonText.value = ' Beta (software)'
     testButtonDisable.value = false
   }
   catch (error) {
@@ -139,31 +139,31 @@ async function testSite() {
   }
 }
 
-// 打开更新站点Cookie UA弹窗
+//  Open update siteCookie UA Pop-up window
 async function handleSiteUpdate() {
   siteCookieDialog.value = true
 }
 
-// 打开站点编辑弹窗
+//  Open the site editor pop-up window
 async function handleSiteInfo() {
   siteInfoDialog.value = true
 }
 
-// 打开资源浏览弹窗
+//  Open resource browsing popup
 async function handleResourceBrowse() {
   resourceDialog.value = true
   getResourceList()
 }
 
-// 调用API，更新站点Cookie UA
+//  Call (programming)API， Updating the siteCookie UA
 async function updateSiteCookie() {
   try {
     if (!userPwForm.value.username || !userPwForm.value.password)
       return
 
-    // 更新按钮状态
+    //  Update button status
     siteCookieDialog.value = false
-    updateButtonText.value = '更新中 ...'
+    updateButtonText.value = ' In the process of updating ...'
     updateButtonDisable.value = true
 
     const result: { [key: string]: any } = await api.get(
@@ -177,11 +177,11 @@ async function updateSiteCookie() {
     )
 
     if (result.success)
-      $toast.success(`${cardProps.site?.name} 更新Cookie & UA 成功！`)
+      $toast.success(`${cardProps.site?.name}  UpdateCookie & UA  Successes！`)
     else
-      $toast.error(`${cardProps.site?.name} 更新失败：${result.message}`)
+      $toast.error(`${cardProps.site?.name}  Update failure：${result.message}`)
 
-    updateButtonText.value = '更新'
+    updateButtonText.value = ' Update'
     updateButtonDisable.value = false
   }
   catch (error) {
@@ -189,43 +189,43 @@ async function updateSiteCookie() {
   }
 }
 
-// 调用API删除站点信息
+//  Call (programming)API Deleting site information
 async function deleteSiteInfo() {
   try {
     siteInfoDialog.value = false
     const result: { [key: string]: any } = await api.delete(`site/${cardProps.site?.id}`)
     if (result.success) {
-      $toast.success(`${cardProps.site?.name} 删除成功！`)
+      $toast.success(`${cardProps.site?.name}  Deleted successfully！`)
       emit('remove')
     }
-    else { $toast.error(`${cardProps.site?.name} 删除失败：${result.message}`) }
+    else { $toast.error(`${cardProps.site?.name}  Failed to delete：${result.message}`) }
   }
   catch (error) {
-    $toast.error(`${cardProps.site?.name} 删除失败！`)
+    $toast.error(`${cardProps.site?.name}  Failed to delete！`)
     console.error(error)
   }
 }
 
-// 调用API更新站点信息
+//  Call (programming)API Update site information
 async function updateSiteInfo() {
   try {
-    // 更新按钮状态
+    //  Update button status
     siteInfoDialog.value = false
 
     const result: { [key: string]: any } = await api.put('site/', siteForm)
     if (result.success) {
-      $toast.success(`${cardProps.site?.name} 更新成功！`)
+      $toast.success(`${cardProps.site?.name}  Successful update！`)
       emit('update')
     }
-    else { $toast.error(`${cardProps.site?.name} 更新失败：${result.message}`) }
+    else { $toast.error(`${cardProps.site?.name}  Update failure：${result.message}`) }
   }
   catch (error) {
-    $toast.error(`${cardProps.site?.name} 更新失败！`)
+    $toast.error(`${cardProps.site?.name}  Update failure！`)
     console.error(error)
   }
 }
 
-// 促销Chip类
+//  PromoteChip Resemble
 function getVolumeFactorClass(downloadVolume: number, uploadVolume: number) {
   if (downloadVolume === 0)
     return 'text-white bg-lime-500'
@@ -237,7 +237,7 @@ function getVolumeFactorClass(downloadVolume: number, uploadVolume: number) {
     return 'text-white bg-gray-500'
 }
 
-// 调用API，查询站点资源
+//  Call (programming)API， Query site resources
 async function getResourceList() {
   resourceLoading.value = true
   try {
@@ -249,12 +249,12 @@ async function getResourceList() {
   }
 }
 
-// 打开站点页面
+//  Open site page
 function openSitePage() {
   window.open(cardProps.site?.url, '_blank')
 }
 
-// 装载时查询站点图标
+//  Query site icon when loading
 onMounted(() => {
   getSiteIcon()
 })
@@ -289,7 +289,7 @@ onMounted(() => {
     <VCardText class="py-2">
       <VTooltip
         v-if="siteForm.render"
-        text="浏览器仿真"
+        text=" Browser emulation"
       >
         <template #activator="{ props }">
           <VIcon
@@ -303,7 +303,7 @@ onMounted(() => {
 
       <VTooltip
         v-if="siteForm.proxy"
-        text="代理"
+        text=" Act on behalf of sb. in a responsible position"
       >
         <template #activator="{ props }">
           <VIcon
@@ -317,7 +317,7 @@ onMounted(() => {
 
       <VTooltip
         v-if="siteForm.limit_interval"
-        text="流控"
+        text=" Flow control"
       >
         <template #activator="{ props }">
           <VIcon
@@ -331,7 +331,7 @@ onMounted(() => {
 
       <VTooltip
         v-if="siteForm.filter"
-        text="过滤"
+        text=" Filtration"
       >
         <template #activator="{ props }">
           <VIcon
@@ -373,17 +373,17 @@ onMounted(() => {
         <template #prepend>
           <VIcon icon="mdi-web" />
         </template>
-        浏览
+        Skim over
       </VBtn>
     </VCardActions>
   </VCard>
-  <!-- 更新站点Cookie & UA弹窗 -->
+  <!--  Updating the siteCookie & UA Pop-up window -->
   <VDialog
     v-model="siteCookieDialog"
     max-width="50rem"
   >
     <!-- Dialog Content -->
-    <VCard title="更新站点Cookie & UA">
+    <VCard title=" Updating the siteCookie & UA">
       <VCardText>
         <VForm @submit.prevent="() => {}">
           <VRow>
@@ -393,7 +393,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="userPwForm.username"
-                label="用户名"
+                label=" User id"
                 :rules="[requiredValidator]"
               />
             </VCol>
@@ -403,7 +403,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="userPwForm.password"
-                label="密码"
+                label=" Cryptographic"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="
                   isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
@@ -420,12 +420,12 @@ onMounted(() => {
       <VCardActions>
         <VSpacer />
         <VBtn @click="updateSiteCookie">
-          开始更新
+          Start updating
         </VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
-  <!-- 站点编辑弹窗 -->
+  <!--  Site editor popup -->
   <VDialog
     v-model="siteInfoDialog"
     max-width="50rem"
@@ -433,7 +433,7 @@ onMounted(() => {
     scrollable
   >
     <!-- Dialog Content -->
-    <VCard :title="`编辑站点 - ${cardProps.site?.name}`">
+    <VCard :title="` Edit site - ${cardProps.site?.name}`">
       <VCardText class="pt-2">
         <DialogCloseBtn @click="siteInfoDialog = false" />
         <VForm @submit.prevent="() => {}">
@@ -444,7 +444,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="siteForm.url"
-                label="站点地址"
+                label=" Site address"
                 :rules="[requiredValidator]"
               />
             </VCol>
@@ -454,7 +454,7 @@ onMounted(() => {
             >
               <VSelect
                 v-model="siteForm.pri"
-                label="优先级"
+                label=" Prioritization"
                 :items="priorityItems"
                 :rules="[requiredValidator]"
               />
@@ -466,7 +466,7 @@ onMounted(() => {
               <VSelect
                 v-model="siteForm.is_active"
                 :items="statusItems"
-                label="状态"
+                label=" State of affairs"
               />
             </VCol>
           </VRow>
@@ -474,19 +474,19 @@ onMounted(() => {
             <VCol cols="12">
               <VTextField
                 v-model="siteForm.rss"
-                label="RSS地址"
+                label="RSS Address"
               />
             </VCol>
             <VCol cols="12">
               <VTextarea
                 v-model="siteForm.cookie"
-                label="站点Cookie"
+                label=" WebsiteCookie"
               />
             </VCol>
             <VCol cols="12">
               <VTextField
                 v-model="siteForm.ua"
-                label="站点User-Agent"
+                label=" WebsiteUser-Agent"
               />
             </VCol>
           </VRow>
@@ -497,7 +497,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="siteForm.limit_interval"
-                label="单位周期（秒）"
+                label=" Unit cycle（ Unit of angle or arc equivalent one sixtieth of a degree）"
                 :rules="[numberValidator]"
               />
             </VCol>
@@ -507,7 +507,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="siteForm.limit_seconds"
-                label="访问次数"
+                label=" Number of visits"
                 :rules="[numberValidator]"
               />
             </VCol>
@@ -517,7 +517,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="siteForm.limit_seconds"
-                label="访问间隔（秒）"
+                label=" Access interval（ Unit of angle or arc equivalent one sixtieth of a degree）"
                 :rules="[numberValidator]"
               />
             </VCol>
@@ -529,7 +529,7 @@ onMounted(() => {
             >
               <VSwitch
                 v-model="siteForm.proxy"
-                label="代理"
+                label=" Act on behalf of sb. in a responsible position"
               />
             </VCol>
             <VCol
@@ -538,7 +538,7 @@ onMounted(() => {
             >
               <VSwitch
                 v-model="siteForm.render"
-                label="仿真"
+                label=" Emulate"
               />
             </VCol>
           </VRow>
@@ -547,23 +547,23 @@ onMounted(() => {
 
       <VCardActions>
         <VBtn color="error" @click="deleteSiteInfo">
-          删除
+          Removing
         </VBtn>
         <VSpacer />
         <VBtn @click="updateSiteInfo">
-          确定
+          Recognize
         </VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
-  <!-- 站点资源弹窗 -->
+  <!--  Site resource popups -->
   <VDialog
     v-model="resourceDialog"
     max-width="80rem"
     scrollable
   >
     <!-- Dialog Content -->
-    <VCard :title="`浏览站点 - ${cardProps.site?.name}`">
+    <VCard :title="`Skim over站点 - ${cardProps.site?.name}`">
       <DialogCloseBtn @click="resourceDialog = false" />
       <VCardText class="pt-2">
         <VDataTable
@@ -577,8 +577,8 @@ onMounted(() => {
           item-value="title"
           return-object
           fixed-header
-          items-per-page-text="每页条数"
-          page-text="{0}-{1} 共 {2} 条"
+          items-per-page-text=" Number of articles per page"
+          page-text="{0}-{1}  Common {2}  Clause (of law or treaty)"
         >
           <template #item.title="{ item }">
             <div class="text-high-emphasis pt-1">
@@ -644,7 +644,7 @@ onMounted(() => {
                       <template #prepend>
                         <VIcon icon="mdi-information" />
                       </template>
-                      <VListItemTitle>查看详情</VListItemTitle>
+                      <VListItemTitle> View details</VListItemTitle>
                     </VListItem>
                     <VListItem
                       v-if="item.raw.enclosure?.startsWith('http')"
@@ -654,7 +654,7 @@ onMounted(() => {
                       <template #prepend>
                         <VIcon icon="mdi-download" />
                       </template>
-                      <VListItemTitle>下载种子</VListItemTitle>
+                      <VListItemTitle> Download seeds</VListItemTitle>
                     </VListItem>
                   </VList>
                 </VMenu>
@@ -662,7 +662,7 @@ onMounted(() => {
             </div>
           </template>
           <template #no-data>
-            没有数据
+            No data
           </template>
         </VDataTable>
       </VCardText>

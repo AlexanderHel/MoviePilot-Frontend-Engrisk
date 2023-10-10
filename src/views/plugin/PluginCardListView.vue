@@ -5,37 +5,37 @@ import NoDataFound from '@/components/NoDataFound.vue'
 import PluginAppCard from '@/components/cards/PluginAppCard.vue'
 import PluginCard from '@/components/cards/PluginCard.vue'
 
-// 数据列表
+//  Data sheet
 const dataList = ref<Plugin[]>([])
 
-// 是否刷新过
+//  Is it refreshed
 const isRefreshed = ref(false)
 
-// APP市场窗口
+// APP Market window
 const PluginAppDialog = ref(false)
 
-// 获取已安装的插件列表
+//  Get the list of installed plugins
 const getInstalledPluginList = computed(() => {
   return dataList.value.filter(item => item.installed)
 })
 
-// 获取未安装的插件列表
+//  Get the list of uninstalled plugins
 const getUninstalledPluginList = computed(() => {
   return dataList.value.filter(item => !item.installed)
 })
 
-// 关闭插件市场窗口
+//  Close the plug-in market window
 function pluginDialogClose() {
   PluginAppDialog.value = false
 }
 
-// 新安装了插件
+//  New plugin installed
 function pluginInstalled() {
   fetchData()
   pluginDialogClose()
 }
 
-// 获取插件列表数据
+//  Get plugin list data
 async function fetchData() {
   try {
     dataList.value = await api.get('plugin/')
@@ -46,7 +46,7 @@ async function fetchData() {
   }
 }
 
-// 加载时获取数据
+//  Getting data on load
 onBeforeMount(fetchData)
 </script>
 
@@ -77,10 +77,10 @@ onBeforeMount(fetchData)
   <NoDataFound
     v-if="getInstalledPluginList.length === 0 && isRefreshed"
     error-code="404"
-    error-title="没有安装插件"
-    error-description="点击右下角按钮，前往插件市场安装插件。"
+    error-title=" No plug-ins installed"
+    error-description=" Click on the button in the lower right corner， Go to the plugin marketplace to install the plugin。"
   />
-  <!-- App市场 -->
+  <!-- App Market (also in abstract) -->
   <VDialog
     v-model="PluginAppDialog"
     fullscreen
@@ -102,7 +102,7 @@ onBeforeMount(fetchData)
       <!-- Toolbar -->
       <div>
         <VToolbar color="primary">
-          <VToolbarTitle>插件市场</VToolbarTitle>
+          <VToolbarTitle> Plug-in market</VToolbarTitle>
 
           <VSpacer />
 
@@ -131,8 +131,8 @@ onBeforeMount(fetchData)
         <NoDataFound
           v-if="getUninstalledPluginList.length === 0 && isRefreshed"
           error-code="404"
-          error-title="没有未安装插件"
-          error-description="所有可用插件均已安装。"
+          error-title=" No uninstalled plug-ins"
+          error-description=" All available plugins are installed。"
         />
       </div>
     </VCard>

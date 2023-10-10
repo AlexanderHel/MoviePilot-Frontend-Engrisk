@@ -11,32 +11,32 @@ const statistics = ref([
   },
 ])
 
-// 调用API加载媒体统计数据
+//  Call (programming)API Loading media statistics
 async function loadMediaStatistic() {
   try {
     const res: MediaStatistic = await api.get('dashboard/statistic')
 
     statistics.value = [
       {
-        title: '电影',
+        title: ' Cinematic',
         stats: res.movie_count.toLocaleString(),
         icon: 'mdi-movie-roll',
         color: 'primary',
       },
       {
-        title: '电视剧',
+        title: ' Dramas',
         stats: res.tv_count.toLocaleString(),
         icon: 'mdi-television-box',
         color: 'success',
       },
       {
-        title: '剧集',
+        title: ' Episode',
         stats: res.episode_count.toLocaleString(),
         icon: 'mdi-television-classic',
         color: 'warning',
       },
       {
-        title: '用户',
+        title: ' Subscribers',
         stats: res.user_count.toLocaleString(),
         icon: 'mdi-account',
         color: 'info',
@@ -56,7 +56,7 @@ onMounted(() => {
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>媒体统计</VCardTitle>
+      <VCardTitle> Media statistics</VCardTitle>
     </VCardItem>
 
     <VCardText>

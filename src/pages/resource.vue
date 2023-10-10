@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import TorrentCardListView from '@/views/discover/TorrentCardListView.vue'
 
-// 路由参数
+//  Routing parameter
 const route = useRoute()
 
-// 查询TMDBID或标题
+//  Consult (a document etc)TMDBID Or title
 const keyword = route.query?.keyword?.toString() ?? ''
 
-// 查询类型
+//  Query type
 const type = route.query?.type?.toString() ?? ''
 
-// 搜索字段
+//  Search fields
 const area = route.query?.area?.toString() ?? ''
 </script>
 

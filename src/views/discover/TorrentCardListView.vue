@@ -7,15 +7,15 @@ import TorrentCard from '@/components/cards/TorrentCard.vue'
 import NoDataFound from '@/components/NoDataFound.vue'
 import store from '@/store'
 
-// 定义输入参数
+//  Defining input parameters
 const props = defineProps({
-  // 关键字或TMDBID
+  //  Keywords orTMDBID
   keyword: String,
 
-  // 类型
+  //  Typology
   type: String,
 
-  // 搜索字段
+  //  Search fields
   area: String,
 })
 
@@ -23,66 +23,66 @@ interface SearchTorrent extends Context {
   more?: Array<Context>
 }
 
-// 数据列表
+//  Data sheet
 const dataList = ref <Array<SearchTorrent>>([])
 
-// 分组后的数据列表
+//  List of grouped data
 const groupedDataList = ref<Map<string, Context[]>>()
 
-// 是否刷新过
+//  Is it refreshed
 const isRefreshed = ref(false)
 
-// 加载进度文本
+//  Loading progress text
 const progressText = ref('')
 
-// 加载进度
+//  Loading progress
 const progressValue = ref(0)
 
-// 加载进度SSE
+//  Loading progressSSE
 const progressEventSource = ref<EventSource>()
 
-// 过滤表单
+//  Filter forms
 const filterForm = reactive({
-  // 站点
+  //  Website
   site: [] as string[],
 
-  // 季
+  //  Classifier for seasonal crop yield or seasons of a tv series
   season: [] as string[],
 
-  // 制作组
+  //  Production team
   releaseGroup: [] as string[],
 
-  // 视频编码
+  //  Video encoding
   videoCode: [] as string[],
 
-  // 促销状态
+  //  Promotion status
   freeState: [] as string[],
 
-  // 质量
+  //  Mass (in physics)
   edition: [] as string[],
 
-  // 分辨率
+  //  Resolution (of a photo)
   resolution: [] as string[],
 })
 
-// 获取站点过滤选项
+//  Get site filtering options
 const siteFilterOptions = ref<Array<string>>([])
-// 获取季过滤选项
+//  Get seasonal filtering options
 const seasonFilterOptions = ref<Array<string>>([])
-// 获取制作组过滤选项
+//  Get production group filtering options
 const releaseGroupFilterOptions = ref<Array<string>>([])
-// 获取视频编码过滤选项
+//  Get video encoding filtering options
 const videoCodeFilterOptions = ref<Array<string>>([])
-// 获取促销状态过滤选项
+//  Get promotion status filtering options
 const freeStateFilterOptions = ref<Array<string>>([])
-// 获取质量过滤选项
+//  Get quality filtering options
 const editionFilterOptions = ref<Array<string>>([])
-// 获取分辨率过滤选项
+//  Get resolution filtering options
 const resolutionFilterOptions = ref<Array<string>>([])
 
-// 按过滤项过滤卡片
+//  Filter cards by filter
 watchEffect(() => {
-  // 清空数据
+  //  Empty data
   dataList.value.splice(0)
 
   const match = (filter: Array<string>, value: string | undefined) =>
@@ -92,22 +92,22 @@ watchEffect(() => {
     if (value.length > 0) {
       const matchData = value.filter((data) => {
         const { meta_info, torrent_info } = data
-        // 季、制作组、视频编码
+        //  Classifier for seasonal crop yield or seasons of a tv series、制作组、视频编码
         const { season_episode, resource_team, video_encode } = meta_info
         return (
-          // 站点过滤
+          //  Website过滤
           match(filterForm.site, torrent_info.site_name)
-          // 促销状态过滤
+          //  Promotion status过滤
           && match(filterForm.freeState, torrent_info.volume_factor)
-          // 季过滤
+          //  Classifier for seasonal crop yield or seasons of a tv series过滤
           && match(filterForm.season, season_episode)
-          // 制作组过滤
+          //  Production team过滤
           && match(filterForm.releaseGroup, resource_team)
-          // 视频编码过滤
+          //  Video encoding过滤
           && match(filterForm.videoCode, video_encode)
-          // 分辨率过滤
+          //  Resolution (of a photo)过滤
           && match(filterForm.resolution, meta_info.resource_pix)
-          // 质量过滤
+          //  Mass (in physics)过滤
           && match(filterForm.edition, meta_info.edition)
         )
       })
@@ -122,7 +122,7 @@ watchEffect(() => {
   })
 })
 
-// 获取订阅列表数据
+//  Get subscription list data
 async function fetchData(): Promise<Array<Context>> {
   try {
     let searchData: Array<Context>
@@ -130,12 +130,12 @@ async function fetchData(): Promise<Array<Context>> {
     const mtype = props.type ?? ''
     const area = props.area ?? ''
     if (!keyword) {
-      // 查询上次搜索结果
+      //  Query last search result
       searchData = await api.get('search/last')
     }
     else {
       startLoadingProgress()
-      // 优先按TMDBID精确查询
+      //  PrioritizationTMDBID Precision search
       if (props.keyword?.startsWith('tmdb:') || props.keyword?.startsWith('douban:')) {
         searchData = await api.get(`search/media/${props.keyword}`, {
           params: {
@@ -145,7 +145,7 @@ async function fetchData(): Promise<Array<Context>> {
         })
       }
       else {
-        // 按标题模糊查询
+        //  Fuzzy search by title
         searchData = await api.get(`search/title/${props.keyword}`)
       }
       stopLoadingProgress()
@@ -171,12 +171,12 @@ function initData() {
       // group data
       const key = `${torrent_info.title}_${torrent_info.size}`
       if (groupMap.has(key)) {
-        // 已存在相同标题和大小的分组，将当前上下文信息添加到分组中
+        //  Groups of the same title and size already exist， Add the current context information to the group
         const group = groupMap.get(key)
         group?.push(item)
       }
       else {
-        // 创建新的分组，并将当前上下文信息添加到分组中
+        //  Creating a new group， And add the current context information to the grouping
         groupMap.set(key, [item])
       }
     })
@@ -198,9 +198,9 @@ function initOptions(data: Context) {
   optionValue(resolutionFilterOptions.value, meta_info?.resource_pix)
 }
 
-// 使用SSE监听加载进度
+//  UtilizationSSE Listening to loading progress
 function startLoadingProgress() {
-  progressText.value = '正在搜索，请稍候...'
+  progressText.value = ' Searching， Please wait....'
 
   const token = store.state.auth.token
 
@@ -216,12 +216,12 @@ function startLoadingProgress() {
   }
 }
 
-// 停止监听加载进度
+//  Stop listening for loading progress
 function stopLoadingProgress() {
   progressEventSource.value?.close()
 }
 
-// 加载时获取数据
+//  Getting data on load
 onMounted(initData)
 </script>
 
@@ -235,7 +235,7 @@ onMounted(initData)
           size="small"
           density="compact"
           chips
-          label="站点"
+          label=" Website"
           multiple
         />
       </VCol>
@@ -246,7 +246,7 @@ onMounted(initData)
           size="small"
           density="compact"
           chips
-          label="季集"
+          label=" End of a season"
           multiple
         />
       </VCol>
@@ -257,7 +257,7 @@ onMounted(initData)
           size="small"
           density="compact"
           chips
-          label="制作组"
+          label=" Production team"
           multiple
         />
       </VCol>
@@ -268,7 +268,7 @@ onMounted(initData)
           size="small"
           density="compact"
           chips
-          label="质量"
+          label=" Mass (in physics)"
           multiple
         />
       </VCol>
@@ -279,7 +279,7 @@ onMounted(initData)
           size="small"
           density="compact"
           chips
-          label="分辨率"
+          label=" Resolution (of a photo)"
           multiple
         />
       </VCol>
@@ -290,7 +290,7 @@ onMounted(initData)
           size="small"
           density="compact"
           chips
-          label="视频编码"
+          label=" Video encoding"
           multiple
         />
       </VCol>
@@ -301,7 +301,7 @@ onMounted(initData)
           size="small"
           density="compact"
           chips
-          label="促销状态"
+          label=" Promotion status"
           multiple
         />
       </VCol>
@@ -318,8 +318,8 @@ onMounted(initData)
   <NoDataFound
     v-if="dataList.length === 0 && isRefreshed"
     error-code="404"
-    error-title="没有资源"
-    error-description="没有搜索到符合条件的资源。"
+    error-title=" No resources"
+    error-description=" No eligible resources were searched。"
   />
 </template>
 

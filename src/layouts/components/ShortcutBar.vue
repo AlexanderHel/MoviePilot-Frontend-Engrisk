@@ -4,19 +4,19 @@ import NetTestView from '@/views/system/NetTestView.vue'
 import LoggingView from '@/views/system/LoggingView.vue'
 import RuleTestView from '@/views/system/RuleTestView.vue'
 
-// App捷径
+// App Shortcuts
 const appsMenu = ref(false)
 
-// 名称测试弹窗
+//  Name test popups
 const nameTestDialog = ref(false)
 
-// 网络测试弹窗
+//  Network test pop-ups
 const netTestDialog = ref(false)
 
-// 实时日志弹窗
+//  Real-time log pop-ups
 const loggingDialog = ref(false)
 
-// 过滤规则弹窗
+//  Filter rule pop-ups
 const ruleTestDialog = ref(false)
 </script>
 
@@ -43,7 +43,7 @@ const ruleTestDialog = ref(false)
     <!-- Menu Content -->
     <VCard>
       <VCardItem class="border-b">
-        <VCardTitle>捷径</VCardTitle>
+        <VCardTitle> Shortcuts</VCardTitle>
         <template #append>
           <IconBtn @click="() => {}">
             <VIcon icon="mdi-checkbox-multiple-blank-outline" />
@@ -67,9 +67,9 @@ const ruleTestDialog = ref(false)
                 <VIcon icon="mdi-text-recognition" />
               </VAvatar>
               <h6 class="text-base font-weight-medium mt-2 mb-0">
-                识别
+                Recognize
               </h6>
-              <span class="text-sm">名称识别测试</span>
+              <span class="text-sm">名称Recognize测试</span>
             </VListItem>
           </VCol>
           <VCol
@@ -88,9 +88,9 @@ const ruleTestDialog = ref(false)
                 <VIcon icon="mdi-network-outline" />
               </VAvatar>
               <h6 class="text-base font-weight-medium mt-2 mb-0">
-                网络
+                Reticulation
               </h6>
-              <span class="text-sm">测试网速连通性</span>
+              <span class="text-sm"> Testing network speed connectivity</span>
             </VListItem>
           </VCol>
         </VRow>
@@ -111,9 +111,9 @@ const ruleTestDialog = ref(false)
                 <VIcon icon="mdi-file-document-outline" />
               </VAvatar>
               <h6 class="text-base font-weight-medium mt-2 mb-0">
-                日志
+                Log (computing)
               </h6>
-              <span class="text-sm">系统实时日志</span>
+              <span class="text-sm">系统实时Log (computing)</span>
             </VListItem>
           </VCol>
           <VCol
@@ -132,59 +132,59 @@ const ruleTestDialog = ref(false)
                 <VIcon icon="mdi-filter-cog-outline" />
               </VAvatar>
               <h6 class="text-base font-weight-medium mt-2 mb-0">
-                优先级
+                Prioritization
               </h6>
-              <span class="text-sm">优先级规则测试</span>
+              <span class="text-sm">Prioritization规则测试</span>
             </VListItem>
           </VCol>
         </VRow>
       </div>
     </VCard>
   </VMenu>
-  <!-- 名称测试弹窗 -->
+  <!--  Name test popups -->
   <VDialog
     v-model="nameTestDialog"
     max-width="50rem"
   >
-    <VCard title="名称识别测试">
+    <VCard title="名称Recognize测试">
       <DialogCloseBtn @click="nameTestDialog = false" />
       <VCardItem>
         <NameTestView />
       </VCardItem>
     </VCard>
   </VDialog>
-  <!-- 网络测试弹窗 -->
+  <!-- Reticulation测试弹窗 -->
   <VDialog
     v-model="netTestDialog"
     max-width="35rem"
   >
-    <VCard title="网络测试">
+    <VCard title="Reticulation测试">
       <DialogCloseBtn @click="netTestDialog = false" />
       <VCardItem>
         <NetTestView />
       </VCardItem>
     </VCard>
   </VDialog>
-  <!-- 实时日志弹窗 -->
+  <!-- 实时Log (computing)弹窗 -->
   <VDialog
     v-model="loggingDialog"
     class="w-full lg:w-4/5"
     scrollable
   >
-    <VCard title="实时日志">
+    <VCard title="实时Log (computing)">
       <DialogCloseBtn @click="loggingDialog = false" />
       <VCardText>
         <LoggingView />
       </VCardText>
     </VCard>
   </VDialog>
-  <!-- 规则测试弹窗 -->
+  <!--  Rule testing pop-ups -->
   <VDialog
     v-model="ruleTestDialog"
     max-width="50rem"
     scrollable
   >
-    <VCard title="优先级测试">
+    <VCard title="Prioritization测试">
       <DialogCloseBtn @click="ruleTestDialog = false" />
       <VCardText>
         <RuleTestView />

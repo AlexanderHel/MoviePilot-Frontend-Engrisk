@@ -47,13 +47,13 @@ export function formatDateToMonthShort(value: string, toTimeForCurrentDay = true
 
 export const prefixWithPlus = (value: number) => value > 0 ? `+${value}` : value
 
-// 格式化为Sxx
+//  Formatted asSxx
 export const formatSeason = (value: string) => value ? `S${value.padStart(2, '0')}` : ''
 
-// 格式化为xx[TGMK]B
+//  Formatted asxx[TGMK]B
 export function formatFileSize(bytes: number) {
   if (bytes < 0)
-    throw new Error('字节数不能为负数。')
+    throw new Error(' The number of bytes cannot be negative。')
 
   const units = ['B', 'K', 'M', 'G', 'T']
   let size = bytes
@@ -67,7 +67,7 @@ export function formatFileSize(bytes: number) {
   return `${size.toFixed(2)} ${units[unitIndex]}`
 }
 
-// 将时间秒格式化为时分秒
+//  Formatting time seconds as minutes, hours, and seconds
 export function formatSeconds(seconds: number) {
   const hours = Math.floor(seconds / 3600)
   const minutes = Math.floor((seconds % 3600) / 60)
@@ -76,18 +76,18 @@ export function formatSeconds(seconds: number) {
   let formattedTime = ''
 
   if (hours > 0)
-    formattedTime += `${hours}小时`
+    formattedTime += `${hours} Hourly`
 
   if (minutes > 0)
-    formattedTime += `${minutes}分`
+    formattedTime += `${minutes} Ingredient`
 
   if ((remainingSeconds > 0 || formattedTime === '') && hours <= 0)
-    formattedTime += `${remainingSeconds}秒`
+    formattedTime += `${remainingSeconds} Unit of angle or arc equivalent one sixtieth of a degree`
 
   return formattedTime
 }
 
-// YYYY-MM-DD 转化为Date
+// YYYY-MM-DD  Change intoDate
 export function parseDate(dateString: string): Date | null {
   if (!dateString)
     return null
@@ -96,7 +96,7 @@ export function parseDate(dateString: string): Date | null {
   return new Date(year, month - 1, day)
 }
 
-// 文件大小格式化
+//  File size formatting
 export function formatBytes(bytes: number, decimals = 2) {
   if (bytes === 0)
     return '0 bytes'

@@ -2,22 +2,22 @@
 import { useToast } from 'vue-toast-notification'
 import api from '@/api'
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 自定义识别词
+//  Customized identifiers
 const customIdentifiers = ref('')
 
-// 自定义制作组
+//  Customizing the production team
 const customReleaseGroups = ref('')
 
-// 自定义占位符
+//  Custom placeholders
 const customization = ref('')
 
-// 文件整理屏蔽词
+//  Document organization masked words
 const transferExcludeWords = ref('')
 
-// 查询已设置的识别词
+//  Querying set identifiers
 async function queryCustomIdentifiers() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -31,7 +31,7 @@ async function queryCustomIdentifiers() {
   }
 }
 
-// 查询已设置的制作组
+//  Query set production groups
 async function queryCustomReleaseGroups() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -45,7 +45,7 @@ async function queryCustomReleaseGroups() {
   }
 }
 
-// 查询已设置的自定义占位符
+//  Queries the custom placeholders that have been set
 async function queryCustomization() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -59,7 +59,7 @@ async function queryCustomization() {
   }
 }
 
-// 查询已设置的屏蔽词
+//  Checking the blocked words set
 async function queryTransferExcludeWords() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -73,76 +73,76 @@ async function queryTransferExcludeWords() {
   }
 }
 
-// 保存用户设置的识别词
+//  Save user-set identifiers
 async function saveCustomIdentifiers() {
   try {
-    // 用户名密码
+    //  User name and password
     const result: { [key: string]: any } = await api.post(
       'system/setting/CustomIdentifiers',
       customIdentifiers.value.split('\n'),
     )
 
     if (result.success)
-      $toast.success('自定义识别词保存成功')
+      $toast.success(' Customized identifier saved successfully')
     else
-      $toast.error('自定义识别词保存失败！')
+      $toast.error(' Failure to save customized identifiers！')
   }
   catch (error) {
     console.log(error)
   }
 }
 
-// 保存自定义制作组
+//  Save custom production groups
 async function saveCustomReleaseGroups() {
   try {
-    // 用户名密码
+    //  User name and password
     const result: { [key: string]: any } = await api.post(
       'system/setting/CustomReleaseGroups',
       customReleaseGroups.value.split('\n'),
     )
 
     if (result.success)
-      $toast.success('自定义制作组/字幕组保存成功')
+      $toast.success(' Customizing the production team/ Subtitle set saved successfully')
     else
-      $toast.error('自定义制作组/字幕组保存失败！')
+      $toast.error(' Customizing the production team/ Failed to save subtitle set！')
   }
   catch (error) {
     console.log(error)
   }
 }
 
-// 保存自定义占位符
+//  Saving custom placeholders
 async function saveCustomization() {
   try {
-    // 用户名密码
+    //  User name and password
     const result: { [key: string]: any } = await api.post(
       'system/setting/Customization',
       customization.value.split('\n'),
     )
 
     if (result.success)
-      $toast.success('自定义占位符保存成功')
+      $toast.success(' Custom placeholders saved successfully')
     else
-      $toast.error('自定义占位符保存失败！')
+      $toast.error(' Failed to save custom placeholder！')
   }
   catch (error) {
     console.log(error)
   }
 }
 
-// 保存文件整理屏蔽词
+//  Save file to organize block words
 async function saveTransferExcludeWords() {
   try {
-    // 用户名密码
+    //  User name and password
     const result: { [key: string]: any } = await api.post(
       'system/setting/TransferExcludeWords',
       transferExcludeWords.value.split('\n'),
     )
 
     if (result.success)
-      $toast.success('文件整理屏蔽词保存成功')
+      $toast.success(' File organizing blockwords saved successfully')
     else
-      $toast.error('文件整理屏蔽词保存失败！')
+      $toast.error(' File organizing blockword save failure！')
   }
   catch (error) {
     console.log(error)
@@ -160,17 +160,21 @@ onMounted(() => {
 <template>
   <VRow>
     <VCol cols="12">
-      <VCard title="自定义识别词">
-        <VCardSubtitle> 添加规则对种子名或者文件名进行预处理以校正识别。 </VCardSubtitle>
+      <VCard title=" Customized identifiers">
+        <VCardSubtitle>  Add rules to preprocess seed names or filenames to correct recognition。 </VCardSubtitle>
         <VCardItem>
           <VTextarea
             v-model="customIdentifiers"
             auto-grow
-            placeholder="支持正则表达式，特殊字符需要\转义，一行为一组，支持以下几种配置格式：
-屏蔽词
-被替换词 => 替换词
-前定位词 <> 后定位词 >> 集偏移量（EP）
-被替换词 => 替换词 && 前定位词 <> 后定位词 >> 集偏移量（EP）"
+            placeholder=" Regular expression support， Special characters are required\ Transferred meaning， Groups of one act， The following configuration formats are supported：
+Blocked word
+=>  Superseded word
+ Alternative word
+<>  Prepositioning words >>  Post locator（EP）
+ Set offset
+=>  Superseded word
+ Alternative word && <>  Prepositioning words >>  Post locator（EP）
+ Set offset"
           />
         </VCardItem>
         <VCardItem>
@@ -178,19 +182,19 @@ onMounted(() => {
             type="submit"
             @click="saveCustomIdentifiers"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
         </VCardItem>
       </VCard>
     </VCol>
     <VCol cols="12">
-      <VCard title="自定义制作组/字幕组">
-        <VCardSubtitle> 添加无法识别的制作组/字幕组。 </VCardSubtitle>
+      <VCard title=" Customizing the production team/ Subtitling team">
+        <VCardSubtitle>  Add unrecognizable production groups/ Subtitling team。 </VCardSubtitle>
         <VCardItem>
           <VTextarea
             v-model="customReleaseGroups"
             auto-grow
-            placeholder="支持正则表达式，特殊字符需要\转义，一行代表一个制作组/字幕组"
+            placeholder=" Regular expression support， Special characters are required\ Transferred meaning， One line represents one production team/ Subtitling team"
           />
         </VCardItem>
         <VCardItem>
@@ -198,19 +202,19 @@ onMounted(() => {
             type="submit"
             @click="saveCustomReleaseGroups"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
         </VCardItem>
       </VCard>
     </VCol>
     <VCol cols="12">
-      <VCard title="自定义占位符">
-        <VCardSubtitle> 添加自定义占位符识别正则，重命名格式中添加{{customization}}使用。 </VCardSubtitle>
+      <VCard title=" Custom placeholders">
+        <VCardSubtitle>  Add custom placeholders to recognize regulars， The renaming format adds{{customization}} Utilization。 </VCardSubtitle>
         <VCardItem>
           <VTextarea
             v-model="customization"
             auto-grow
-            placeholder="多个匹配对象请换行分隔，支持正则表达式，特殊字符注意转义"
+            placeholder=" Multiple matches are separated by new lines， Regular expression support， Note the escaping of special characters"
           />
         </VCardItem>
         <VCardItem>
@@ -218,19 +222,19 @@ onMounted(() => {
             type="submit"
             @click="saveCustomization"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
         </VCardItem>
       </VCard>
     </VCol>
     <VCol cols="12">
-      <VCard title="文件整理屏蔽词">
-        <VCardSubtitle> 目录名或文件名中包含屏蔽词时不进行整理。 </VCardSubtitle>
+      <VCard title="文件整理Blocked word">
+        <VCardSubtitle> 目录名或文件名中包含Blocked word时不进行整理。 </VCardSubtitle>
         <VCardItem>
           <VTextarea
             v-model="transferExcludeWords"
             auto-grow
-            placeholder="支持正则表达式，特殊字符需要\转义，一行代表一个屏蔽词"
+            placeholder="支持正则表达式，特殊字符需要\转义，一行代表一个Blocked word"
           />
         </VCardItem>
         <VCardItem>
@@ -238,7 +242,7 @@ onMounted(() => {
             type="submit"
             @click="saveTransferExcludeWords"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
         </VCardItem>
       </VCard>

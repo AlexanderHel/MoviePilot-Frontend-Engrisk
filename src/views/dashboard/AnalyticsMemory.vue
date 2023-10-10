@@ -10,19 +10,19 @@ const vuetifyTheme = useTheme()
 const currentTheme = controlledComputed(() => vuetifyTheme.name.value, () => vuetifyTheme.current.value.colors)
 const variableTheme = controlledComputed(() => vuetifyTheme.name.value, () => vuetifyTheme.current.value.variables)
 
-// 定时器
+//  Timers
 let refreshTimer: NodeJS.Timer | null = null
 
-// 时间序列
+//  Time series (stats.)
 const series = ref([
   {
     data: [0],
   },
 ])
 
-// 占用的内存
+//  Memory occupied
 const usedMemory = ref(0)
-// 内存使用百分比
+//  Percentage of memory usage
 const memoryUsage = ref(0)
 
 const chartOptions = controlledComputed(() => vuetifyTheme.name.value, () => {
@@ -87,13 +87,13 @@ const chartOptions = controlledComputed(() => vuetifyTheme.name.value, () => {
   }
 })
 
-// 调用API接口获取最新内存使用量
+//  Call (programming)API Interface to get the latest memory usage
 async function getMemorgUsage() {
   try {
-    // 请求数据
+    //  Request data
     [usedMemory.value, memoryUsage.value] = await api.get('dashboard/memory')
     series.value[0].data.push(memoryUsage.value)
-    // 序列超过30条记录时，清掉前面的
+    //  Sequence over30 When， Clear the front
     if (series.value[0].data.length > 30)
       series.value[0].data.shift()
   }
@@ -104,13 +104,13 @@ async function getMemorgUsage() {
 
 onMounted(() => {
   getMemorgUsage()
-  // 启动定时器
+  //  Start timer
   refreshTimer = setInterval(() => {
     getMemorgUsage()
   }, 3000)
 })
 
-// 组件卸载时停止定时器
+//  Stop timer when component is unloaded
 onUnmounted(() => {
   if (refreshTimer) {
     clearInterval(refreshTimer)
@@ -123,7 +123,7 @@ onUnmounted(() => {
   <VCard>
     <VCardText>
       <h6 class="text-h6">
-        内存
+        Random access memory (ram)
       </h6>
       <VueApexCharts
         type="area"
@@ -133,7 +133,7 @@ onUnmounted(() => {
       />
 
       <p class="text-center font-weight-medium mb-0">
-        当前：{{ formatBytes(usedMemory) }}
+        Be facing (us)：{{ formatBytes(usedMemory) }}
       </p>
     </VCardText>
   </VCard>

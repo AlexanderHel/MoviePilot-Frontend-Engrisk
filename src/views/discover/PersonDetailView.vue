@@ -5,22 +5,22 @@ import personIcon from '@images/misc/person.png'
 import type { TmdbPerson } from '@/api/types'
 import NoDataFound from '@/components/NoDataFound.vue'
 
-// 输入参数
+//  Input parameter
 const personProps = defineProps({
   personid: String,
   type: String,
 })
 
-// 媒体详情
+//  Media details
 const personDetail = ref<TmdbPerson>({} as TmdbPerson)
 
-// 是否已加载完成
+//  Whether or not the loading has been completed
 const isRefreshed = ref(false)
 
-// 人物图片是否加载
+//  Whether the character image is loaded or not
 const isImageLoaded = ref(false)
 
-// 调用API查询详情
+//  Call (programming)API Inquiry details
 async function getPersonDetail() {
   if (personProps.personid) {
     personDetail.value = await api.get(`tmdb/person/${personProps.personid}`)
@@ -28,14 +28,14 @@ async function getPersonDetail() {
   }
 }
 
-// 人物图片地址
+//  Character picture address
 function getPersonImage() {
   if (!personDetail.value?.profile_path)
     return personIcon
   return `https://image.tmdb.org/t/p/w600_and_h900_bestv2${personDetail.value?.profile_path}`
 }
 
-// 将别名数组拆分为、分隔的字符串
+//  Split the array of aliases into、 Delimited string
 function getAlsoKnownAs() {
   if (!personDetail.value?.also_known_as)
     return ''
@@ -84,7 +84,7 @@ onBeforeMount(() => {
             <span v-if="personDetail.place_of_birth">{{ personDetail.place_of_birth }}</span>
           </div>
           <div v-if="personDetail.also_known_as">
-            别名：{{ getAlsoKnownAs() }}
+            Nickname：{{ getAlsoKnownAs() }}
           </div>
         </div>
       </div>
@@ -98,8 +98,8 @@ onBeforeMount(() => {
     </div>
     <div>
       <div class="slider-header">
-        <RouterLink :to="`/browse/tmdb/person/credits/${personDetail.id}?title=参演作品`" class="slider-title">
-          <span>参演作品</span>
+        <RouterLink :to="`/browse/tmdb/person/credits/${personDetail.id}?title= Act`" class="slider-title">
+          <span> Act</span>
           <VIcon icon="mdi-arrow-right-circle-outline" class="ms-1" />
         </RouterLink>
       </div>
@@ -109,7 +109,7 @@ onBeforeMount(() => {
   <NoDataFound
     v-if="!personDetail.id && isRefreshed"
     error-code="500"
-    error-title="出错啦！"
-    error-description="无法获取到媒体信息，请检查网络连接。"
+    error-title=" There's been a mistake.！"
+    error-description=" No access to media information， Please check the network connection。"
   />
 </template>
