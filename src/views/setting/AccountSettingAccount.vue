@@ -11,22 +11,22 @@ const isPasswordVisible = ref(false)
 const newPassword = ref('')
 const confirmPassword = ref('')
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
 const refInputEl = ref<HTMLElement>()
 
-// 新增用户窗口
+//  Add user window
 const addUserDialog = ref(false)
 
-// 新增用户表单
+//  Add a new user form
 const userForm = reactive({
   name: '',
   password: '',
   email: '',
 })
 
-// 当前用户信息
+//  Current user information
 const accountInfo = ref<User>({
   id: 0,
   name: '',
@@ -37,7 +37,7 @@ const accountInfo = ref<User>({
   avatar: '',
 })
 
-// 所有用户信息
+//  All user information
 const allUsers = ref<User[]>([])
 
 // changeAvatar function
@@ -61,7 +61,7 @@ function resetAvatar() {
   accountInfo.value.avatar = avatar1
 }
 
-// 调用API，加载当前用户数据
+//  Call (programming)API， Load current user data
 async function loadAccountInfo() {
   try {
     const user: User = await api.get('user/current')
@@ -75,11 +75,11 @@ async function loadAccountInfo() {
   }
 }
 
-// 保存用户信息
+//  Save user information
 async function saveAccountInfo() {
   if (newPassword.value || confirmPassword.value) {
     if (newPassword.value !== confirmPassword.value) {
-      $toast.error('两次输入的密码不一致')
+      $toast.error(' Inconsistent passwords entered twice')
 
       return
     }
@@ -88,16 +88,16 @@ async function saveAccountInfo() {
   try {
     const result: { [key: string]: any } = await api.put('user/', accountInfo.value)
     if (result.success)
-      $toast.success('用户信息保存成功！')
+      $toast.success(' User information saved successfully！')
     else
-      $toast.error(`用户信息保存失败：${result.message}！`)
+      $toast.error(` Failure to save user information：${result.message}！`)
   }
   catch (error) {
     console.log(error)
   }
 }
 
-// 调用API，查询所有用户
+//  Call (programming)API， Query all users
 async function loadAllUsers() {
   try {
     const result: User[] = await api.get('/user/')
@@ -109,16 +109,16 @@ async function loadAllUsers() {
   }
 }
 
-// 删除用户
+//  Delete user
 async function deleteUser(user: User) {
   try {
     const result: { [key: string]: any } = await api.delete(`user/${user.name}`)
     if (result.success) {
-      $toast.success('用户删除成功！')
+      $toast.success(' User deleted successfully！')
       loadAllUsers()
     }
     else {
-      $toast.error(`用户删除失败：${result.message}！`)
+      $toast.error(` User deletion failed：${result.message}！`)
     }
   }
   catch (error) {
@@ -126,18 +126,18 @@ async function deleteUser(user: User) {
   }
 }
 
-// 冻结用户
+//  User freeze
 async function deactivateUser(user: User) {
   try {
     user.is_active = !user.is_active
 
     const result: { [key: string]: any } = await api.put('user/', user)
     if (result.success) {
-      $toast.success('用户冻结成功！')
+      $toast.success(' User freeze success！')
       loadAllUsers()
     }
     else {
-      $toast.error(`用户冻结失败：${result.message}！`)
+      $toast.error(` User freeze failure：${result.message}！`)
     }
   }
   catch (error) {
@@ -145,17 +145,17 @@ async function deactivateUser(user: User) {
   }
 }
 
-// 新增用户
+//  New subscriber
 async function addUser() {
   try {
     const result: { [key: string]: any } = await api.post('user', userForm)
     if (result.success) {
-      $toast.success('用户新增成功！')
+      $toast.success(' User added successfully！')
       loadAllUsers()
       addUserDialog.value = false
     }
     else {
-      $toast.error(`用户新增失败：${result.message}！`)
+      $toast.error(` Failed to add user：${result.message}！`)
     }
   }
   catch (error) {
@@ -163,7 +163,7 @@ async function addUser() {
   }
 }
 
-// 加载当前用户数据
+//  Load current user data
 onMounted(() => {
   loadAccountInfo()
   loadAllUsers()
@@ -173,7 +173,7 @@ onMounted(() => {
 <template>
   <VRow>
     <VCol cols="12">
-      <VCard title="个人信息">
+      <VCard title=" Personal information">
         <VCardText class="d-flex">
           <!-- 👉 Avatar -->
           <VAvatar
@@ -194,7 +194,7 @@ onMounted(() => {
                   icon="mdi-cloud-upload-outline"
                   class="d-sm-none"
                 />
-                <span class="d-none d-sm-block">上传头像</span>
+                <span class="d-none d-sm-block"> Upload avatar</span>
               </VBtn>
 
               <input
@@ -212,7 +212,7 @@ onMounted(() => {
                 variant="tonal"
                 @click="resetAvatar"
               >
-                <span class="d-none d-sm-block">重置</span>
+                <span class="d-none d-sm-block"> Reprovision</span>
                 <VIcon
                   icon="mdi-refresh"
                   class="d-sm-none"
@@ -221,7 +221,7 @@ onMounted(() => {
             </div>
 
             <p class="text-body-1 mb-0">
-              允许 JPG、GIF 或 PNG 格式， 最大尺寸 800K。
+              Permissible JPG、GIF  Maybe PNG  Specification，  Maximum size 800K。
             </p>
           </form>
         </VCardText>
@@ -240,7 +240,7 @@ onMounted(() => {
                 <VTextField
                   v-model="accountInfo.name"
                   readonly
-                  label="用户名"
+                  label=" User id"
                 />
               </VCol>
 
@@ -251,7 +251,7 @@ onMounted(() => {
               >
                 <VTextField
                   v-model="accountInfo.email"
-                  label="邮箱"
+                  label=" Inbox"
                   type="email"
                 />
               </VCol>
@@ -267,7 +267,7 @@ onMounted(() => {
                   :append-inner-icon="
                     isNewPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
                   "
-                  label="新密码"
+                  label=" New password"
                   autocomplete="new-password"
                   @click:append-inner="isNewPasswordVisible = !isNewPasswordVisible"
                 />
@@ -284,7 +284,7 @@ onMounted(() => {
                   :append-inner-icon="
                     isConfirmPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
                   "
-                  label="确认新密码"
+                  label=" Confirm new password"
                   @click:append-inner="
                     isConfirmPasswordVisible = !isConfirmPasswordVisible
                   "
@@ -297,7 +297,7 @@ onMounted(() => {
                 class="d-flex flex-wrap gap-4"
               >
                 <VBtn @click="saveAccountInfo">
-                  保存
+                  Save (a file etc) (computing)
                 </VBtn>
               </VCol>
             </VRow>
@@ -311,7 +311,7 @@ onMounted(() => {
       cols="12"
     >
       <!-- 👉 Accounts -->
-      <VCard title="所有用户">
+      <VCard title=" All users">
         <template #append>
           <IconBtn @click.stop="addUserDialog = true">
             <VIcon icon="mdi-plus" />
@@ -321,16 +321,16 @@ onMounted(() => {
           <thead>
             <tr>
               <th scope="col">
-                用户名
+                User id
               </th>
               <th scope="col">
-                邮箱
+                Inbox
               </th>
               <th scope="col">
-                状态
+                State of affairs
               </th>
               <th scope="col">
-                管理员
+                Janitors
               </th>
               <th
                 scope="col"
@@ -353,17 +353,17 @@ onMounted(() => {
                   color="success"
                   text-color="white"
                 >
-                  激活
+                  Activation
                 </VChip>
                 <VChip
                   v-else
                   color="error"
                   text-color="white"
                 >
-                  冻结
+                  Freeze (loan, wage, price etc)
                 </VChip>
               </td>
-              <td>{{ user.is_superuser ? "是" : "否" }}</td>
+              <td>{{ user.is_superuser ? " Be" : " Clogged" }}</td>
               <td>
                 <IconBtn v-show="accountInfo.is_superuser && accountInfo.name != user.name">
                   <VIcon icon="mdi-dots-vertical" />
@@ -381,7 +381,7 @@ onMounted(() => {
                         </template>
                         <VListItemTitle>
                           {{
-                            user.is_active ? "冻结" : "解冻"
+                            user.is_active ? "Freeze (loan, wage, price etc)" : "解冻"
                           }}
                         </VListItemTitle>
                       </VListItem>
@@ -393,7 +393,7 @@ onMounted(() => {
                         <template #prepend>
                           <VIcon icon="mdi-delete" />
                         </template>
-                        <VListItemTitle>删除</VListItemTitle>
+                        <VListItemTitle> Removing</VListItemTitle>
                       </VListItem>
                     </VList>
                   </VMenu>
@@ -405,14 +405,14 @@ onMounted(() => {
       </VCard>
     </VCol>
   </VRow>
-  <!-- 站点编辑弹窗 -->
+  <!--  Site editor popup -->
   <VDialog
     v-model="addUserDialog"
     max-width="50rem"
     persistent
   >
     <!-- Dialog Content -->
-    <VCard title="新增用户">
+    <VCard title=" New subscriber">
       <VCardText>
         <VForm @submit.prevent="() => {}">
           <VRow>
@@ -422,7 +422,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="userForm.name"
-                label="用户名"
+                label=" User id"
                 :rules="[requiredValidator]"
               />
             </VCol>
@@ -432,7 +432,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="userForm.password"
-                label="密码"
+                label=" Cryptographic"
                 :rules="[requiredValidator]"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="
@@ -447,7 +447,7 @@ onMounted(() => {
             >
               <VTextField
                 v-model="userForm.email"
-                label="邮箱"
+                label=" Inbox"
               />
             </VCol>
           </VRow>
@@ -455,11 +455,11 @@ onMounted(() => {
       </VCardText>
       <VCardActions>
         <VBtn @click="addUserDialog = false">
-          取消
+          Abolish
         </VBtn>
         <VSpacer />
         <VBtn @click="addUser">
-          确定
+          Recognize
         </VBtn>
       </VCardActions>
     </VCard>

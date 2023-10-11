@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-// 输入参数
+//  Input parameter
 const props = defineProps({
   linkurl: String,
   title: String,

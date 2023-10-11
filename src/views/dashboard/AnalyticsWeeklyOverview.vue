@@ -84,13 +84,13 @@ const options = controlledComputed(
   },
 )
 
-// 图表数据
+//  Chart data
 const series = ref([{ data: [0, 0, 0, 0, 0, 0, 0] }])
 
-// 总数
+//  Aggregate
 const totalCount = computed(() => series.value[0].data.reduce((a, b) => a + b, 0))
 
-// 调用API接口获取数据近7天数据
+//  Call (programming)API Interface to get data near7 Tidata
 async function getWeeklyData() {
   try {
     const res: number[] = await api.get('dashboard/transfer')
@@ -110,7 +110,7 @@ onMounted(() => {
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>最近入库</VCardTitle>
+      <VCardTitle> Recent inventory</VCardTitle>
     </VCardItem>
 
     <VCardText>
@@ -125,14 +125,14 @@ onMounted(() => {
         <h5 class="text-h5 me-4">
           {{ totalCount }}
         </h5>
-        <p>最近一周入库了 {{ totalCount }} 部影片 😎</p>
+        <p> It's been in storage for the last week. {{ totalCount }}  Film 😎</p>
       </div>
 
       <VBtn
         block
         to="/history"
       >
-        查看详情
+        View details
       </VBtn>
     </VCardText>
   </VCard>

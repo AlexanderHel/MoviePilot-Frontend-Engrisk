@@ -2,32 +2,32 @@
 import { calculateTimeDifference } from '@/@core/utils'
 import api from '@/api'
 
-// 系统环境变量
+//  System environment variable
 const systemEnv = ref<any>({})
 
-// 所有Release
+//  PossessRelease
 const allRelease = ref<any>([])
 
-// 变更日志对话框
+//  Change log dialog box
 const releaseDialog = ref(false)
 
-// 最新版本
+//  Latest version
 const latestRelease = ref('')
 
-// 变更日志对话框标题
+//  Change log dialog box标题
 const releaseDialogTitle = ref('')
 
-// 变更日志对话框内容
+//  Change log dialog box内容
 const releaseDialogBody = ref('')
 
-// 打开日志对话框
+//  Open the log dialog box
 function showReleaseDialog(title: string, body: string) {
   releaseDialogTitle.value = title
   releaseDialogBody.value = body.replaceAll('\r\n', '<br />')
   releaseDialog.value = true
 }
 
-// 查询系统环境变量
+//  Querying system environment variables
 async function querySystemEnv() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -41,7 +41,7 @@ async function querySystemEnv() {
   }
 }
 
-// 查询所有Release
+//  Query allRelease
 async function queryAllRelease() {
   try {
     const result: { [key: string]: any } = await api.get(
@@ -50,7 +50,7 @@ async function queryAllRelease() {
 
     allRelease.value = result.data ?? []
 
-    // 最新版本
+    //  Latest version
     if (allRelease.value.length > 0)
       latestRelease.value = allRelease.value[0].tag_name
   }
@@ -59,10 +59,10 @@ async function queryAllRelease() {
   }
 }
 
-// 计算发布时间
+//  Calculate release time
 function releaseTime(releaseDate: string) {
-  // 上一次更新时间
-  return `${calculateTimeDifference(releaseDate)}前`
+  //  Last updated
+  return `${calculateTimeDifference(releaseDate)} Ahead`
 }
 
 onMounted(() => {
@@ -76,7 +76,7 @@ onMounted(() => {
     <div class="section">
       <div>
         <h3 class="heading">
-          关于 MoviePilot
+          With respect to MoviePilot
         </h3>
       </div>
       <div class="section border-t border-gray-800">
@@ -84,14 +84,14 @@ onMounted(() => {
           <div>
             <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
               <dt class="block text-sm font-bold">
-                当前版本
+                Current version
               </dt>
               <dd class="flex text-sm sm:col-span-2 sm:mt-0">
                 <span class="flex-grow flex flex-row items-center truncate">
                   <code class="truncate">{{ systemEnv.VERSION }}</code>
-                  <a v-if="latestRelease === systemEnv.VERSION" href="https://github.com/jxxghp/MoviePilot/releases" target="_blank" rel="noopener noreferrer">
+                  <a v-if="latestRelease === systemEnv.VERSION" href="https://github.com/AlexanderHel/MoviePilotEngrisk/releases" target="_blank" rel="noopener noreferrer">
                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full whitespace-nowrap bg-green-500 bg-opacity-80 border border-green-500 !text-green-100 ml-2 !cursor-pointer transition hover:bg-green-400">
-                      最新
+                      Newest
                     </span>
                   </a>
                 </span>
@@ -101,7 +101,7 @@ onMounted(() => {
           <div>
             <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
               <dt class="block text-sm font-bold">
-                配置目录
+                Configuration directory
               </dt>
               <dd class="flex text-sm sm:col-span-2 sm:mt-0">
                 <span class="flex-grow undefined">
@@ -111,7 +111,7 @@ onMounted(() => {
             </div>
             <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
               <dt class="block text-sm font-bold">
-                数据目录
+                Data catalog
               </dt>
               <dd class="flex text-sm sm:col-span-2 sm:mt-0">
                 <span class="flex-grow undefined"><code>/moviepilot</code></span>
@@ -121,7 +121,7 @@ onMounted(() => {
           <div>
             <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
               <dt class="block text-sm font-bold">
-                时区
+                Time zones
               </dt>
               <dd class="flex text-sm sm:col-span-2 sm:mt-0">
                 <span class="flex-grow undefined">
@@ -136,7 +136,7 @@ onMounted(() => {
     <div class="section">
       <div>
         <h3 class="heading">
-          支援
+          Support sth.
         </h3>
       </div>
       <div class="section border-t border-gray-800">
@@ -144,11 +144,11 @@ onMounted(() => {
           <div>
             <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
               <dt class="block text-sm font-bold">
-                文档
+                (computer) file
               </dt><dd class="flex text-sm sm:col-span-2 sm:mt-0">
                 <span class="flex-grow undefined">
-                  <a href="https://github.com/jxxghp/MoviePilot/blob/main/README.md" target="_blank" rel="noreferrer" class="text-indigo-500 transition duration-300 hover:underline">
-                    https://github.com/jxxghp/MoviePilot/blob/main/README.md
+                  <a href="https://github.com/AlexanderHel/MoviePilotEngrisk/blob/main/README.md" target="_blank" rel="noreferrer" class="text-indigo-500 transition duration-300 hover:underline">
+                    https://github.com/AlexanderHel/MoviePilotEngrisk/blob/main/README.md
                   </a>
                 </span>
               </dd>
@@ -156,11 +156,11 @@ onMounted(() => {
           </div><div>
             <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
               <dt class="block text-sm font-bold">
-                问题反馈
+                Question feedback
               </dt><dd class="flex text-sm sm:col-span-2 sm:mt-0">
                 <span class="flex-grow undefined">
-                  <a href="https://github.com/jxxghp/MoviePilot/issues/new/choose" target="_blank" rel="noreferrer" class="text-indigo-500 transition duration-300 hover:underline">
-                    https://github.com/jxxghp/MoviePilot/issues/new/choose
+                  <a href="https://github.com/AlexanderHel/MoviePilotEngrisk/issues/new/choose" target="_blank" rel="noreferrer" class="text-indigo-500 transition duration-300 hover:underline">
+                    https://github.com/AlexanderHel/MoviePilotEngrisk/issues/new/choose
                   </a>
                 </span>
               </dd>
@@ -168,7 +168,7 @@ onMounted(() => {
           </div><div>
             <div class="max-w-6xl py-4 sm:grid sm:grid-cols-3 sm:gap-4">
               <dt class="block text-sm font-bold">
-                发布频道
+                Publishing channel
               </dt>
               <dd class="flex text-sm sm:col-span-2 sm:mt-0">
                 <span class="flex-grow undefined">
@@ -185,7 +185,7 @@ onMounted(() => {
     <div class="section">
       <div>
         <h3 class="heading">
-          软件版本
+          Software version
         </h3>
         <div class="section space-y-3">
           <div>
@@ -196,17 +196,17 @@ onMounted(() => {
                   {{ release.tag_name }}
                 </span>
                 <span v-if="release.tag_name === latestRelease" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full whitespace-nowrap cursor-default bg-green-500 bg-opacity-80 border border-green-500 !text-green-100">
-                  最新软件版本
+                  NewestSoftware version
                 </span>
                 <span v-if="release.tag_name === systemEnv.VERSION" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full whitespace-nowrap cursor-default bg-indigo-500 bg-opacity-80 border border-indigo-500 !text-indigo-100">
-                  当前版本
+                  Current version
                 </span>
               </div>
               <VBtn @click.stop="showReleaseDialog(release.tag_name, release.body)">
                 <template #prepend>
                   <VIcon icon="mdi-text-box-outline" />
                 </template>
-                查看变更日志
+                View change log
               </VBtn>
             </div>
           </div>
@@ -218,7 +218,7 @@ onMounted(() => {
     <VCard>
       <VCardItem>
         <DialogCloseBtn @click="releaseDialog = false" />
-        <VCardTitle>{{ releaseDialogTitle }} 变更日志</VCardTitle>
+        <VCardTitle>{{ releaseDialogTitle }}  Change log</VCardTitle>
       </VCardItem>
       <VCardText v-html="releaseDialogBody" />
     </VCard>

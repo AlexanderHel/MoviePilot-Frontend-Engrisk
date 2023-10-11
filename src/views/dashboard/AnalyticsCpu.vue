@@ -9,17 +9,17 @@ const vuetifyTheme = useTheme()
 const currentTheme = controlledComputed(() => vuetifyTheme.name.value, () => vuetifyTheme.current.value.colors)
 const variableTheme = controlledComputed(() => vuetifyTheme.name.value, () => vuetifyTheme.current.value.variables)
 
-// 定时器
+//  Timers
 let refreshTimer: NodeJS.Timer | null = null
 
-// 时间序列
+//  Time series (stats.)
 const series = ref([
   {
     data: [0],
   },
 ])
 
-// 当前值
+//  Current value
 const current = ref(0)
 
 const chartOptions = controlledComputed(() => vuetifyTheme.name.value, () => {
@@ -81,14 +81,14 @@ const chartOptions = controlledComputed(() => vuetifyTheme.name.value, () => {
   }
 })
 
-// 调用API接口获取最新CPU使用率
+//  Call (programming)API Interface to get the latestCPU Utilization rate
 async function getCpuUsage() {
   try {
-    // 请求数据
+    //  Request data
     current.value = await api.get('dashboard/cpu') ?? 0
-    // 添加到序列
+    //  Add to sequence
     series.value[0].data.push(current.value)
-    // 序列超过30条记录时，清掉前面的
+    //  Sequence over30 When， Clear the front
     if (series.value[0].data.length > 30)
       series.value[0].data.shift()
   }
@@ -98,13 +98,13 @@ async function getCpuUsage() {
 }
 
 onMounted(() => {
-  getCpuUsage()// 启动定时器
+  getCpuUsage()//  Start timer
   refreshTimer = setInterval(() => {
     getCpuUsage()
   }, 2000)
 })
 
-// 组件卸载时停止定时器
+//  Stop timer when component is unloaded
 onUnmounted(() => {
   if (refreshTimer) {
     clearInterval(refreshTimer)
@@ -127,7 +127,7 @@ onUnmounted(() => {
       />
 
       <p class="text-center font-weight-medium mb-0">
-        当前：{{ current }}%
+        Be facing (us)：{{ current }}%
       </p>
     </VCardText>
   </VCard>

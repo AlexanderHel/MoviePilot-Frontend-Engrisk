@@ -7,30 +7,30 @@ import NoDataFound from '@/components/NoDataFound.vue'
 import { numberValidator, requiredValidator } from '@/@validators'
 import { doneNProgress, startNProgress } from '@/api/nprogress'
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 数据列表
+//  Data sheet
 const dataList = ref<Site[]>([])
 
-// 是否刷新过
+//  Is it refreshed
 const isRefreshed = ref(false)
 
-// 新增按钮文本
-const addBtnText = ref('新增站点')
-// 新增按钮状态
+//  New button text
+const addBtnText = ref(' New sites')
+//  Add button status
 const addBtnState = ref(false)
 
-// 新增站点对话框
+//  Add site dialog box
 const siteAddDialog = ref(false)
 
-// 状态下拉项
+//  Status drop-down items
 const statusItems = [
-  { title: '启用', value: true },
-  { title: '停用', value: false },
+  { title: ' (computing) enable (a feature)', value: true },
+  { title: ' Deactivate', value: false },
 ]
 
-// 生成1到50的优先级下拉框选项
+//  Generating1 Until (a time)50 The prioritize drop-down box option for the
 const priorityItems = ref(
   Array.from({ length: 50 }, (_, i) => i + 1).map(item => ({
     title: item,
@@ -38,7 +38,7 @@ const priorityItems = ref(
   })),
 )
 
-// 站点编辑表单数据
+//  Site edit form data
 const siteForm = reactive<Site>({
   id: 0,
   url: '',
@@ -55,7 +55,7 @@ const siteForm = reactive<Site>({
   domain: '',
 })
 
-// 获取站点列表数据
+//  Get site list data
 async function fetchData() {
   try {
     dataList.value = await api.get('site/')
@@ -66,26 +66,26 @@ async function fetchData() {
   }
 }
 
-// 调用API 新增站点
+//  Call (programming)API  New sites
 async function addSite() {
   if (!siteForm.url)
     return
 
   startNProgress()
 
-  addBtnText.value = '新增中...'
+  addBtnText.value = ' New...'
   addBtnState.value = true
 
   try {
     const result: { [key: string]: string } = await api.post('site/', siteForm)
     if (result.success) {
-      $toast.success('新增站点成功')
+      $toast.success(' New site added successfully')
 
-      // 刷新数据
+      //  Refresh data
       fetchData()
     }
 
-    else { $toast.error(`新增站点失败：${result.message}`) }
+    else { $toast.error(` Failed to add site：${result.message}`) }
     siteAddDialog.value = false
   }
   catch (error) {
@@ -94,11 +94,11 @@ async function addSite() {
 
   doneNProgress()
 
-  addBtnText.value = '新增站点'
+  addBtnText.value = ' New sites'
   addBtnState.value = false
 }
 
-// 加载时获取数据
+//  Getting data on load
 onBeforeMount(fetchData)
 </script>
 
@@ -129,8 +129,8 @@ onBeforeMount(fetchData)
   <NoDataFound
     v-if="dataList.length === 0 && isRefreshed"
     error-code="404"
-    error-title="没有站点"
-    error-description="已添加并支持的站点将会在这里显示。"
+    error-title=" No site"
+    error-description=" Added and supported sites will be shown here。"
   />
   <!-- Dialog Content -->
   <VDialog
@@ -148,7 +148,7 @@ onBeforeMount(fetchData)
         class="fixed right-5 bottom-5"
       />
     </template>
-    <VCard title="新增站点">
+    <VCard title=" New sites">
       <DialogCloseBtn @click="siteAddDialog = false" />
       <VCardText class="pt-2">
         <VForm @submit.prevent="() => {}">
@@ -159,7 +159,7 @@ onBeforeMount(fetchData)
             >
               <VTextField
                 v-model="siteForm.url"
-                label="站点地址"
+                label=" Site address"
                 :rules="[requiredValidator]"
               />
             </VCol>
@@ -169,7 +169,7 @@ onBeforeMount(fetchData)
             >
               <VSelect
                 v-model="siteForm.pri"
-                label="优先级"
+                label=" Prioritization"
                 :items="priorityItems"
                 :rules="[requiredValidator]"
               />
@@ -181,7 +181,7 @@ onBeforeMount(fetchData)
               <VSelect
                 v-model="siteForm.is_active"
                 :items="statusItems"
-                label="状态"
+                label=" State of affairs"
               />
             </VCol>
           </VRow>
@@ -189,19 +189,19 @@ onBeforeMount(fetchData)
             <VCol cols="12">
               <VTextField
                 v-model="siteForm.rss"
-                label="RSS地址"
+                label="RSS Address"
               />
             </VCol>
             <VCol cols="12">
               <VTextarea
                 v-model="siteForm.cookie"
-                label="站点Cookie"
+                label=" WebsiteCookie"
               />
             </VCol>
             <VCol cols="12">
               <VTextField
                 v-model="siteForm.ua"
-                label="站点User-Agent"
+                label=" WebsiteUser-Agent"
               />
             </VCol>
           </VRow>
@@ -212,7 +212,7 @@ onBeforeMount(fetchData)
             >
               <VTextField
                 v-model="siteForm.limit_interval"
-                label="单位周期（秒）"
+                label=" Unit cycle（ Unit of angle or arc equivalent one sixtieth of a degree）"
                 :rules="[numberValidator]"
               />
             </VCol>
@@ -222,7 +222,7 @@ onBeforeMount(fetchData)
             >
               <VTextField
                 v-model="siteForm.limit_seconds"
-                label="访问次数"
+                label=" Number of visits"
                 :rules="[numberValidator]"
               />
             </VCol>
@@ -232,7 +232,7 @@ onBeforeMount(fetchData)
             >
               <VTextField
                 v-model="siteForm.limit_seconds"
-                label="访问间隔（秒）"
+                label=" Access interval（ Unit of angle or arc equivalent one sixtieth of a degree）"
                 :rules="[numberValidator]"
               />
             </VCol>
@@ -244,7 +244,7 @@ onBeforeMount(fetchData)
             >
               <VSwitch
                 v-model="siteForm.proxy"
-                label="代理"
+                label=" Act on behalf of sb. in a responsible position"
               />
             </VCol>
             <VCol
@@ -253,7 +253,7 @@ onBeforeMount(fetchData)
             >
               <VSwitch
                 v-model="siteForm.render"
-                label="仿真"
+                label=" Emulate"
               />
             </VCol>
           </VRow>
@@ -263,7 +263,7 @@ onBeforeMount(fetchData)
         <VBtn
           @click="siteAddDialog = false"
         >
-          取消
+          Abolish
         </VBtn>
         <VSpacer />
         <VBtn

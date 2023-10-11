@@ -2,7 +2,7 @@
 import type { Axios } from 'axios'
 import type { EndPoints } from '@/api/types'
 
-// 输入参数
+//  Input parameter
 const inProps = defineProps({
   storages: Array as PropType<any[]>,
   storage: String,
@@ -11,19 +11,19 @@ const inProps = defineProps({
   axios: Object as PropType<Axios>,
 })
 
-// 对外事件
+//  External events
 const emit = defineEmits(['storagechanged', 'pathchanged', 'loading', 'foldercreated', 'sortchanged'])
 
-// 新建文件夹名称
+//  New folder name
 const newFolderPopper = ref(false)
 
-// 新建文件名称
+//  New file name
 const newFolderName = ref('')
 
-// 排序方式
+//  Sort by
 const sort = ref('name')
 
-// 调整排序方式
+//  Adjustment of sorting
 function changeSort() {
   if (sort.value === 'name')
     sort.value = 'time'
@@ -33,7 +33,7 @@ function changeSort() {
   emit('sortchanged', sort.value)
 }
 
-// 计算PATH面包屑
+//  CountPATH Crumb
 const pathSegments = computed(() => {
   let path_str = ''
   const isFolder = inProps.path?.endsWith('/')
@@ -52,7 +52,7 @@ const storageObject = computed(() => {
   return inProps.storages?.find(item => item.code === inProps.storage)
 })
 
-// 切换存储
+//  Toggle storage
 function changeStorage(code: string) {
   if (inProps.storage !== code) {
     emit('storagechanged', code)
@@ -60,19 +60,19 @@ function changeStorage(code: string) {
   }
 }
 
-// 路径变化
+//  Route changes
 function changePath(_path: string) {
   emit('pathchanged', _path)
 }
 
-// 返回上一级
+//  Return to previous level
 function goUp() {
   const segments = pathSegments.value ?? []
   const path = segments?.length === 1 ? '/' : segments[segments.length - 2].path
   changePath(path)
 }
 
-// 创建目录
+//  Create a catalog
 async function mkdir() {
   emit('loading', true)
   const url = inProps.endpoints?.mkdir.url
@@ -84,18 +84,18 @@ async function mkdir() {
     method: inProps.endpoints?.mkdir.method || 'post',
   }
 
-  // 调API
+  //  HarmonizeAPI
   await inProps.axios?.request(config)
 
   newFolderPopper.value = false
   newFolderName.value = ''
   emit('loading', false)
 
-  // 通知重新加载
+  //  Notification reload
   emit('foldercreated')
 }
 
-// 计算排序图标
+//  Calculate sort icon
 const sortIcon = computed(() => {
   if (sort.value === 'time')
     return 'mdi-sort-clock-ascending-outline'
@@ -155,25 +155,25 @@ const sortIcon = computed(() => {
       max-width="50rem"
     >
       <template #activator="{ props }">
-        <IconBtn title="新建文件夹" v-bind="props">
+        <IconBtn title=" New folder" v-bind="props">
           <VIcon icon="mdi-folder-plus-outline" />
         </IconBtn>
       </template>
-      <VCard title="新建文件夹">
+      <VCard title=" New folder">
         <VCardText>
-          <VTextField v-model="newFolderName" label="名称" />
+          <VTextField v-model="newFolderName" label=" Name (of a thing)" />
         </VCardText>
         <VCardActions>
           <div class="flex-grow-1" />
           <VBtn depressed @click="newFolderPopper = false">
-            取消
+            Abolish
           </VBtn>
           <VBtn
             :disabled="!newFolderName"
             depressed
             @click="mkdir"
           >
-            新建
+            Newly built
           </VBtn>
         </VCardActions>
       </VCard>

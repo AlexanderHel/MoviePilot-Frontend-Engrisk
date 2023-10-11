@@ -2,13 +2,13 @@
 import api from '@/api'
 import type { ScheduleInfo } from '@/api/types'
 
-// 定时服务列表
+//  List of timed services
 const schedulerList = ref<ScheduleInfo[]>([])
 
-// 定时器
+//  Timers
 let refreshTimer: NodeJS.Timer | null = null
 
-// 调用API加载定时服务列表
+//  Call (programming)API Load timed service list
 async function loadSchedulerList() {
   try {
     const res: ScheduleInfo[] = await api.get('dashboard/schedule')
@@ -23,13 +23,13 @@ async function loadSchedulerList() {
 onMounted(() => {
   loadSchedulerList()
 
-  // 启动定时器
+  //  Start timer
   refreshTimer = setInterval(() => {
     loadSchedulerList()
   }, 60000)
 })
 
-// 组件卸载时停止定时器
+//  Stop timer when component is unloaded
 onUnmounted(() => {
   if (refreshTimer) {
     clearInterval(refreshTimer)
@@ -41,7 +41,7 @@ onUnmounted(() => {
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>后台任务</VCardTitle>
+      <VCardTitle> Back-office tasks</VCardTitle>
     </VCardItem>
 
     <VCardText>
@@ -82,7 +82,7 @@ onUnmounted(() => {
         </VListItem>
         <VListItem v-if="schedulerList.length === 0">
           <VListItemTitle class="text-center">
-            没有后台服务
+            No backend services
           </VListItemTitle>
         </VListItem>
       </VList>

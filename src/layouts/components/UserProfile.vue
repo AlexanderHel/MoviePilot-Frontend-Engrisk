@@ -9,47 +9,47 @@ import api from '@/api'
 // Vuex Store
 const store = useStore()
 
-// 确认框
+//  Confirmation box
 const createConfirm = useConfirm()
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 进度框
+//  Progress dialog
 const progressDialog = ref(false)
 
-// 执行注销操作
+//  Perform a logout operation
 function logout() {
-  // 清除登录状态信息
+  //  Clearing login status information
   store.dispatch('auth/clearToken')
 
-  // 重定向到登录页面或其他适当的页面
+  //  Redirects to a login page or other appropriate page
   router.push('/login')
 }
 
-// 执行重启操作
+//  Perform a reboot
 async function restart() {
-  // 弹出提示
+  //  Pop-up prompt
   const confirmed = await createConfirm({
-    title: '确认',
-    content: '确认重启系统吗？',
-    confirmationText: '确认',
-    cancellationText: '取消',
+    title: ' Recognize',
+    content: ' Are you sure you want to reboot?？',
+    confirmationText: ' Recognize',
+    cancellationText: ' Abolish',
     dialogProps: {
       maxWidth: '30rem',
     },
   })
 
   if (confirmed) {
-    // 调用API重启
+    //  Call (programming)API Reopen
     try {
-      // 显示等待框
+      //  Show waiting box
       progressDialog.value = true
       const result: { [key: string]: any } = await api.get('system/restart')
       if (!result?.success) {
-        // 隐藏等待框
+        //  Hide waiting box
         progressDialog.value = false
-        // 重启不成功
+        //  The reboot was unsuccessful
         $toast.error(result.message)
         return
       }
@@ -57,12 +57,12 @@ async function restart() {
     catch (error) {
       console.error(error)
     }
-    // 注销
+    //  Deregister
     logout()
   }
 }
 
-// 从Vuex Store中获取信息
+//  Through (a gap)Vuex Store Access to information in
 const superUser = store.state.auth.superUser
 const userName = store.state.auth.userName
 const avatar = store.state.auth.avatar
@@ -98,7 +98,7 @@ const avatar = store.state.auth.avatar
           </template>
 
           <VListItemTitle class="font-weight-semibold">
-            {{ superUser ? "管理员" : "普通用户" }}
+            {{ superUser ? " Janitors" : " Regular user" }}
           </VListItemTitle>
           <VListItemSubtitle>{{ userName }}</VListItemSubtitle>
         </VListItem>
@@ -118,12 +118,12 @@ const avatar = store.state.auth.avatar
             />
           </template>
 
-          <VListItemTitle>设定</VListItemTitle>
+          <VListItemTitle> Preferences</VListItemTitle>
         </VListItem>
 
         <!-- 👉 FAQ -->
         <VListItem
-          href="https://github.com/jxxghp/MoviePilot/blob/main/README.md"
+          href="https://github.com/AlexanderHel/MoviePilotEngrisk/blob/main/README.md"
           target="_blank"
         >
           <template #prepend>
@@ -134,7 +134,7 @@ const avatar = store.state.auth.avatar
             />
           </template>
 
-          <VListItemTitle>帮助</VListItemTitle>
+          <VListItemTitle> Hand</VListItemTitle>
         </VListItem>
 
         <!-- Divider -->
@@ -150,7 +150,7 @@ const avatar = store.state.auth.avatar
             />
           </template>
 
-          <VListItemTitle>重启</VListItemTitle>
+          <VListItemTitle> Reopen</VListItemTitle>
         </VListItem>
 
         <!-- 👉 Logout -->
@@ -163,13 +163,13 @@ const avatar = store.state.auth.avatar
             />
           </template>
 
-          <VListItemTitle>注销</VListItemTitle>
+          <VListItemTitle> Deregister</VListItemTitle>
         </VListItem>
       </VList>
     </VMenu>
     <!-- !SECTION -->
   </VAvatar>
-  <!-- 重启进度框 -->
+  <!--  Restart progress box -->
   <vDialog
     v-model="progressDialog"
     width="25rem"
@@ -178,7 +178,7 @@ const avatar = store.state.auth.avatar
       color="primary"
     >
       <vCardText class="text-center">
-        正在重启 ...
+        Rebooting. ...
         <vProgressLinear
           indeterminate
           color="white"

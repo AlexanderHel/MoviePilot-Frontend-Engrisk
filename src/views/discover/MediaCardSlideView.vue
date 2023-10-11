@@ -4,20 +4,20 @@ import type { MediaInfo } from '@/api/types'
 import MediaCard from '@/components/cards/MediaCard.vue'
 import SlideView from '@/components/slide/SlideView.vue'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   apipath: String,
   linkurl: String,
   title: String,
 })
 
-// 组件加载完成
+//  Component loading complete
 const componentLoaded = ref(false)
 
-// 数据列表
+//  Data sheet
 const dataList = ref<MediaInfo[]>([])
 
-// 获取订阅列表数据
+//  Get subscription list data
 async function fetchData() {
   try {
     if (!props.apipath)
@@ -32,7 +32,7 @@ async function fetchData() {
   }
 }
 
-// 加载时获取数据
+//  Getting data on load
 onMounted(fetchData)
 </script>
 

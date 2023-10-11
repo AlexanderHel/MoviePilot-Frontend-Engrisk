@@ -6,52 +6,52 @@ import FormRender from '@/components/render/FormRender.vue'
 import PageRender from '@/components/render/PageRender.vue'
 import { isNullOrEmptyObject } from '@core/utils'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   plugin: Object as PropType<Plugin>,
   width: String,
   height: String,
 })
 
-// 定义触发的自定义事件
+//  Define custom events that are triggered
 const emit = defineEmits(['remove', 'save'])
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 本身是否可见
+//  Whether it is visible or not
 const isVisible = ref(true)
 
-// 插件配置页面
+//  Plugin configuration page
 const pluginConfigDialog = ref(false)
 
-// 插件配置表单数据
+//  Plugin configuration form data
 const pluginConfigForm = ref({})
 
-// 插件表单配置项
+//  Plugin form configuration items
 let pluginFormItems = reactive([])
 
-// 插件详情页面
+//  Plugin details page
 const pluginInfoDialog = ref(false)
 
-// 插件详情页面配置项
+//  Plugin details pageConfigure项
 let pluginPageItems = reactive([])
 
-// 图片是否加载完成
+//  Whether the image has finished loading
 const isImageLoaded = ref(false)
 
-// 调用API卸载插件
+//  Call (programming)API Uninstallation of plug-ins
 async function uninstallPlugin() {
   try {
     const result: { [key: string]: any } = await api.delete(`plugin/${props.plugin?.id}`)
     if (result.success) {
-      $toast.success(`插件 ${props.plugin?.plugin_name} 已卸载`)
+      $toast.success(` Plug-in (software component) ${props.plugin?.plugin_name}  Uninstalled`)
 
-      // 通知父组件刷新
+      //  Notify the parent component of a refresh
       emit('remove')
     }
     else {
-      $toast.error(`插件 ${props.plugin?.plugin_name} 卸载失败：${result.message}}`)
+      $toast.error(` Plug-in (software component) ${props.plugin?.plugin_name}  Failed to uninstall：${result.message}}`)
     }
   }
   catch (error) {
@@ -59,7 +59,7 @@ async function uninstallPlugin() {
   }
 }
 
-// 调用API读取表单页面
+//  Call (programming)API Read the form page
 async function loadPluginForm() {
   try {
     const result: { [key: string]: any } = await api.get(`plugin/form/${props.plugin?.id}`)
@@ -74,7 +74,7 @@ async function loadPluginForm() {
   }
 }
 
-// 调用API读取详情页面
+//  Call (programming)API Read details page
 async function loadPluginPage() {
   try {
     const result: [] = await api.get(`plugin/page/${props.plugin?.id}`)
@@ -86,7 +86,7 @@ async function loadPluginPage() {
   }
 }
 
-// 调用API读取配置数据
+//  Call (programming)API Read configuration data
 async function loadPluginConf() {
   try {
     const result: { [key: string]: any } = await api.get(`plugin/${props.plugin?.id}`)
@@ -98,18 +98,18 @@ async function loadPluginConf() {
   }
 }
 
-// 调用API保存配置数据
+//  Call (programming)API Saving configuration data
 async function savePluginConf() {
   try {
     const result: { [key: string]: any } = await api.put(`plugin/${props.plugin?.id}`, pluginConfigForm.value)
     if (result.success) {
-      $toast.success(`插件 ${props.plugin?.plugin_name} 配置已保存`)
+      $toast.success(` Plug-in (software component) ${props.plugin?.plugin_name}  Configuration saved`)
       pluginConfigDialog.value = false
-      // 通知父组件刷新
+      //  Notify the parent component of a refresh
       emit('save')
     }
     else {
-      $toast.error(`插件 ${props.plugin?.plugin_name} 配置保存失败：${result.message}}`)
+      $toast.error(` Plug-in (software component) ${props.plugin?.plugin_name}  Configuration save failure：${result.message}}`)
     }
   }
   catch (error) {
@@ -117,29 +117,29 @@ async function savePluginConf() {
   }
 }
 
-// 显示插件详情
+//  Show plugin details
 async function showPluginInfo() {
-  // 加载详情
+  //  Loading details
   await loadPluginPage()
   pluginConfigDialog.value = false
   pluginInfoDialog.value = true
 }
 
-// 显示插件配置
+//  Show plugin configuration
 async function showPluginConfig() {
-  // 加载表单
+  //  Loading forms
   await loadPluginForm()
-  // 加载配置
+  //  Load configuration
   await loadPluginConf()
-  // 显示对话框
+  //  Show dialog box
   pluginInfoDialog.value = false
   pluginConfigDialog.value = true
 }
 
-// 弹出菜单
+//  Pop-up menu
 const dropdownItems = ref([
   {
-    title: '查看详情',
+    title: ' View details',
     value: 1,
     show: props.plugin?.has_page,
     props: {
@@ -148,7 +148,7 @@ const dropdownItems = ref([
     },
   },
   {
-    title: '配置',
+    title: ' Configure',
     value: 2,
     show: true,
     props: {
@@ -157,7 +157,7 @@ const dropdownItems = ref([
     },
   },
   {
-    title: '卸载',
+    title: ' Uninstallation',
     value: 3,
     show: true,
     props: {
@@ -170,7 +170,7 @@ const dropdownItems = ref([
 </script>
 
 <template>
-  <!-- 插件卡片 -->
+  <!--  Plug-in card -->
   <VCard
     v-if="isVisible"
     :width="props.width"
@@ -233,14 +233,14 @@ const dropdownItems = ref([
       {{ props.plugin?.plugin_desc }}
     </VCardText>
   </VCard>
-  <!-- 插件配置页面 -->
+  <!--  Plugin configuration page -->
   <VDialog
     v-model="pluginConfigDialog"
     max-width="50rem"
     scrollable
     persistent
   >
-    <VCard :title="`${props.plugin?.plugin_name} - 配置`">
+    <VCard :title="`${props.plugin?.plugin_name} -  Configure`">
       <DialogCloseBtn @click="pluginConfigDialog = false" />
       <VCardText>
         <FormRender
@@ -252,17 +252,17 @@ const dropdownItems = ref([
       </VCardText>
       <VCardActions>
         <VBtn v-if="pluginPageItems.length > 0" @click="showPluginInfo">
-          查看详情
+          View details
         </VBtn>
         <VSpacer />
         <VBtn @click="savePluginConf">
-          保存
+          Save (a file etc) (computing)
         </VBtn>
       </VCardActions>
     </VCard>
   </VDialog>
 
-  <!-- 插件详情页面 -->
+  <!--  Plugin details page -->
   <VDialog
     v-model="pluginInfoDialog"
     max-width="62.5rem"
@@ -280,11 +280,11 @@ const dropdownItems = ref([
       </VCardText>
       <VCardActions>
         <VBtn @click="showPluginConfig">
-          配置
+          Configure
         </VBtn>
         <VSpacer />
         <VBtn @click="pluginInfoDialog = false">
-          关闭
+          Cloture
         </VBtn>
       </VCardActions>
     </VCard>

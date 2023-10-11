@@ -1,105 +1,105 @@
-// 订阅
+//  Subscribe to
 export interface Subscribe {
   id: number
 
-  // 订阅名称
+  //  Subscribe to名称
   name: string
 
-  // 订阅年份
+  //  Subscribe to年份
   year: string
 
-  // 订阅类型 电影/电视剧
+  //  Subscribe to类型 电影/电视剧
   type: string
 
-  // 搜索关键字
+  //  Search keywords
   keyword?: string
 
   // TMDB ID
   tmdbid: number
 
-  // 豆瓣ID
+  //  Douban, prc social networking websiteID
   doubanid?: string
 
-  // 季号
+  //  Quarter
   season?: number
 
-  // 海报
+  //  Playbill
   poster?: string
 
-  // 背景图
+  //  Background image
   backdrop?: string
 
-  // 评分
+  //  Score (of student's work)
   vote?: number
 
-  // 描述
+  //  Descriptive
   description?: string
 
-  // 过滤规则
+  //  Filter rules
   filter?: string
 
-  // 包含
+  //  Embody
   include?: string
 
-  // 排除
+  //  Rule out
   exclude?: string
 
-  // 总集数
+  //  Total episodes
   total_episode?: number
 
-  // 开始集数
+  //  Number of episodes
   start_episode?: number
 
-  // 缺失集数
+  //  Missing episodes
   lack_episode?: number
 
-  // 附加信息
+  //  Additional information
   note?: string
 
-  // 状态：N-新建， R-订阅中
+  //  State of affairs：N- Newly built， R- Subscription
   state: string
 
-  // 最后更新时间
+  //  Last updated
   last_update: string
 
-  // 订阅用户
+  //  Subscribe to用户
   username: string
 
-  // 订阅站点
+  //  Subscribe to站点
   sites: number[]
 
-  // 是否洗版
+  //  Whether or not to wash the plate
   best_version: number
 
-  // 当前优先级
+  //  Current priority
   current_priority: number
 }
 
-// 历史记录
+//  Historical record
 export interface TransferHistory {
 
   // ID
   id: number
 
-  // 源目录
+  //  Source catalog
   src?: string
 
-  // 目的目录
+  //  Destination catalog
   dest?: string
 
-  // 转移模式link/copy/move/softlink/rclone_copy/rclone_move
+  //  Transfer mode link/copy/move/softlink/rclone_copy/rclone_move
   mode?: string
 
-  // 类型：电影、电视剧
+  //  Typology： Cinematic、 Dramas
   type?: string
 
-  // 二级分类
+  //  Secondary classification
   category?: string
 
-  // 标题
+  //  Caption
   title?: string
 
-  // 年份
+  //  Particular year
   year?: string
 
   // TMDBID
@@ -111,47 +111,47 @@ export interface TransferHistory {
   // TVDBID
   tvdbid?: number
 
-  // 豆瓣ID
+  //  Douban, prc social networking websiteID
   doubanid?: string
 
-  // 季Sxx
+  //  Classifier for seasonal crop yield or seasons of a tv seriesSxx
   seasons?: string
 
-  // 集Exx
+  //  Classifier for sections of a tv series e.g. episodeExx
   episodes?: string
 
-  // 海报
+  //  Playbill
   image?: string
 
-  // 下载器Hash
+  //  DownloaderHash
   download_hash?: string
 
-  // 状态 1-成功，0-失败
+  //  State of affairs 1- Successes，0- Fail (e.g. experiments)
   status: boolean
 
-  // 失败原因
+  //  Reasons for failure
   errmsg?: string
 
-  // 日期
+  //  Dates
   date?: string
 }
 
-// 媒体信息
+//  Media information
 export interface MediaInfo {
 
-  // 类型 电影、电视剧
+  //  Typology  Cinematic、 Dramas
   type?: string
 
-  // 媒体标题
+  //  Media title
   title?: string
 
-  // 年份
+  //  Particular year
   year?: string
 
-  // 标题（年）
+  //  Caption（年）
   title_year?: string
 
-  // 季号
+  //  Quarter
   season?: number
 
   // TMDB ID
@@ -163,241 +163,241 @@ export interface MediaInfo {
   // TVDB ID
   tvdb_id?: string
 
-  // 豆瓣ID
+  //  Douban, prc social networking websiteID
   douban_id?: string
 
-  // 媒体原语种
+  //  Original language of the media
   original_language?: string
 
-  // 媒体原发行标题
+  //  Original media release title
   original_title?: string
 
-  // 媒体发行日期
+  //  Media release date
   release_date?: string
 
-  // 背景图片
+  //  Background image片
   backdrop_path?: string
 
-  // 海报图片
+  //  Playbill图片
   poster_path?: string
 
-  // 评分
+  //  Score (of student's work)
   vote_average?: number
 
-  // 描述
+  //  Descriptive
   overview?: string
 
-  // 二级分类
+  //  Secondary classification
   category?: string
 
-  // 详情页面
+  //  Detail page
   detail_link?: string
 
-  // 季详情
+  //  Season details
   season_info?: TmdbSeason[]
 
-  // 导演
+  //  Director (film etc)
   directors?: any[]
 
-  // 演员
+  //  Actor or actress
   actors?: any[]
 
-  // 成人内容
+  //  Adult content
   adult?: boolean
 
-  // 创建人
+  //  Founder
   created_by?: string[]
 
-  // 集时长
+  //  Episode length
   episode_run_time: string[]
 
-  // 风格
+  //  Hairstyle
   genres?: string[]
 
-  // 首映日期
+  //  Premiere date
   first_air_date?: string
 
-  // 主页
+  //  Homepage
   homepage?: string
 
-  // 语言
+  //  Multilingualism
   languages?: string[]
 
-  // 最后更新日期
+  //  Last update date
   last_air_date?: string
 
-  // 流媒体
+  //  Streaming media
   networks?: string[]
 
-  // 总集数
+  //  Total episodes
   number_of_episodes?: number
 
-  // 总季数
+  //  Total number of quarters
   number_of_seasons?: number
 
-  // 原产国
+  //  Country of origin
   origin_country: string[]
 
-  // 原名
+  //  Original name
   original_name?: string
 
-  // 出品公司
+  //  Production company
   production_companies?: any[]
 
-  // 出品国
+  //  Producer
   production_countries?: any[]
 
-  // 语种
+  //  Language type (in a classification)
   spoken_languages?: string[]
 
-  // 状态
+  //  State of affairs
   status?: string
 
-  // 标签
+  //  Tab (of a window) (computing)
   tagline?: string
 
-  // 评分人数
+  //  Score (of student's work)人数
   vote_count?: number
 
-  // 流行度
+  //  Popularity
   popularity?: number
 
-  // 时长
+  //  Length of time
   runtime?: number
 
-  // 下一集
+  //  Next episode
   next_episode_to_air?: object
 }
 
-// TMDB季信息
+// TMDB Quarterly information
 export interface TmdbSeason {
 
-  // 上映日期
+  //  Release date
   air_date?: string
 
-  // 总集数
+  //  Total episodes
   episode_count?: number
 
-  // 季名称
+  //  Season name
   name?: string
 
-  // 描述
+  //  Descriptive
   overview?: string
 
-  // 海报
+  //  Playbill
   poster_path?: string
 
-  // 季号
+  //  Quarter
   season_number?: number
 
-  // 评分
+  //  Score (of student's work)
   vote_average?: number
 }
 
-// TMDB集信息
+// TMDB Collective information
 export interface TmdbEpisode {
 
-  // 上映日期
+  //  Release date
   air_date?: string
 
-  // 集号
+  //  Bugle call
   episode_number?: number
 
-  // 剧集名称
+  //  Episode title
   name?: string
 
-  // 描述
+  //  Descriptive
   overview?: string
 
-  // 时长
+  //  Length of time
   runtime?: number
 
-  // 季号
+  //  Quarter
   season_number?: number
 
-  // 海报
+  //  Playbill
   still_path?: string
 
-  // 评分
+  //  Score (of student's work)
   vote_average?: number
 
-  // 演职人员
+  //  Performer
   crew: Object[]
 
-  // 嘉宾
+  //  Honored guest
   guest_stars: Object[]
 }
 
-// TMDB人特信息
+// TMDB Information about people
 export interface TmdbPerson {
   // ID
   id?: number
 
-  // 名称
+  //  Name (of a thing)
   name?: string
 
-  // 角色
+  //  Character
   character?: string
 
-  // 图片
+  //  Photograph
   profile_path?: string
 
-  // 性别
+  //  Distinguishing between the sexes
   gender?: number
 
-  // 原名
+  //  Original name
   original_name?: string
 
-  // 演员ID
+  //  Actor or actressID
   credit_id?: string
 
-  // 别名
+  //  Nickname
   also_known_as?: string[]
 
-  // 生日
+  //  Birthdays
   birthday?: string
 
-  // 卒日
+  //  At the end of the day
   deathday?: string
 
   // IMDB ID
   imdb_id?: string
 
-  // 部门
+  //  Sectoral
   known_for_department?: string
 
-  // 出生地
+  //  Birthplace
   place_of_birth?: string
 
-  // 热度
+  //  Short-lived enthusiasm
   popularity?: number
 
-  // 图片
+  //  Photograph
   images?: Object
 
-  // 详情
+  //  Particulars
   biography?: string
 }
 
-// 站点
+//  Website
 export interface Site {
 
   // ID
   id: number
 
-  // 站点名称
+  //  Website名称
   name: string
 
-  // 站点主域名Key
+  //  Website主域名Key
   domain: string
 
-  // 站点地址
+  //  Website地址
   url: string
 
-  // 站点优先级
+  //  Website优先级
   pri?: number
 
-  // RSS地址
+  // RSS Address
   rss?: string
 
   // Cookie
@@ -406,286 +406,286 @@ export interface Site {
   // User-Agent
   ua?: string
 
-  // 是否使用代理
+  //  Whether to use a proxy
   proxy?: number
 
-  // 过滤规则
+  //  Filter rules
   filter?: string
 
-  // 是否演染
+  //  Whether or not to act and dye
   render?: number
 
-  // 是否公开站点
+  //  Whether or not the site is public
   public?: number
 
-  // 备注
+  //  Note
   note?: string
 
-  // 流控单位周期
+  //  Flow control unit cycle
   limit_interval?: number
 
-  // 流控次数
+  //  Number of flow control sessions
   limit_count?: number
 
-  // 流控间隔
+  //  Flow control interval
   limit_seconds?: number
 
-  // 是否启用
+  //  Enable or disable
   is_active: boolean
 }
 
-// 正在下载
+//  Downloading
 export interface DownloadingInfo {
 
   // HASH
   hash?: string
 
-  // 种子名称
+  //  Seed name
   title?: string
 
-  // 识别后的名称
+  //  Identified name
   name?: string
 
-  // 年份
+  //  Particular year
   year?: string
 
   // SXXEXX
   season_episode?: string
 
-  // 大小
+  //  Adults and children
   size?: number
 
-  // 下载进 度
+  //  Download  Degree (angles, temperature etc)
   progress?: number
 
-  // 状态
+  //  State of affairs
   state?: string
 
-  // 下载速度
+  //  Download speed
   dlspeed?: string
 
-  // 上传速度
+  //  Upload speed
   upspeed?: string
 
-  // 媒体信息
+  //  Media information
   media: { [key: string]: any }
 }
 
-// 缺失剧集信息
+//  Missing episode information
 export interface NotExistMediaInfo {
 
-  // 季
+  //  Classifier for seasonal crop yield or seasons of a tv series
   season: number
 
-  // 剧集列表
+  //  Episode list
   episodes: number[]
 
-  // 总集数
+  //  Total episodes
   total_episode: number
 
-  // 开始集
+  //  Initial set
   start_episode: number
 }
 
-// 插件
+//  Plug-in (software component)
 export interface Plugin {
   id?: string
 
-  // 插件名称
+  //  Plug-in (software component)名称
   plugin_name?: string
 
-  // 插件描述
+  //  Plug-in (software component)描述
   plugin_desc?: string
 
-  // 插件图标
+  //  Plug-in (software component)图标
   plugin_icon?: string
 
-  // 主题色
+  //  Theme color
   plugin_color?: string
 
-  // 插件版本
+  //  Plug-in (software component)版本
   plugin_version?: string
 
-  // 插件作者
+  //  Plug-in (software component)作者
   plugin_author?: string
 
-  // 作者主页
+  //  Author's homepage
   author_url?: string
 
-  // 插件配置项ID前缀
+  //  Plug-in (software component)配置项ID前缀
   plugin_config_prefix?: string
 
-  // 加载顺序
+  //  Loading sequence
   plugin_order?: number
 
-  // 可使用的用户级别
+  //  Available user levels
   auth_level?: number
 
-  // 是否已安装
+  //  Installed or not
   installed?: boolean
 
-  // 运行状态
+  //  Operational state
   state?: boolean
 
-  // 是否有详情页面
+  //  Availability of detail pages
   has_page?: boolean
 }
 
-// 种子信息
+//  Seed information
 export interface TorrentInfo {
 
-  // 站点ID
+  //  WebsiteID
   site?: number
 
-  // 站点名称
+  //  Website名称
   site_name?: string
 
-  // 站点Cookie
+  //  WebsiteCookie
   site_cookie?: string
 
-  // 站点UA
+  //  WebsiteUA
   site_ua?: string
 
-  // 站点是否使用代理
+  //  Website是否使用代理
   site_proxy: boolean
 
-  // 站点优先级
+  //  Website优先级
   site_order: number
 
-  // 种子名称
+  //  Seed name
   title?: string
 
-  // 种子副标题
+  //  Seed subtitle
   description?: string
 
   // IMDB ID
   imdbid: string
 
-  // 种子链接
+  //  Seed links
   enclosure?: string
 
-  // 详情页面
+  //  Detail page
   page_url?: string
 
-  // 种子大小
+  //  Seed size
   size: number
 
-  // 做种者
+  //  Breeder
   seeders: number
 
-  // 下载者
+  //  Downloader
   peers: number
 
-  // 完成者
+  //  Completer
   grabs: number
 
-  // 发布时间
+  //  Release time
   pubdate?: string
 
-  // 已过时间
+  //  Past due
   date_elapsed?: string
 
-  // 上传因子
+  //  Upload factor
   uploadvolumefactor: number
 
-  // 下载因子
+  //  Download factor
   downloadvolumefactor: number
 
   // HR
   hit_and_run: boolean
 
-  // 种子标签
+  //  Seed labels
   labels: string[]
 
-  // 种子优先级
+  //  Seeding priority
   pri_order: number
 
-  // 促销描述
+  //  Promotion description
   volume_factor: string
 }
 
-// 识别元数据
+//  Identifying metadata
 export interface MetaInfo {
 
-  // 是否处理的文件
+  //  Documents processed or not
   isfile: boolean
 
-  // 原字符串
+  //  Original string
   org_string?: string
 
-  // 副标题
+  //  Subheading
   subtitle?: string
 
-  // 类型 电影、电视剧
+  //  Typology  Cinematic、 Dramas
   type: string
 
-  // 识别的中文名
+  //  Recognized chinese names
   cn_name?: string
 
-  // 识别的英文名
+  //  Recognizable english names
   en_name?: string
 
-  // 年份
+  //  Particular year
   year?: string
 
-  // 总季数
+  //  Total number of quarters
   total_season: number
 
-  // 识别的开始季 数字
+  //  The beginning of the identification season  Digital (electronics etc)
   begin_season?: number
 
-  // 识别的结束季 数字
+  //  End of season for identification  Digital (electronics etc)
   end_season?: number
 
-  // 总集数
+  //  Total episodes
   total_episode: number
 
-  // 识别的开始集
+  //  Identified starting set
   begin_episode?: number
 
-  // 识别的结束集
+  //  Identified end sets
   end_episode?: number
 
   // Partx Cd Dvd Disk Disc
   part?: string
 
-  // 识别的资源类型
+  //  Types of resources identified
   resource_type?: string
 
-  // 识别的效果
+  //  Effectiveness of identification
   resource_effect?: string
 
-  // 识别的分辨率
+  //  Recognized resolution
   resource_pix?: string
 
-  // 识别的制作组/字幕组
+  //  Identified production team/ Subtitling team
   resource_team?: string
 
-  // 视频编码
+  //  Video encoding
   video_encode?: string
 
-  // 音频编码
+  //  Audio encoding
   audio_encode?: string
 
-  // 名称（自动中英文）
+  //  Name (of a thing)（自动中英文）
   name: string
 
   // SXX-SXX
   season: string
 
-  // SXX-SXX 有季号才返回
+  // SXX-SXX  We'll return only if there's a seasonal number.
   sea: string
 
-  // begin_season 的数字，电视剧没有季的返回1
+  // begin_season  Figures， Return of the tv series without seasons1
   season_seq: string
 
-  // 季的数组
+  //  Classifier for seasonal crop yield or seasons of a tv series的数组
   season_list: number[]
 
   // Exx-Exx
   episode: string
 
-  // 集的数组
+  //  Array of sets
   episode_list: number[]
 
   // ExxExx
@@ -694,42 +694,42 @@ export interface MetaInfo {
   // xx-xx
   episode_seqs: string
 
-  // begin_episode 的数字
+  // begin_episode  Figures
   episode_seq: string
 
   // SxxExx
   season_episode: string
 
-  // 资源类型字符串，含分辨率
+  //  Resource type string， With resolution
   resource_term: string
 
-  // 发布组/字幕组字符串
+  //  Release group/ Subtitle strings
   release_group: string
 
-  // 视频编码
+  //  Video encoding
   video_term: string
 
-  // 音频编码
+  //  Audio encoding
   audio_term: string
 
-  // 资源类型+特效
+  //  Resource type+ Especially efficacious
   edition: string
 }
 
-// 上下文信息
+//  Contextual information
 export interface Context {
 
-  // 元信息
+  //  Meta-information
   meta_info: MetaInfo
 
-  // 媒体信息
+  //  Media information
   media_info: MediaInfo
 
-  // 种子信息
+  //  Seed information
   torrent_info: TorrentInfo
 }
 
-// 用户信息
+//  User information
 export interface User {
   id: number
   name: string
@@ -740,108 +740,108 @@ export interface User {
   avatar: string
 }
 
-// 存储空间
+//  Storage space
 export interface Storage {
   total_storage: number
   used_storage: number
 }
 
-// 媒体统计
+//  Media statistics
 export interface MediaStatistic {
 
-  // 电影总数
+  //  Total number of movies
   movie_count: number
 
-  // 电视剧总数
+  //  Total number of television dramas
   tv_count: number
 
-  // 电视剧总集数
+  //  Total episodes of tv series
   episode_count: number
 
-  // 用户数量
+  //  Number of users
   user_count: number
 }
 
-// 后台进程
+//  Background process
 export interface Process {
 
-  // 进程ID
+  //  StepID
   pid: number
 
-  // 进程名称
+  //  Process name
   name: string
 
-  // 进程状态
+  //  Process state
   status: string
 
-  // 进程启动时间
+  //  Process startup time
   create_time: number
 
-  // 进程运行时间
+  //  Process runtime
   run_time: number
 
-  // 进程CPU占用率
+  //  StepCPU Occupancy level
   cpu: number
 
-  // 进程内存占用
+  //  Process memory usage
   memory: number
 }
 
-// 下载器信息
+//  Downloader information
 export interface DownloaderInfo {
 
-  // 下载速度
+  //  Download speed
   download_speed: number
 
-  // 上传速度
+  //  Upload speed
   upload_speed: number
 
-  // 下载量
+  //  Downloads
   download_size: number
 
-  // 上传量
+  //  Upload volume
   upload_size: number
 
-  // 剩余空间
+  //  Headroom
   free_space: number
 }
 
-// 定时服务信息
+//  Timed service information
 export interface ScheduleInfo {
 
   // ID
   id: string
 
-  // 名称
+  //  Name (of a thing)
   name: string
 
-  // 状态
+  //  State of affairs
   status: string
 
-  // 下次运行时间
+  //  Next run time
   next_run: string
 }
 
-// 消息通知
+//  Message notification
 export interface NotificationSwitch {
 
-  // 消息类型
+  //  Message type
   mtype: string
 
-  // 开关
+  //  Switchgear
   wechat: boolean
   telegram: boolean
   slack: boolean
   synologychat: boolean
 }
 
-// 环境设置
+//  Environmental settings
 export interface Setting {
-  // 下载目录
+  //  Download catalog
   DOWNLOAD_PATH: string
 }
 
-// 文件浏览接口
+//  Document viewing interface
 export interface EndPoints {
   list: any
   mkdir: any
@@ -851,7 +851,7 @@ export interface EndPoints {
   rename: any
 }
 
-// 文件浏览项目
+//  Document viewing project
 export interface FileItem {
   type: string
   name: string

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import store from '@/store'
 
-// 日志列表
+//  Log list
 const logs = ref<string[]>([])
 
-// SSE持续获取日志
+// SSE Continuously fetch logs
 function startSSELogging() {
   const token = store.state.auth.token
   if (token) {
@@ -24,7 +24,7 @@ function startSSELogging() {
   }
 }
 
-// 从日志中提取日志详情
+//  Extracting log details from logs
 function extractLogDetailsFromLogs(logs: string[]): { level: string; time: string; program: string; content: string }[] {
   const logDetails: { level: string; time: string; program: string; content: string }[] = []
 
@@ -41,7 +41,7 @@ function extractLogDetailsFromLogs(logs: string[]): { level: string; time: strin
   return logDetails
 }
 
-// 计算日志颜色
+//  Calculate log color
 function getLogColor(level: string): string {
   switch (level) {
     case 'DEBUG':
@@ -57,7 +57,7 @@ function getLogColor(level: string): string {
   }
 }
 
-// 拆分日志数据计算属性
+//  Split log data calculation attributes
 const extractLogDetails = computed(() => {
   return extractLogDetailsFromLogs(logs.value)
 })
@@ -77,7 +77,7 @@ onMounted(() => {
       indeterminate
       color="primary"
     />
-    <span class="mt-3">正在刷新 ...</span>
+    <span class="mt-3"> Refreshing. ...</span>
   </div>
   <div>
     <VTable

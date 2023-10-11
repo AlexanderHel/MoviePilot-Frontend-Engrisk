@@ -5,10 +5,10 @@ import type { NotificationSwitch } from '@/api/types'
 
 const messagemTypes = ref<NotificationSwitch[]>([])
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 调用API查询消息开关
+//  Call (programming)API Query message switch
 async function loadNotificationSwitchs() {
   try {
     const result: NotificationSwitch[] = await api.get('message/switchs')
@@ -20,7 +20,7 @@ async function loadNotificationSwitchs() {
   }
 }
 
-// 调用API保存消息开关
+//  Call (programming)API Save message switch
 async function saveNotificationSwitchs() {
   try {
     const result: { [key: string]: any } = await api.post(
@@ -29,9 +29,9 @@ async function saveNotificationSwitchs() {
     )
 
     if (result.success)
-      $toast.success('保存通知消息设置成功')
+      $toast.success(' Save notification message settings successfully')
     else
-      $toast.error('保存通知消息设置失败！')
+      $toast.error(' Failed to save notification message settings！')
 
     // messagemTypes.value = messagemTypes.value
   }
@@ -46,17 +46,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <VCard title="消息通知">
-    <VCardText> 对应消息类型只会发送给选中的消息渠道。 </VCardText>
+  <VCard title=" Message notification">
+    <VCardText>  The corresponding message type will only be sent to the selected message channels。 </VCardText>
 
     <VTable class="text-no-wrap">
       <thead>
         <tr>
           <th scope="col">
-            消息类型
+            Message type
           </th>
           <th scope="col">
-            微信
+            Microsoft
           </th>
           <th scope="col">
             Telegram
@@ -95,7 +95,7 @@ onMounted(() => {
             colspan="4"
             class="text-center"
           >
-            没有设置任何通知渠道
+            No notification channels have been set up
           </td>
         </tr>
       </tbody>
@@ -109,7 +109,7 @@ onMounted(() => {
             mtype="submit"
             @click="saveNotificationSwitchs"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
         </div>
       </VForm>

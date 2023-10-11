@@ -1,30 +1,30 @@
 <script lang="ts" setup>
 import SlideViewTitle from '@/components/slide/SlideViewTitle.vue'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   linkurl: String,
   title: String,
 })
 
-// 元素
+//  Elemental
 const slideview_content = ref()
-// 分页切换状态
+//  Paging toggle state
 const disabled = ref(0)
-// 记录滚动值
+//  Record scrolling values
 const slideview_scrollLeft = ref(0)
-// 所有卡片数量
+//  Number of all cards
 let slide_card_length: number
-// 卡片间距
+//  Card spacing
 let slide_gap_px: number
-// 卡片宽度
+//  Card width
 let card_width: number
-// 容器最多显示N张卡片
+//  The container displays up toN Thermosensitive
 let card_max: number
-// 当前定位
+//  Current position
 let card_current: number
 
-// 分页切换
+//  Pagination
 function slideNext(next: boolean) {
   let run_to_left_px
   if (next) {
@@ -32,14 +32,14 @@ function slideNext(next: boolean) {
     run_to_left_px = card_index * card_width
     if (run_to_left_px >= slideview_content.value.scrollWidth - slideview_content.value.clientWidth)
       run_to_left_px = slideview_content.value.scrollWidth - slideview_content.value.clientWidth
-    // console.log(`最多显示: ${card_max} 当前起点: ${card_current} 目标起点: ${card_index} 卡片宽度: ${card_width}`)
+    // console.log(` Maximum display: ${card_max}  Current starting point: ${card_current}  Target starting point: ${card_index}  Card width: ${card_width}`)
   }
   else {
     const card_index = card_current - card_max
     run_to_left_px = card_index * card_width
     if (run_to_left_px <= 0)
       run_to_left_px = 0
-    // console.log(`最多显示: ${card_max} 当前起点: ${card_current} 目标起点: ${card_index} 卡片宽度: ${card_width}`)
+    // console.log(` Maximum display: ${card_max}  Current starting point: ${card_current}  Target starting point: ${card_index}  Card width: ${card_width}`)
   }
   slideview_content.value.scrollTo({
     top: 0,
@@ -48,7 +48,7 @@ function slideNext(next: boolean) {
   })
 }
 
-// 计算最大显示数量
+//  Calculating the maximum number of displays
 function countMaxNumber() {
   slide_card_length = slideview_content.value.children.length
   card_width = slideview_content.value.firstElementChild.getBoundingClientRect().width
@@ -58,7 +58,7 @@ function countMaxNumber() {
   countDisabled()
 }
 
-// 修改分页切换按钮状态
+//  Modify paging toggle button status
 function countDisabled() {
   slideview_scrollLeft.value = slideview_content.value.scrollLeft
   card_current = slideview_content.value.scrollLeft === 0 ? 0 : Math.trunc((slideview_content.value.scrollLeft + card_width / 2) / card_width)
@@ -73,15 +73,15 @@ function countDisabled() {
     disabled.value = 1
 }
 
-// 组件加载完成
+//  Component loading complete
 onMounted(() => {
-  // 初次获取元素参数
+  //  Initial access to element parameters
   countMaxNumber()
-  // 窗口大小发生改变时
+  //  When the window size changes
   window.addEventListener('resize', countMaxNumber)
 })
 onUnmounted(() => {
-  // 卸载事件
+  //  Uninstallation event
   window.removeEventListener('resize', countMaxNumber)
 })
 onActivated(() => {

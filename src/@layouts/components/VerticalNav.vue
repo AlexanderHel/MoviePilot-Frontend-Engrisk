@@ -25,11 +25,11 @@ watch(
   },
 )
 
-// 是否滚动
+//  Scrolling or not
 const isVerticalNavScrolled = ref(false)
 const updateIsVerticalNavScrolled = (val: boolean) => (isVerticalNavScrolled.value = val)
 
-// 滚动响应
+//  Rolling response
 function handleNavScroll(evt: Event) {
   isVerticalNavScrolled.value = (evt.target as HTMLElement).scrollTop > 0
 }

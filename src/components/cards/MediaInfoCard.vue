@@ -2,24 +2,24 @@
 import type { PropType } from 'vue'
 import type { Context } from '@/api/types'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   context: Object as PropType<Context>,
 })
 
-// TMDB图片转换为w500大小
+// TMDB Images are converted tow500 Adults and children
 function getW500Image(url = '') {
   if (!url)
     return ''
   return url.replace('original', 'w500')
 }
 
-// 打开TMDB详情页面
+//  Show (a ticket)TMDB Detail page
 function openTmdbPage(type: string, tmdbId: number) {
   if (!type || !tmdbId)
     return
 
-  const url = `https://www.themoviedb.org/${type === '电影' ? 'movie' : 'tv'}/${tmdbId}`
+  const url = `https://www.themoviedb.org/${type === ' Cinematic' ? 'movie' : 'tv'}/${tmdbId}`
   window.open(url, '_blank')
 }
 </script>
@@ -69,7 +69,7 @@ function openTmdbPage(type: string, tmdbId: number) {
           </VCardText>
 
           <VCardItem class="text-center text-md-left">
-            <!-- 类型 -->
+            <!--  Typology -->
             <VChip
               v-if="context?.media_info?.type || context?.meta_info?.type"
               variant="elevated"
@@ -79,7 +79,7 @@ function openTmdbPage(type: string, tmdbId: number) {
                 context?.media_info?.type || context?.meta_info?.type
               }}
             </VChip>
-            <!-- 二级分类 -->
+            <!--  Secondary classification -->
             <VChip
               v-if="context?.media_info?.category"
               variant="elevated"
@@ -140,7 +140,7 @@ function openTmdbPage(type: string, tmdbId: number) {
         v-if="!context?.meta_info?.name"
         icon="mdi-alert-circle-outline"
       >
-        识别失败，无法识别到有效信息！
+        Recognition failure， No valid information could be identified！
       </VAlert>
     </VCol>
   </div>

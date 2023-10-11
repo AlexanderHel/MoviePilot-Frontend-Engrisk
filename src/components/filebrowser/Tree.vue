@@ -2,7 +2,7 @@
 import type { Axios } from 'axios'
 import type { EndPoints, FileItem } from '@/api/types'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   icons: Object,
   storage: String,
@@ -12,19 +12,19 @@ const props = defineProps({
   refreshpending: Boolean,
 })
 
-// 对外事件
+//  External events
 const emit = defineEmits(['pathchanged', 'loading', 'refreshed'])
 
-// 变量
+//  Variant
 const open = ref<string[]>([])
-// 活跃的文件夹
+//  Active folders
 const active = ref<string[]>([])
-// 内容
+//  Element
 const items = ref<FileItem[]>([])
-// 过滤
+//  Filtration
 const filter = ref('')
 
-// 方法
+//  Methodologies
 function init() {
   open.value = []
   items.value = [{
@@ -39,7 +39,7 @@ function init() {
   }]
 }
 
-// 调用API读取文件夹
+//  Call (programming)API Read folder
 async function readFolder(item: FileItem) {
   emit('loading', true)
   const url = props.endpoints?.list.url
@@ -63,7 +63,7 @@ async function readFolder(item: FileItem) {
   emit('loading', false)
 }
 
-// 选中变化
+//  Selected changes
 function activeChanged(_active: string[]) {
   let path = ''
   if (active.value.length)
@@ -73,7 +73,7 @@ function activeChanged(_active: string[]) {
     emit('pathchanged', path)
 }
 
-// 查找文件
+//  Find a file
 function findItem(path: string) {
   const stack: FileItem[] = []
   stack.push(items.value[0])
@@ -90,12 +90,12 @@ function findItem(path: string) {
   return null
 }
 
-// 监听存储空间变量
+//  Listening to storage variables
 watch(() => props.storage, () => {
   init()
 })
 
-// 监听路径变化
+//  Listening for path changes
 watch(
   () => props.path,
   () => {
@@ -106,7 +106,7 @@ watch(
     }
   })
 
-// 监听 refreshPending
+//  Monitor refreshPending
 watch(
   () => props.refreshpending,
   async () => {

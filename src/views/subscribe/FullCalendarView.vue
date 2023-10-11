@@ -9,7 +9,7 @@ import type { MediaInfo, Rss, Subscribe, TmdbEpisode } from '@/api/types'
 import api from '@/api'
 import { parseDate } from '@/@core/utils/formatters'
 
-// 日历属性
+//  Calendar properties
 const calendarOptions: Ref<CalendarOptions> = ref({
   height: 'auto',
   locale: 'zh-cn',
@@ -34,9 +34,9 @@ const calendarOptions: Ref<CalendarOptions> = ref({
 })
 
 async function eventsHander(subscribe: Subscribe | Rss) {
-  // 如果是电影直接返回
-  if (subscribe.type === '电影') {
-    // 调用API查询TMDB详情
+  //  If the movie is a direct return
+  if (subscribe.type === ' Cinematic') {
+    //  Call (programming)API Consult (a document etc)TMDB Particulars
     const movie: MediaInfo = await api.get(`media/tmdb:${subscribe.tmdbid}`, {
       params: { type_name: subscribe.type },
     })
@@ -51,7 +51,7 @@ async function eventsHander(subscribe: Subscribe | Rss) {
     }
   }
   else {
-    // 调用API查询集信息
+    //  Call (programming)API Query set information
     const episodes: TmdbEpisode[] = await api.get(
             `tmdb/${subscribe.tmdbid}/${subscribe.season}`,
     )
@@ -59,7 +59,7 @@ async function eventsHander(subscribe: Subscribe | Rss) {
     return episodes.map((episode) => {
       return {
         title: subscribe.name,
-        subtitle: `第 ${episode.episode_number} 集`,
+        subtitle: ` (prefix indicating ordinal number, e.g. first, number two etc) ${episode.episode_number}  Classifier for sections of a tv series e.g. episode`,
         start: parseDate(episode.air_date || ''),
         allDay: false,
         posterPath: subscribe.poster,
@@ -69,10 +69,10 @@ async function eventsHander(subscribe: Subscribe | Rss) {
   }
 }
 
-// 调用API查询所有订阅
+//  Call (programming)API Check all subscriptions
 async function getSubscribes() {
   try {
-    // 订阅
+    //  Subscribe to
     const subscribes: Subscribe[] = await api.get('subscribe/')
 
     const subEvents = await Promise.all(
@@ -86,7 +86,7 @@ async function getSubscribes() {
   }
 }
 
-// 页面加载时调用API查询所有订阅
+//  Called on page loadAPI Check all subscriptions
 onMounted(() => {
   getSubscribes()
 })

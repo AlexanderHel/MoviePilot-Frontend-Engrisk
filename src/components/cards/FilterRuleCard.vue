@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-// 输入参数
+//  Input parameter
 const props = defineProps({
   pri: String,
   maxpri: String,
@@ -8,58 +8,58 @@ const props = defineProps({
   height: String,
 })
 
-// 定义触发的自定义事件
+//  Define custom events that are triggered
 const emit = defineEmits(['close', 'changed', 'levelup', 'leveldown'])
 
-// 按钮点击
+//  Button click
 function onClose() {
   emit('close')
 }
 
-// 上升优先级
+//  Move up the priority list
 function onLevelUp() {
   emit('levelup', props.pri)
 }
 
-// 下降优先级
+//  Deprioritize
 function onLevelDown() {
   emit('leveldown', props.pri)
 }
 
-// 选项变化
+//  Option changes
 function filtersChanged(value: string[]) {
   emit('changed', props.pri, value)
 }
 
-// 过滤规则下拉框
+//  Filter rules dropdown box
 const selectFilterOptions = ref<{ [key: string]: string }[]>([
-  { title: '特效字幕', value: ' SPECSUB ' },
-  { title: '中文字幕', value: ' CNSUB ' },
-  { title: '分辨率: 4K', value: ' 4K ' },
-  { title: '分辨率: 1080P', value: ' 1080P ' },
-  { title: '分辨率: 720P', value: ' 720P ' },
-  { title: '排除: 720P', value: ' !720P ' },
-  { title: '质量: 蓝光原盘', value: ' BLU ' },
-  { title: '排除: 蓝光原盘', value: ' !BLU ' },
-  { title: '质量: BLURAY', value: ' BLURAY ' },
-  { title: '排除: BLURAY', value: ' !BLURAY ' },
-  { title: '质量: UHD', value: ' UHD ' },
-  { title: '排除: UHD', value: ' !UHD ' },
-  { title: '质量: REMUX', value: ' REMUX ' },
-  { title: '排除: REMUX', value: ' !REMUX ' },
-  { title: '质量: WEB-DL', value: ' WEBDL ' },
-  { title: '排除: WEB-DL', value: ' !WEBDL ' },
-  { title: '编码: H265', value: ' H265 ' },
-  { title: '排除: H265', value: ' !H265 ' },
-  { title: '编码: H264', value: ' H264 ' },
-  { title: '排除: H264', value: ' !H264 ' },
-  { title: '效果: 杜比视界', value: ' DOLBY ' },
-  { title: '排除: 杜比视界', value: ' !DOLBY ' },
-  { title: '效果: HDR', value: ' HDR ' },
-  { title: '排除: HDR', value: ' !HDR ' },
-  { title: '国语配音', value: ' CNVOI ' },
-  { title: '排除: 国语配音', value: ' !CNVOI ' },
-  { title: '促销: 免费', value: ' FREE ' },
+  { title: ' Special effects montage', value: ' SPECSUB ' },
+  { title: ' Chinese subtitles', value: ' CNSUB ' },
+  { title: ' Resolution (of a photo): 4K', value: ' 4K ' },
+  { title: ' Resolution (of a photo): 1080P', value: ' 1080P ' },
+  { title: ' Resolution (of a photo): 720P', value: ' 720P ' },
+  { title: ' Rule out: 720P', value: ' !720P ' },
+  { title: ' Mass (in physics):  Blu-ray disk', value: ' BLU ' },
+  { title: ' Rule out:  Blu-ray disk', value: ' !BLU ' },
+  { title: ' Mass (in physics): BLURAY', value: ' BLURAY ' },
+  { title: ' Rule out: BLURAY', value: ' !BLURAY ' },
+  { title: ' Mass (in physics): UHD', value: ' UHD ' },
+  { title: ' Rule out: UHD', value: ' !UHD ' },
+  { title: ' Mass (in physics): REMUX', value: ' REMUX ' },
+  { title: ' Rule out: REMUX', value: ' !REMUX ' },
+  { title: ' Mass (in physics): WEB-DL', value: ' WEBDL ' },
+  { title: ' Rule out: WEB-DL', value: ' !WEBDL ' },
+  { title: ' Encodings: H265', value: ' H265 ' },
+  { title: ' Rule out: H265', value: ' !H265 ' },
+  { title: ' Encodings: H264', value: ' H264 ' },
+  { title: ' Rule out: H264', value: ' !H264 ' },
+  { title: ' Effect:  Dolby vision', value: ' DOLBY ' },
+  { title: ' Rule out:  Dolby vision', value: ' !DOLBY ' },
+  { title: ' Effect: HDR', value: ' HDR ' },
+  { title: ' Rule out: HDR', value: ' !HDR ' },
+  { title: ' Mandarin dub', value: ' CNVOI ' },
+  { title: ' Rule out:  Mandarin dub', value: ' !CNVOI ' },
+  { title: ' Promote:  Free (of charge)', value: ' FREE ' },
 ])
 </script>
 
@@ -81,7 +81,7 @@ const selectFilterOptions = ref<{ [key: string]: string }[]>([
     </span>
     <DialogCloseBtn @click="onClose" />
     <VCardItem>
-      <VCardTitle>优先级 {{ props.pri }}</VCardTitle>
+      <VCardTitle> Prioritization {{ props.pri }}</VCardTitle>
       <VRow>
         <VCol>
           <VSelect

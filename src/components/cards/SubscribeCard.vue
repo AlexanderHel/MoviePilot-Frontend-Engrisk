@@ -6,60 +6,60 @@ import { numberValidator } from '@/@validators'
 import api from '@/api'
 import type { Site, Subscribe } from '@/api/types'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   media: Object as PropType<Subscribe>,
 })
 
-// 定义触发的自定义事件
+//  Define custom events that are triggered
 const emit = defineEmits(['remove', 'save'])
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 图片是否加载完成
+//  Whether the image has finished loading
 const imageLoaded = ref(false)
 
-// 订阅弹窗
+//  Subscribe to pop-ups
 const subscribeInfoDialog = ref(false)
 
-// 站点数据列表
+//  Site data list
 const siteList = ref<Site[]>([])
 
-// 站点选择下载框
+//  Site selection download box
 const selectSitesOptions = ref<{ [key: number]: string }[]>([])
 
-// 订阅编辑表单
+//  Subscription edit form
 const subscribeForm = reactive<any>(props.media ?? {})
 
-// 类型转换
+//  Type conversion
 subscribeForm.best_version = subscribeForm.best_version === 1
 
-// 上一次更新时间
+//  Last updated
 const lastUpdateText = ref(
   `${
     props.media?.last_update
-      ? `${calculateTimeDifference(props.media?.last_update || '')}前`
+      ? `${calculateTimeDifference(props.media?.last_update || '')} Ahead`
       : ''
   }`,
 )
 
-// 图片加载完成响应
+//  Image load completion response
 function imageLoadHandler() {
   imageLoaded.value = true
 }
 
-// 根据 type 返回不同的图标
+//  According to type  Return to different icons
 function getIcon() {
-  if (props.media?.type === '电影')
+  if (props.media?.type === ' Cinematic')
     return 'mdi-movie'
-  else if (props.media?.type === '电视剧')
+  else if (props.media?.type === ' Dramas')
     return 'mdi-television-classic'
   else
     return 'mdi-help-circle'
 }
 
-// 计算百分比
+//  Calculation of percentages
 function getPercentage() {
   if (props.media?.total_episode === 0)
     return 0
@@ -71,17 +71,17 @@ function getPercentage() {
   )
 }
 
-// 计算文本颜色
+//  Calculate text color
 function getTextColor() {
   return imageLoaded.value ? 'white' : ''
 }
 
-// 计算文本类
+//  Calculated text classes
 function getTextClass() {
   return imageLoaded.value ? 'text-white' : ''
 }
 
-// 删除订阅
+//  Delete subscription
 async function removeSubscribe() {
   try {
     const result: { [key: string]: any } = await api.delete(
@@ -89,7 +89,7 @@ async function removeSubscribe() {
     )
 
     if (result.success) {
-      // 通知父组件刷新
+      //  Notify the parent component of a refresh
       emit('remove')
     }
   }
@@ -98,47 +98,47 @@ async function removeSubscribe() {
   }
 }
 
-// 搜索订阅
+//  Search subscriptions
 async function searchSubscribe() {
   try {
     const result: { [key: string]: any } = await api.get(
       `subscribe/search/${props.media?.id}`,
     )
 
-    // 提示
+    //  Draw attention to sth.
     if (result.success)
-      $toast.success(`${props.media?.name} 提交搜索请求成功！`)
+      $toast.success(`${props.media?.name}  Submit search request successful！`)
   }
   catch (e) {
     console.log(e)
   }
 }
 
-// 调用API修改订阅
+//  InvocationsAPI Modify subscription
 async function updateSubscribeInfo() {
   subscribeInfoDialog.value = false
   try {
     const result: { [key: string]: any } = await api.put('subscribe/', subscribeForm)
 
-    // 提示
+    //  Draw attention to sth.
     if (result.success) {
-      $toast.success(`${props.media?.name} 更新成功！`)
-      // 通知父组件刷新
+      $toast.success(`${props.media?.name}  Successful update！`)
+      //  Notify the parent component of a refresh
       emit('remove')
     }
-    else { $toast.error(`${props.media?.name} 更新失败：${result.message}！`) }
+    else { $toast.error(`${props.media?.name}  Update failure：${result.message}！`) }
   }
   catch (e) {
     console.log(e)
   }
 }
 
-// 获取站点列表数据
+//  Get site list data
 async function loadSites() {
   try {
     const data: Site[] = await api.get('site/rss')
 
-    // 过滤站点，只有启用的站点才显示
+    //  Filter sites， Only enabled sites are shown
     siteList.value = data.filter(item => item.is_active)
   }
   catch (error) {
@@ -146,9 +146,9 @@ async function loadSites() {
   }
 }
 
-// 获取站点列表选择框数据
+//  Get site list checkbox data
 async function getSiteList() {
-  // 加载订阅站点列表
+  //  Load subscription site list
   if (!siteList.value.length)
     await loadSites()
 
@@ -162,16 +162,16 @@ async function getSiteList() {
   selectSitesOptions.value = maps.flat()
 }
 
-// 编辑订阅响应
+//  Edit subscription response
 async function editSubscribeDialog() {
   await getSiteList()
   subscribeInfoDialog.value = true
 }
 
-// 弹出菜单
+//  Pop-up menu
 const dropdownItems = ref([
   {
-    title: '编辑',
+    title: ' Compiler',
     value: 1,
     props: {
       prependIcon: 'mdi-file-edit-outline',
@@ -179,7 +179,7 @@ const dropdownItems = ref([
     },
   },
   {
-    title: '搜索',
+    title: ' Look for sth.',
     value: 2,
     props: {
       prependIcon: 'mdi-magnify',
@@ -187,7 +187,7 @@ const dropdownItems = ref([
     },
   },
   {
-    title: '取消订阅',
+    title: ' Unsubscribe',
     value: 3,
     props: {
       prependIcon: 'mdi-trash-can-outline',
@@ -322,7 +322,7 @@ const dropdownItems = ref([
       color="success"
     />
   </VCard>
-  <!-- 订阅编辑弹窗 -->
+  <!--  Subscribe to edit popups -->
   <VDialog
     v-model="subscribeInfoDialog"
     max-width="50rem"
@@ -330,7 +330,7 @@ const dropdownItems = ref([
     scrollable
   >
     <!-- Dialog Content -->
-    <VCard :title="`订阅 - ${props.media?.name}`">
+    <VCard :title="` Subscribe to - ${props.media?.name}`">
       <VCardText class="pt-2">
         <VForm @submit.prevent="() => {}">
           <VRow>
@@ -340,28 +340,28 @@ const dropdownItems = ref([
             >
               <VTextField
                 v-model="subscribeForm.keyword"
-                label="搜索关键词"
+                label=" Search keywords"
               />
             </VCol>
             <VCol
-              v-if="props.media?.type === '电视剧'"
+              v-if="props.media?.type === ' Dramas'"
               cols="12"
               md="3"
             >
               <VTextField
                 v-model="subscribeForm.total_episode"
-                label="总集数"
+                label=" Total episodes"
                 :rules="[numberValidator]"
               />
             </VCol>
             <VCol
-              v-if="props.media?.type === '电视剧'"
+              v-if="props.media?.type === ' Dramas'"
               cols="12"
               md="3"
             >
               <VTextField
                 v-model="subscribeForm.start_episode"
-                label="开始集数"
+                label=" Number of episodes"
                 :rules="[numberValidator]"
               />
             </VCol>
@@ -373,7 +373,7 @@ const dropdownItems = ref([
             >
               <VTextField
                 v-model="subscribeForm.include"
-                label="包含（关键字、正则式）"
+                label=" Embody（ Keywords.、 Regular formula）"
               />
             </VCol>
             <VCol
@@ -382,7 +382,7 @@ const dropdownItems = ref([
             >
               <VTextField
                 v-model="subscribeForm.exclude"
-                label="排除（关键字、正则式）"
+                label=" Rule out（ Keywords.、 Regular formula）"
               />
             </VCol>
           </VRow>
@@ -392,7 +392,7 @@ const dropdownItems = ref([
                 v-model="subscribeForm.sites"
                 :items="selectSitesOptions"
                 chips
-                label="订阅站点"
+                label=" Subscribe to the site"
                 multiple
               />
             </VCol>
@@ -401,7 +401,7 @@ const dropdownItems = ref([
             <VCol cols="12">
               <VSwitch
                 v-model="subscribeForm.best_version"
-                label="洗版"
+                label=" Typesetting"
               />
             </VCol>
           </VRow>
@@ -410,11 +410,11 @@ const dropdownItems = ref([
 
       <VCardActions>
         <VBtn @click="subscribeInfoDialog = false">
-          取消
+          Abolish
         </VBtn>
         <VSpacer />
         <VBtn @click="updateSubscribeInfo">
-          确定
+          Recognize
         </VBtn>
       </VCardActions>
     </VCard>

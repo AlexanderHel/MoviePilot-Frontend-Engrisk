@@ -1,6 +1,6 @@
 import type { Module } from 'vuex'
 
-// 定义状态类型
+//  Defining state types
 interface AuthState {
   token: string | null
   remember: boolean
@@ -9,12 +9,12 @@ interface AuthState {
   avatar: string
 }
 
-// 定义根状态类型
+//  Defining the root state type
 interface RootState {
   auth: AuthState
 }
 
-// 导出模块
+//  Export module
 const authModule: Module<AuthState, RootState> = {
   namespaced: true,
   state: {

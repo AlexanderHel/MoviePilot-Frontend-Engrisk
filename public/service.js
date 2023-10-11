@@ -5,20 +5,20 @@ const proxy = require('express-http-proxy')
 const app = express()
 const port = process.env.NGINX_PORT || 3000
 
-// 后端 API 地址
+//  Back end API  Address
 const proxyConfig = {
   URL: '127.0.0.1',
   PORT: process.env.PORT || 3001
 }
 
-// 静态文件服务目录
+//  Static file service catalog
 app.use(express.static(__dirname))
 
-// 配置代理中间件将请求转发给后端API
+//  Configure the proxy middleware to forward requests to the backendAPI
 app.use(
   '/api',
   proxy(`${proxyConfig.URL}:${proxyConfig.PORT}`, {
-    // 路径加上 /api 前缀
+    //  Path plus /api  Prefix (linguistics)
     proxyReqPathResolver: (req) => {
       return `/api${req.url}`
     }
@@ -26,9 +26,9 @@ app.use(
 );
 
 
-// 处理根路径的请求
+//  Handling of root path requests
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html')) // 指向你的前端入口文件
+  res.sendFile(path.join(__dirname, 'index.html')) //  Point to your front-end entry file
 })
 
 app.listen(port, () => {

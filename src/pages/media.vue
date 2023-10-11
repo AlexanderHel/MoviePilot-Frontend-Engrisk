@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import MediaDetailView from '@/views/discover/MediaDetailView.vue'
 
-// 路由参数
+//  Routing parameter
 const route = useRoute()
 
 // TMDBID
 const mediaid = route.query?.mediaid?.toString()
 
-// 类型
+//  Typology
 const type = route.query?.type?.toString()
 </script>
 

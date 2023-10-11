@@ -2,41 +2,41 @@
 import api from '@/api'
 import type { DownloadingInfo } from '@/api/types'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   info: Object as PropType<DownloadingInfo>,
 })
 
-// 是否显示卡片
+//  Whether to display the card
 const cardState = ref(true)
 
-// 进度条
+//  Progress bar
 function getPercentage() {
   return props.info?.progress ?? 0
 }
 
-// 速度
+//  Tempo
 function getSpeedText() {
   return `↑ ${props.info?.upspeed}/s ↓ ${props.info?.dlspeed}/s`
 }
 
-// 下载状态
+//  Download status
 const isDownloading = ref(props.info?.state === 'downloading')
 
-// 图片是否加载完成
+//  Whether the image has finished loading
 const imageLoaded = ref(false)
 
-// 图片加载完成响应
+//  Image load completion response
 function imageLoadHandler() {
   imageLoaded.value = true
 }
 
-// 计算文本类
+//  Calculated text classes
 function getTextClass() {
   return imageLoaded.value ? 'text-white' : ''
 }
 
-// 下载状态控制
+//  Download status控制
 async function toggleDownload() {
   const operation = isDownloading.value ? 'stop' : 'start'
   try {
@@ -52,7 +52,7 @@ async function toggleDownload() {
   }
 }
 
-// 删除下截
+//  Delete the undercut
 async function deleteDownload() {
   try {
     await api.delete(`download/${props.info?.hash}`)

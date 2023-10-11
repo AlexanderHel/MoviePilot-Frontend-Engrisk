@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-// 路由
+//  Routing (in computer networks)
 const router = useRouter()
 
-// 搜索词
+//  Search term
 const searchWord = ref<string>('')
 
-// 搜索弹窗
+//  Search for pop-ups
 const searchDialog = ref(false)
 
 // Search
@@ -44,13 +44,13 @@ function search() {
         </IconBtn>
       </template>
       <!-- Dialog Content -->
-      <VCard title="搜索">
+      <VCard title=" Look for sth.">
         <VCardText>
           <VRow>
             <VCol cols="12">
               <VTextField
                 v-model="searchWord"
-                label="电影、电视剧名称"
+                label=" Cinematic、 Tv series name"
               />
             </VCol>
           </VRow>
@@ -62,7 +62,7 @@ function search() {
             @click="search"
             @keydown.enter="search"
           >
-            搜索
+            Look for sth.
           </VBtn>
         </VCardActions>
       </VCard>
@@ -77,7 +77,7 @@ function search() {
       class="d-none d-lg-block text-disabled"
       density="compact"
       variant="solo"
-      label="搜索电影、电视剧"
+      label="Look for sth.电影、电视剧"
       append-inner-icon="mdi-magnify"
       single-line
       hide-details

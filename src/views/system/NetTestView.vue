@@ -25,7 +25,7 @@ interface Address {
   btndisable: boolean
 }
 
-// 测试集
+//  Test set
 const targets = ref<Address[]>([
   {
     image: tmdb,
@@ -44,7 +44,7 @@ const targets = ref<Address[]>([
     proxy: true,
     status: 'Normal',
     time: '',
-    message: '未测试',
+    message: ' Untested',
     btndisable: false,
   },
   {
@@ -54,7 +54,7 @@ const targets = ref<Address[]>([
     proxy: true,
     status: 'Normal',
     time: '',
-    message: '未测试',
+    message: ' Untested',
     btndisable: false,
   },
   {
@@ -64,7 +64,7 @@ const targets = ref<Address[]>([
     proxy: true,
     status: 'Normal',
     time: '',
-    message: '未测试',
+    message: ' Untested',
     btndisable: false,
   },
   {
@@ -74,7 +74,7 @@ const targets = ref<Address[]>([
     proxy: false,
     status: 'Normal',
     time: '',
-    message: '未测试',
+    message: ' Untested',
     btndisable: false,
   },
   {
@@ -84,7 +84,7 @@ const targets = ref<Address[]>([
     proxy: false,
     status: 'Normal',
     time: '',
-    message: '未测试',
+    message: ' Untested',
     btndisable: false,
   },
   {
@@ -94,7 +94,7 @@ const targets = ref<Address[]>([
     proxy: false,
     status: 'Normal',
     time: '',
-    message: '未测试',
+    message: ' Untested',
     btndisable: false,
   },
   {
@@ -104,7 +104,7 @@ const targets = ref<Address[]>([
     proxy: true,
     status: 'Normal',
     time: '',
-    message: '未测试',
+    message: ' Untested',
     btndisable: false,
   },
 ])
@@ -116,14 +116,14 @@ const resolveStatusColor: Status = {
   Doing: 'warning',
 }
 
-// 调用API测试网络连接
+//  Call (programming)API Test network connection
 async function netTest(index: number) {
   try {
     const target = targets.value[index]
 
     target.btndisable = true
     target.status = 'Doing'
-    target.message = '测试中...'
+    target.message = ' Under test...'
 
     const result: { [key: string]: any } = await api.get('system/nettest', {
       params: {
@@ -134,7 +134,7 @@ async function netTest(index: number) {
 
     if (result.success) {
       target.status = 'OK'
-      target.message = '正常'
+      target.message = ' Normalcy'
     }
     else {
       target.status = 'Fail'
@@ -148,7 +148,7 @@ async function netTest(index: number) {
   }
 }
 
-// 加载时测试所有连接
+//  Test all connections when loading
 onMounted(async () => {
   for (let i = 0; i < targets.value.length; i++)
     await netTest(i)

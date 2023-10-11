@@ -5,18 +5,18 @@ import type { Subscribe } from '@/api/types'
 import NoDataFound from '@/components/NoDataFound.vue'
 import SubscribeCard from '@/components/cards/SubscribeCard.vue'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   type: String,
 })
 
-// 是否刷新过
+//  Is it refreshed
 const isRefreshed = ref(false)
 
-// 数据列表
+//  Data sheet
 const dataList = ref<Subscribe[]>([])
 
-// 获取订阅列表数据
+//  Get subscription list data
 async function fetchData() {
   try {
     dataList.value = await api.get('subscribe/')
@@ -27,20 +27,20 @@ async function fetchData() {
   }
 }
 
-// 加载时获取数据
+//  Getting data on load
 onBeforeMount(fetchData)
 
-// 刷新状态
+//  Refresh state
 const loading = ref(false)
 
-// 下拉刷新
+//  Drop-down refresh
 function onRefresh() {
   loading.value = true
   fetchData()
   loading.value = false
 }
 
-// 过滤数据
+//  Filtering data
 const filteredDataList = computed(() => {
   return dataList.value.filter(data => data.type === props.type)
 })
@@ -77,8 +77,8 @@ const filteredDataList = computed(() => {
     <NoDataFound
       v-if="filteredDataList.length === 0 && isRefreshed"
       error-code="404"
-      error-title="没有订阅"
-      error-description="请通过搜索添加电影、电视剧订阅。"
+      error-title=" No subscription"
+      error-description=" Please add a movie by searching、 Tv series subscription。"
     />
   </PullRefresh>
 </template>

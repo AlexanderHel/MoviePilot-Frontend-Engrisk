@@ -9,20 +9,20 @@ const personProps = defineProps({
   height: String,
 })
 
-// 当前人物
+//  Current person
 const personInfo = ref(personProps.person)
 
-// 人物图片是否加载
+//  Whether the character image is loaded or not
 const isImageLoaded = ref(false)
 
-// 人物图片地址
+//  Character picture address
 function getPersonImage() {
   if (!personInfo.value?.profile_path)
     return personIcon
   return `https://image.tmdb.org/t/p/w600_and_h900_bestv2${personInfo.value?.profile_path}`
 }
 
-// 人物详情
+//  Character details
 function goPersonDetail() {
   if (!personInfo.value?.id)
     return

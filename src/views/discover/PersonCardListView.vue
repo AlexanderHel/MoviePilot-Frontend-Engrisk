@@ -4,13 +4,13 @@ import type { TmdbPerson } from '@/api/types'
 import PersonCard from '@/components/cards/PersonCard.vue'
 import NoDataFound from '@/components/NoDataFound.vue'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   apipath: String,
   params: Object as PropType<{ [key: string]: any }>,
 })
 
-// 判断是否有滚动条
+//  Determine if there is a scrollbar
 function hasScroll() {
   return (
     document.body.scrollHeight
@@ -19,97 +19,97 @@ function hasScroll() {
   )
 }
 
-// 当前页码
+//  Current page number
 const page = ref(1)
 
-// 是否加载中
+//  Loading or not
 const loading = ref(false)
 
-// 是否加载完成
+//  Whether or not loading is complete
 const isRefreshed = ref(false)
 
-// 数据列表
+//  Data sheet
 const dataList = ref<TmdbPerson[]>([])
 const currData = ref<TmdbPerson[]>([])
 
-// 获取列表数据
+//  Getting list data
 async function fetchData({ done }: { done: any }) {
   try {
     if (!props.apipath)
       return
 
-    // 如果正在加载中，直接返回
+    //  If it is loading， Direct return
     if (loading.value) {
       done('ok')
 
       return
     }
 
-    // 设置加载中
+    //  Setting loading
     loading.value = true
 
-    // 加载到满屏或者加载出错
+    //  Loads to full screen or loads incorrectly
     if (!hasScroll()) {
-      // 加载多次
+      //  Load multiple times
       while (!hasScroll()) {
-        // 请求API
+        //  RequestingAPI
         currData.value = await api.get(props.apipath, {
           params: {
             page: page.value,
           },
         })
 
-        // 标计为已请求完成
+        //  Marked as completed as requested
         isRefreshed.value = true
         if (currData.value.length === 0) {
-          // 如果没有数据，跳出
+          //  If there is no data， Fig. appear suddenly
           done('ok')
 
           return
         }
 
-        // 合并数据
+        //  Consolidation of data
         dataList.value = [...dataList.value, ...currData.value]
 
-        // 页码+1
+        //  Pagination+1
         page.value++
       }
     }
     else {
-      // 加载一次
-      // 请求API
+      //  Load it once.
+      //  RequestingAPI
       currData.value = await api.get(props.apipath, {
         params: {
           page: page.value,
         },
       })
 
-      // 标计为已请求完成
+      //  Marked as completed as requested
       isRefreshed.value = true
       if (currData.value.length === 0) {
-        // 如果没有数据，跳出
+        //  If there is no data， Fig. appear suddenly
         done('ok')
 
         return
       }
 
-      // 合并数据
+      //  Consolidation of data
       dataList.value = [...dataList.value, ...currData.value]
 
-      // 页码+1
+      //  Pagination+1
       page.value++
     }
 
-    // 取消加载中
+    //  Cancel loading
     loading.value = false
 
-    // 返回加载成功
+    //  Returns loaded successfully
     done('ok')
   }
   catch (error) {
     console.error(error)
 
-    // 返回加载失败
+    //  Returns load failure
     done('error')
   }
 }
@@ -148,8 +148,8 @@ async function fetchData({ done }: { done: any }) {
     <NoDataFound
       v-if="dataList.length === 0 && isRefreshed"
       error-code="404"
-      error-title="没有数据"
-      error-description="无法获取到TMDB媒体信息。"
+      error-title=" No data"
+      error-description=" Not availableTMDB Media information。"
     />
   </VInfiniteScroll>
 </template>

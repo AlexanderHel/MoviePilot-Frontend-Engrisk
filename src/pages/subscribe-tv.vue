@@ -4,6 +4,6 @@ import SubscribeListView from '@/views/subscribe/SubscribeListView.vue'
 
 <template>
   <div>
-    <SubscribeListView type="电视剧" />
+    <SubscribeListView type=" Dramas" />
   </div>
 </template>

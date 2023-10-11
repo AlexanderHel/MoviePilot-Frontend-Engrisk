@@ -11,7 +11,7 @@ import ShortcutBar from '@/layouts/components/ShortcutBar.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 import store from '@/store'
 
-// 从Vuex Store中获取superuser信息
+//  Through (a gap)Vuex Store Gettingsuperuser Text
 const superUser = store.state.auth.superUser
 </script>
 
@@ -36,7 +36,7 @@ const superUser = store.state.auth.superUser
         <!-- 👉 Github -->
         <IconBtn
           class="me-2"
-          href="https://github.com/jxxghp/MoviePilot"
+          href="https://github.com/AlexanderHel/MoviePilotEngrisk"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -57,43 +57,43 @@ const superUser = store.state.auth.superUser
     <template #vertical-nav-content>
       <VerticalNavLink
         :item="{
-          title: '仪表板',
+          title: ' Instrument panels',
           icon: 'mdi-home-outline',
           to: '/dashboard',
         }"
       />
 
-      <!-- 👉 发现 -->
+      <!-- 👉  Discoveries -->
       <VerticalNavSectionTitle
         :item="{
-          heading: '发现',
+          heading: ' Discoveries',
         }"
       />
       <VerticalNavLink
         :item="{
-          title: '推荐',
+          title: ' Testimonials',
           icon: 'mdi-table-star',
           to: '/ranking',
         }"
       />
       <VerticalNavLink
         :item="{
-          title: '资源搜索',
+          title: ' Resource search',
           icon: 'mdi-magnify',
           to: '/resource',
         }"
       />
 
-      <!-- 👉 订阅 -->
+      <!-- 👉  Subscribe to -->
       <VerticalNavSectionTitle
         :item="{
-          heading: '订阅',
+          heading: ' Subscribe to',
         }"
       />
       <VerticalNavLink
         v-if="superUser"
         :item="{
-          title: '电影',
+          title: ' Cinematic',
           icon: 'mdi-movie-check-outline',
           to: '/subscribe-movie',
         }"
@@ -101,27 +101,27 @@ const superUser = store.state.auth.superUser
       <VerticalNavLink
         v-if="superUser"
         :item="{
-          title: '电视剧',
+          title: ' Dramas',
           icon: 'mdi-television-classic',
           to: '/subscribe-tv',
         }"
       />
       <VerticalNavLink
         :item="{
-          title: '日历',
+          title: ' Calendar',
           icon: 'mdi-calendar',
           to: '/calendar',
         }"
       />
-      <!-- 👉 整理 -->
+      <!-- 👉  Collate (data, files) -->
       <VerticalNavSectionTitle
         :item="{
-          heading: '整理',
+          heading: ' Collate (data, files)',
         }"
       />
       <VerticalNavLink
         :item="{
-          title: '正在下载',
+          title: ' Downloading',
           icon: 'mdi-download-outline',
           to: '/downloading',
         }"
@@ -129,7 +129,7 @@ const superUser = store.state.auth.superUser
       <VerticalNavLink
         v-if="superUser"
         :item="{
-          title: '历史记录',
+          title: ' Historical record',
           icon: 'mdi-history',
           to: '/history',
         }"
@@ -137,23 +137,23 @@ const superUser = store.state.auth.superUser
       <VerticalNavLink
         v-if="superUser"
         :item="{
-          title: '文件管理',
+          title: ' Document management',
           icon: 'mdi-folder-multiple-outline',
           to: '/filemanager',
         }"
       />
 
-      <!-- 👉 系统 -->
+      <!-- 👉  Systems -->
       <VerticalNavSectionTitle
         v-if="superUser"
         :item="{
-          heading: '系统',
+          heading: ' Systems',
         }"
       />
       <VerticalNavLink
         v-if="superUser"
         :item="{
-          title: '插件',
+          title: ' Plug-in (software component)',
           icon: 'mdi-apps',
           to: '/plugins',
         }"
@@ -161,7 +161,7 @@ const superUser = store.state.auth.superUser
       <VerticalNavLink
         v-if="superUser"
         :item="{
-          title: '站点管理',
+          title: ' Site management',
           icon: 'mdi-web',
           to: '/site',
         }"
@@ -169,7 +169,7 @@ const superUser = store.state.auth.superUser
       <VerticalNavLink
         v-if="superUser"
         :item="{
-          title: '设定',
+          title: ' Preferences',
           icon: 'mdi-cog',
           to: '/setting',
         }"

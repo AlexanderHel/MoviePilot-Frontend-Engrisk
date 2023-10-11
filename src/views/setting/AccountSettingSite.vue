@@ -2,33 +2,33 @@
 import { useToast } from 'vue-toast-notification'
 import api from '@/api'
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 站点重置
+//  Site reset
 const isConfirmResetSites = ref(false)
 
-// 站点重置按钮文本
-const resetSitesText = ref('重置站点数据')
+//  Site reset按钮文本
+const resetSitesText = ref(' Reset site data')
 
-// 站点重置按钮可用状态
+//  Site reset按钮可用状态
 const resetSitesDisabled = ref(false)
 
-// 重置站点
+//  Reset site
 async function resetSites() {
   try {
     resetSitesDisabled.value = true
-    resetSitesText.value = '正在重置...'
+    resetSitesText.value = ' Resetting....'
 
     const result: { [key: string]: any } = await api.get('site/reset')
     if (result.success)
-      $toast.success('站点重置成功，请等待CookieCloud同步完成！')
+      $toast.success(' Site reset successful， Please wait.CookieCloud Synchronized completion！')
 
     else
-      $toast.error('站点重置失败！')
+      $toast.error(' Site reset failed！')
 
     resetSitesDisabled.value = false
-    resetSitesText.value = '重置站点数据'
+    resetSitesText.value = ' Reset site data'
   }
   catch (error) {
     console.log(error)
@@ -39,10 +39,10 @@ async function resetSites() {
 <template>
   <VRow>
     <VCol cols="12">
-      <VCard title="站点重置">
+      <VCard title=" Site reset">
         <VCardText>
           <div>
-            <VCheckbox v-model="isConfirmResetSites" label="确认删除所有站点数据并重新同步。" />
+            <VCheckbox v-model="isConfirmResetSites" label=" Confirm deletion of all site data and resynchronization。" />
           </div>
 
           <VBtn :disabled="!isConfirmResetSites || resetSitesDisabled" color="error" class="mt-3" @click="resetSites">

@@ -5,32 +5,32 @@ import api from '@/api'
 import type { Context } from '@/api/types'
 import MediaInfoCard from '@/components/cards/MediaInfoCard.vue'
 
-// 识别结果
+//  Identification results
 const nameTestResult = ref<Context>()
 
-// 名称识别表单
+//  Name recognition form
 const nameTestForm = reactive({
   title: '',
   subtitle: '',
 })
 
-// 识别按钮状态
+//  Recognize button status
 const nameTestLoading = ref(false)
 
-// 识别按钮文本
-const nameTestText = ref('识别')
+//  Recognize button text
+const nameTestText = ref(' Recognize')
 
-// 是否显示结果
+//  Whether to display results
 const showResult = ref(false)
 
-// 调用API识别
+//  Call (programming)API Recognize
 async function nameTest() {
   if (!nameTestForm.title)
     return
 
   try {
     nameTestLoading.value = true
-    nameTestText.value = '识别中...'
+    nameTestText.value = ' Under identification...'
     showResult.value = false
     nameTestResult.value = await api.get('media/recognize', {
       params: {
@@ -39,7 +39,7 @@ async function nameTest() {
       },
     })
     nameTestLoading.value = false
-    nameTestText.value = '重新识别'
+    nameTestText.value = ' Recertification'
     showResult.value = true
   }
   catch (error) {
@@ -54,14 +54,14 @@ async function nameTest() {
       <VCol cols="12">
         <VTextField
           v-model="nameTestForm.title"
-          label="标题"
+          label=" Caption"
           :rules="[requiredValidator]"
         />
       </VCol>
       <VCol cols="12">
         <VTextarea
           v-model="nameTestForm.subtitle"
-          label="副标题"
+          label=" Subheading"
           rows="2"
           auto-grow
         />

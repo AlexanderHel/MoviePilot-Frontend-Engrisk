@@ -3,28 +3,28 @@ import { formatFileSize } from '@/@core/utils/formatters'
 import api from '@/api'
 import type { DownloaderInfo } from '@/api/types'
 
-// 定时器
+//  Timers
 let refreshTimer: NodeJS.Timer | null = null
 
-// 下载器信息
+//  Downloader information
 const downloadInfo = ref<DownloaderInfo>({
-  // 下载速度
+  //  Download speed
   download_speed: 0,
 
-  // 上传速度
+  //  Upload speed
   upload_speed: 0,
 
-  // 下载量
+  //  Downloads
   download_size: 0,
 
-  // 上传量
+  //  Upload volume
   upload_size: 0,
 
-  // 剩余空间
+  //  Headroom
   free_space: 0,
 })
 
-// 显示项
+//  Displayed item
 const infoItems = ref([
   {
     avatar: '',
@@ -33,7 +33,7 @@ const infoItems = ref([
   },
 ])
 
-// 调用API查询下载器数据
+//  Call (programming)API Query downloader data
 async function loadDownloaderInfo() {
   try {
     const res: DownloaderInfo = await api.get('dashboard/downloader')
@@ -42,17 +42,17 @@ async function loadDownloaderInfo() {
     infoItems.value = [
       {
         avatar: 'mdi-cloud-upload',
-        title: '总上传量',
+        title: ' Total uploads',
         amount: formatFileSize(res.upload_size),
       },
       {
         avatar: 'mdi-download-box',
-        title: '总下载量',
+        title: ' Total downloads',
         amount: formatFileSize(res.download_size),
       },
       {
         avatar: 'mdi-content-save',
-        title: '磁盘剩余空间',
+        title: ' Disk space remaining',
         amount: formatFileSize(res.free_space),
       },
     ]
@@ -65,13 +65,13 @@ async function loadDownloaderInfo() {
 onMounted(() => {
   loadDownloaderInfo()
 
-  // 启动定时器
+  //  Start timer
   refreshTimer = setInterval(() => {
     loadDownloaderInfo()
   }, 3000)
 })
 
-// 组件卸载时停止定时器
+//  Stop timer when component is unloaded
 onUnmounted(() => {
   if (refreshTimer) {
     clearInterval(refreshTimer)
@@ -83,7 +83,7 @@ onUnmounted(() => {
 <template>
   <VCard>
     <VCardItem>
-      <VCardTitle>实时速率</VCardTitle>
+      <VCardTitle> Real time rate (rtr)</VCardTitle>
     </VCardItem>
 
     <VCardText class="pt-4">

@@ -9,7 +9,7 @@ import logo from '@images/logo.png'
 // Vuex Store
 const store = useStore()
 
-// 表单
+//  Form (document)
 const form = ref({
   username: '',
   password: '',
@@ -18,19 +18,19 @@ const form = ref({
 
 const refForm = ref<InstanceType<typeof VForm> | null>(null)
 
-// 密码输入
+//  Password input
 const isPasswordVisible = ref(false)
 
-// 错误信息
+//  Error message
 const errorMessage = ref('')
 
-// 背景图片
+//  Background image
 const backgroundImageUrl = ref('')
 
-// 背景图片加载状态
+//  Background image加载状态
 const isImageLoaded = ref(false)
 
-// 获取背景图片
+//  Get background image
 async function fetchBackgroundImage() {
   api
     .get('/login/tmdb')
@@ -42,71 +42,71 @@ async function fetchBackgroundImage() {
     })
 }
 
-// 登录获取token事件
+//  Log in to gettoken Event
 function login() {
   errorMessage.value = ''
 
-  // 进行表单校验
+  //  Perform form validation
   if (!form.value.username || !form.value.password)
     return
 
-  // 用户名密码
+  //  User name and password
   const formData = new FormData()
 
   formData.append('username', form.value.username)
   formData.append('password', form.value.password)
 
-  // 请求token
+  //  Requestingtoken
   api
     .post('/login/access-token', formData, {
       headers: {
-        Accept: 'application/json', // 设置 Accept 类型
+        Accept: 'application/json', //  Set up Accept  Typology
       },
     })
     .then((response: any) => {
-      // 获取token
+      //  Gaintoken
       const token = response.access_token
       const superuser = response.super_user
       const username = response.user_name
       const avatar = response.avatar
 
-      // 更新token和remember状态到Vuex Store
+      //  Updatetoken Cap (a poem)remember State toVuex Store
       store.dispatch('auth/updateToken', token)
       store.dispatch('auth/updateRemember', form.value.remember)
       store.dispatch('auth/updateSuperUser', superuser)
       store.dispatch('auth/updateUserName', username)
       store.dispatch('auth/updateAvatar', avatar)
 
-      // 跳转到首页
+      //  Jump to home page
       router.push('/')
     })
     .catch((error: any) => {
-      // 登录失败，显示错误提示
+      //  Login failure， Show error message
       if (!error.response)
-        errorMessage.value = '登录失败，请检查网络连接'
+        errorMessage.value = ' Login failure， Please check the network connection'
       else if (error.response.status === 401)
-        errorMessage.value = '登录失败，请检查用户名和密码是否正确'
+        errorMessage.value = ' Login failure， Please check if the username and password are correct'
       else if (error.response.status === 403)
-        errorMessage.value = '登录失败，您没有权限访问'
+        errorMessage.value = ' Login failure， You do not have permission to access'
       else if (error.response.status === 500)
-        errorMessage.value = '登录失败，服务器错误'
+        errorMessage.value = ' Login failure， Server error'
       else
-        errorMessage.value = `登录失败 ${error.response.status}，请检查用户名和密码是否正确`
+        errorMessage.value = ` Login failure ${error.response.status}， Please check if the username and password are correct`
     })
 }
 
-// 自动登录
+//  Automatic login
 onMounted(() => {
-  // 从Vuex Store中获取token和remember状态
+  //  Through (a gap)Vuex Store Gettingtoken Cap (a poem)remember State of affairs
   const token = store.state.auth.token
   const remember = store.state.auth.remember
 
-  // 如果token存在，且保持登录状态为true，则跳转到首页
+  //  In the event thattoken Remain， And remain logged in astrue， Then go to the home page
   if (token && remember) {
     router.push('/')
   }
   else {
-    // 获取背景图片
+    //  Get background image
     fetchBackgroundImage()
   }
 })
@@ -149,7 +149,7 @@ onMounted(() => {
               <VCol cols="12">
                 <VTextField
                   v-model="form.username"
-                  label="用户名"
+                  label=" User id"
                   type="text"
                   :rules="[requiredValidator]"
                 />
@@ -159,7 +159,7 @@ onMounted(() => {
               <VCol cols="12">
                 <VTextField
                   v-model="form.password"
-                  label="密码"
+                  label=" Cryptographic"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   :append-inner-icon="
                     isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'
@@ -179,7 +179,7 @@ onMounted(() => {
                 <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
                   <VCheckbox
                     v-model="form.remember"
-                    label="保持登录"
+                    label=" Stay logged in"
                     required
                   />
                 </div>
@@ -190,7 +190,7 @@ onMounted(() => {
                   type="submit"
                   @click="login"
                 >
-                  登录
+                  Log in
                 </VBtn>
               </VCol>
             </VRow>

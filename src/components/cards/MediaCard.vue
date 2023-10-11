@@ -8,44 +8,44 @@ import type { MediaInfo, NotExistMediaInfo, Subscribe, TmdbSeason } from '@/api/
 import router from '@/router'
 import noImage from '@images/no-image.jpeg'
 
-// 输入参数
+//  Input parameter
 const props = defineProps({
   media: Object as PropType<MediaInfo>,
   width: String,
   height: String,
 })
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 图片加载状态
+//  Image loading status
 const isImageLoaded = ref(false)
 
-// 图片加载失败
+//  Image failed to load
 const imageLoadError = ref(false)
 
-// TMDB识别标志
+// TMDB Identifier
 const tmdbFlag = ref(true)
 
-// 当前订阅状态
+//  Current subscription status
 const isSubscribed = ref(false)
 
-// 本地存在状态
+//  Local state of presence
 const isExists = ref(false)
 
-// 各季缺失状态：0-已存在 1-部分缺失 2-全部缺失，没有数据也是已存在
+//  Missing status by season：0- Pre-existing 1- Partially missing 2- Missing in its entirety， No data exists.
 const seasonsNotExisted = ref<{ [key: number]: number }>({})
 
-// 订阅季弹窗
+//  Subscription season popups
 const subscribeSeasonDialog = ref(false)
 
-// 季详情
+//  Season details
 const seasonInfos = ref<TmdbSeason[]>([])
 
-// 选中的订阅季
+//  Selected subscription seasons
 const seasonsSelected = ref<TmdbSeason[]>([])
 
-// 订阅弹窗选择的多季
+//  Multiple seasons of subscription pop-up options
 function subscribeSeasons() {
   subscribeSeasonDialog.value = false
   seasonsSelected.value.forEach((season) => {
@@ -53,65 +53,65 @@ function subscribeSeasons() {
   })
 }
 
-// 角标颜色
+//  Corner bracket color
 function getChipColor(type: string) {
-  if (type === '电影')
+  if (type === ' Cinematic')
     return 'border-blue-500 bg-blue-600'
-  else if (type === '电视剧')
+  else if (type === ' Dramas')
     return ' bg-indigo-500 border-indigo-600'
   else
     return 'border-purple-600 bg-purple-600'
 }
 
-// 添加订阅处理
+//  Add subscription processing
 
 async function handleAddSubscribe() {
-  if (props.media?.type === '电视剧' && props.media?.tmdb_id) {
-    // TMDB电视剧
-    // 查询TMDB所有季信息
+  if (props.media?.type === ' Dramas' && props.media?.tmdb_id) {
+    // TMDB Dramas
+    //  Consult (a document etc)TMDB All season information
     await getMediaSeasons()
     if (!seasonInfos.value) {
-      $toast.error(`${props.media?.title} 查询剧集信息失败！`)
+      $toast.error(`${props.media?.title}  Failed to check episode information！`)
       return
     }
 
-    // 检查各季的缺失状态
+    //  Check the missing status of the seasons
     await checkSeasonsNotExists()
     if (!tmdbFlag.value)
       return
 
     if (seasonInfos.value.length === 1) {
-      // 添加订阅
+      //  Add subscription
       addSubscribe(1)
     }
     else {
-      // 弹出季选择列表，支持多选
+      //  Pop-up season selection list， Multi-selection support
       subscribeSeasonDialog.value = true
     }
   }
-  else if (props.media?.type === '电视剧') {
-    // 豆瓣电视剧，只会有一季
+  else if (props.media?.type === ' Dramas') {
+    //  Douban drama， There will only be one season.
     const season = props.media?.season ?? 1
-    // 添加订阅
+    //  Add subscription
     addSubscribe(season)
   }
   else {
-    // 电影
+    //  Cinematic
     addSubscribe()
   }
 }
 
-// 调用API添加订阅，电视剧的话需要指定季
+//  Call (programming)API Add subscription， For a tv show, you need a season.
 async function addSubscribe(season = 0) {
-  // 开始处理
+  //  Commencement of processing
   startNProgress()
   try {
-    // 是否洗版
+    //  Whether or not to wash the plate
     let best_version = isExists.value ? 1 : 0
     if (season && props.media?.tmdb_id)
-      // 全部存在时洗版
+      //  Washout when all are present
       best_version = !seasonsNotExisted.value[season] ? 1 : 0
-    // 请求API
+    //  RequestingAPI
     const result: { [key: string]: any } = await api.post('subscribe/', {
       name: props.media?.title,
       type: props.media?.type,
@@ -122,13 +122,13 @@ async function addSubscribe(season = 0) {
       best_version,
     })
 
-    // 订阅状态
+    //  Subscription status
     if (result.success) {
-      // 订阅成功
+      //  Subscription success
       isSubscribed.value = true
     }
 
-    // 提示
+    //  Draw attention to sth.
     showSubscribeAddToast(
       result.success,
       props.media?.title ?? '',
@@ -143,7 +143,7 @@ async function addSubscribe(season = 0) {
   doneNProgress()
 }
 
-// 弹出添加订阅提示
+//  Pop-up alert to add subscription
 function showSubscribeAddToast(result: boolean,
   title: string,
   season: number,
@@ -152,19 +152,19 @@ function showSubscribeAddToast(result: boolean,
   if (season)
     title = `${title} ${formatSeason(season.toString())}`
 
-  let subname = '订阅'
+  let subname = ' Subscribe to'
   if (best_version > 0)
-    subname = '洗版订阅'
+    subname = ' Wash edition subscription'
 
   if (result)
-    $toast.success(`${title} 添加${subname}成功！`)
+    $toast.success(`${title}  Increase${subname} Successes！`)
   else
-    $toast.error(`${title} 添加${subname}失败：${message}！`)
+    $toast.error(`${title}  Increase${subname} Fail (e.g. experiments)：${message}！`)
 }
 
-// 调用API取消订阅
+//  Call (programming)API Unsubscribe
 async function removeSubscribe() {
-  // 开始处理
+  //  Commencement of processing
   startNProgress()
   try {
     const mediaid = props.media?.tmdb_id
@@ -182,10 +182,10 @@ async function removeSubscribe() {
 
     if (result.success) {
       isSubscribed.value = false
-      $toast.success(`${props.media?.title} 已取消订阅！`)
+      $toast.success(`${props.media?.title}  Unsubscribe！`)
     }
     else {
-      $toast.error(`${props.media?.title} 取消订阅失败：${result.message}！`)
+      $toast.error(`${props.media?.title}  Failed to unsubscribe：${result.message}！`)
     }
   }
   catch (error) {
@@ -194,7 +194,7 @@ async function removeSubscribe() {
   doneNProgress()
 }
 
-// 查询当前媒体是否已订阅
+//  Check if the current media is subscribed
 async function handleCheckSubscribe() {
   try {
     const result = await checkSubscribe(props.media?.season)
@@ -206,7 +206,7 @@ async function handleCheckSubscribe() {
   }
 }
 
-// 查询当前媒体是否已存在
+//  Check if the current media already exists
 async function handleCheckExists() {
   try {
     const result: { [key: string]: any } = await api.get('media/exists', {
@@ -227,7 +227,7 @@ async function handleCheckExists() {
   }
 }
 
-// 调用API检查是否已订阅，电视剧需要指定季
+//  Call (programming)API Check if you are subscribed， Drama series needs to be assigned a season
 async function checkSubscribe(season = 0) {
   try {
     const mediaid = props.media?.tmdb_id
@@ -249,15 +249,15 @@ async function checkSubscribe(season = 0) {
   return null
 }
 
-// 检查所有季的缺失状态
+//  Check the missing status of all seasons
 async function checkSeasonsNotExists() {
-  // 开始处理
+  //  Commencement of processing
   startNProgress()
   try {
     const result: NotExistMediaInfo[] = await api.post('download/notexists', props.media)
     if (result) {
       result.forEach((item) => {
-        // 0-已存在 1-部分缺失 2-全部缺失
+        // 0- Pre-existing 1- Partially missing 2- Missing in its entirety
         let state = 0
         if (item.episodes.length === 0)
           state = 2
@@ -269,15 +269,15 @@ async function checkSeasonsNotExists() {
     }
   }
   catch (error) {
-    $toast.error(`${props.media?.title}无法识别TMDB媒体信息！`)
+    $toast.error(`${props.media?.title} UnrecognizableTMDB Media information！`)
     tmdbFlag.value = false
   }
 
-  // 处理完成
+  //  Processing completed
   doneNProgress()
 }
 
-// 查询TMDB的所有季信息
+//  Consult (a document etc)TMDB All season information
 async function getMediaSeasons() {
   try {
     seasonInfos.value = await api.get(`tmdb/seasons/${props.media?.tmdb_id}`)
@@ -287,7 +287,7 @@ async function getMediaSeasons() {
   }
 }
 
-// 爱心订阅按钮响应
+//  Love subscription button response
 function handleSubscribe() {
   if (isSubscribed.value)
     removeSubscribe()
@@ -295,7 +295,7 @@ function handleSubscribe() {
     handleAddSubscribe()
 }
 
-// 计算存在状态的颜色
+//  Calculate the color of the state of being
 function getExistColor(season: number) {
   const state = seasonsNotExisted.value[season]
   if (!state)
@@ -309,21 +309,21 @@ function getExistColor(season: number) {
     return 'success'
 }
 
-// 计算存在状态的文本
+//  Calculate the text of the state of being
 function getExistText(season: number) {
   const state = seasonsNotExisted.value[season]
   if (!state)
-    return '已存在'
+    return ' Pre-existing'
 
   if (state === 1)
-    return '部分缺失'
+    return ' Partially missing'
   else if (state === 2)
-    return '缺失'
+    return ' Deficiencies'
   else
-    return '已存在'
+    return ' Pre-existing'
 }
 
-// 打开详情页
+//  Open detail page
 function goMediaDetail() {
   router.push({
     path: '/media',
@@ -338,7 +338,7 @@ function goMediaDetail() {
   })
 }
 
-// 开始搜索
+//  Start searching
 function handleSearch() {
   router.push({
     path: '/resource',
@@ -354,39 +354,39 @@ function handleSearch() {
   })
 }
 
-// 装载时检查是否已订阅
+//  Check for subscription when loading
 onBeforeMount(() => {
   handleCheckSubscribe()
   handleCheckExists()
 })
 
-// 计算图片地址
+//  Calculate image address
 const getImgUrl: Ref<string> = computed(() => {
   if (imageLoadError.value)
     return noImage
   const url = props.media?.poster_path?.replace('original', 'w500') ?? noImage
-  // 如果地址中包含douban则使用中转代理
+  //  If the address containsdouban Then use a relay agent
   if (url.includes('doubanio.com'))
     return `${import.meta.env.VITE_API_BASE_URL}douban/img/${encodeURIComponent(url)}`
 
   return url
 })
 
-// 拼装季图片地址
+//  Patchwork season picture address
 function getSeasonPoster(posterPath: string) {
   if (!posterPath)
     return ''
   return `https://image.tmdb.org/t/p/w500${posterPath}`
 }
 
-// 将yyyy-mm-dd转换为yyyy年mm月dd日
+//  Commander-in-chief (military)yyyy-mm-dd Convert toyyyy Surname nianmm Moondd Date
 function formatAirDate(airDate: string) {
   if (!airDate)
     return ''
   const date = new Date(airDate)
-  return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`
+  return `${date.getFullYear()} Surname nian${date.getMonth() + 1} Moon${date.getDate()} Date`
 }
-// 从yyyy-mm-dd中提取年份
+//  Through (a gap)yyyy-mm-dd Year of extraction
 function getYear(airDate: string) {
   if (!airDate)
     return ''
@@ -422,7 +422,7 @@ function getYear(airDate: string) {
               <VSkeletonLoader class="object-cover aspect-w-2 aspect-h-3" />
             </div>
           </template>
-          <!-- 类型角标 -->
+          <!--  Type angle marker -->
           <VChip
             v-show="isImageLoaded"
             variant="elevated"
@@ -432,9 +432,9 @@ function getYear(airDate: string) {
           >
             {{ props.media?.type }}
           </VChip>
-          <!-- 本地存在标识 -->
+          <!--  Local presence identifier -->
           <ExistIcon v-if="isExists" />
-          <!-- 评分角标 -->
+          <!--  Rating scale -->
           <VChip
             v-if="isImageLoaded && props.media?.vote_average && !isExists"
             variant="elevated"
@@ -444,7 +444,7 @@ function getYear(airDate: string) {
           >
             {{ props.media?.vote_average }}
           </VChip>
-          <!-- 详情 -->
+          <!--  Particulars -->
           <VCardText
             v-show="hover.isHovering || imageLoadError"
             class="w-full flex flex-col flex-wrap justify-end align-left text-white absolute bottom-0 cursor-pointer pa-2"
@@ -474,7 +474,7 @@ function getYear(airDate: string) {
       </VCard>
     </template>
   </VHover>
-  <!-- 订阅季弹窗 -->
+  <!--  Subscription season popups -->
   <VBottomSheet
     v-model="subscribeSeasonDialog"
     inset
@@ -483,7 +483,7 @@ function getYear(airDate: string) {
     <VCard>
       <DialogCloseBtn @click="subscribeSeasonDialog = false" />
       <VCardTitle class="pe-10">
-        订阅 - {{ props.media?.title }}
+        Subscribe to - {{ props.media?.title }}
       </VCardTitle>
       <VCardText>
         <VList
@@ -512,7 +512,7 @@ function getYear(airDate: string) {
               </VImg>
             </template>
             <VListItemTitle>
-              第 {{ item.season_number }} 季
+              (prefix indicating ordinal number, e.g. first, number two etc) {{ item.season_number }}  Classifier for seasonal crop yield or seasons of a tv series
             </VListItemTitle>
             <VListItemSubtitle class="mt-1 me-2">
               <VChip
@@ -523,10 +523,10 @@ function getYear(airDate: string) {
               >
                 <VIcon icon="mdi-star" /> {{ item.vote_average }}
               </VChip>
-              {{ getYear(item.air_date || '') }} • {{ item.episode_count }} 集
+              {{ getYear(item.air_date || '') }} • {{ item.episode_count }}  Classifier for sections of a tv series e.g. episode
             </VListItemSubtitle>
             <VListItemSubtitle>
-              《{{ media?.title }}》第 {{ item.season_number }} 季于 {{ formatAirDate(item.air_date || '') }} 首播。
+              《{{ media?.title }}》(prefix indicating ordinal number, e.g. first, number two etc) {{ item.season_number }}  Classifier for seasonal crop yield or seasons of a tv series于 {{ formatAirDate(item.air_date || '') }} 首播。
             </VListItemSubtitle>
             <VListItemSubtitle>
               <VChip
@@ -552,7 +552,7 @@ function getYear(airDate: string) {
           width="30%"
           @click="subscribeSeasons"
         >
-          {{ seasonsSelected.length === 0 ? '请选择订阅季' : '提交订阅' }}
+          {{ seasonsSelected.length === 0 ? ' Please select a subscription season' : ' Submit a subscription' }}
         </VBtn>
       </div>
     </VCard>

@@ -4,30 +4,30 @@ import api from '@/api'
 import FilterRuleCard from '@/components/cards/FilterRuleCard.vue'
 import type { Site } from '@/api/types'
 
-// 规则卡片类型
+//  Rule card type
 interface FilterCard {
-  // 优先级
+  //  Prioritization
   pri: string
-  // 已选规则
+  //  Selected rules
   rules: string[]
 }
 
-// 提示框
+//  Checkbox
 const $toast = useToast()
 
-// 订阅规则卡片列表
+//  Subscription rules card list
 const subscribeFilterCards = ref<FilterCard[]>([])
 
-// 洗版规则卡片列表
+//  Shuffle rule card list
 const bestVersionFilterCards = ref<FilterCard[]>([])
 
-// 所有站点
+//  All sites
 const allSites = ref<Site[]>([])
 
-// 选中订阅站点
+//  Check the subscription site
 const selectedRssSites = ref<number[]>([])
 
-// 查询用户选中的订阅站点
+//  Query user-selected subscription sites
 async function querySelectedRssSites() {
   try {
     const result: { [key: string]: any } = await api.get('system/setting/RssSites')
@@ -39,27 +39,27 @@ async function querySelectedRssSites() {
   }
 }
 
-// 保存用户选中的订阅站点
+//  Save user-selected subscription sites
 async function saveSelectedRssSites() {
   try {
     const result: { [key: string]: any } = await api.post('system/setting/RssSites', selectedRssSites.value)
 
     if (result.success)
-      $toast.success('订阅站点保存成功')
+      $toast.success(' Subscription site saved successfully')
     else
-      $toast.error('订阅站点保存失败！')
+      $toast.error(' Failed to save subscription site！')
   }
   catch (error) {
     console.log(error)
   }
 }
 
-// 查询所有站点
+//  Search all sites
 async function querySites() {
   try {
     const data: Site[] = await api.get('site/')
 
-    // 过滤站点，只有启用的站点才显示
+    //  Filter sites， Only enabled sites are shown
     allSites.value = data.filter(item => item.is_active)
     querySelectedRssSites()
   }
@@ -68,15 +68,15 @@ async function querySites() {
   }
 }
 
-// 查询已设置优先级规则
+//  Query set priority rules
 async function queryCustomFilters(ruleType: string) {
   try {
     const result: { [key: string]: any } = await api.get(`system/setting/${ruleType}`)
     if (result.success) {
-      // 保存的是个字符串，需要分割成数组
+      //  Saved as a string， Needs to be split into arrays
       const groups = result.data?.value?.split('>') ?? []
 
-      // 生成规则卡片
+      //  Generating rule cards
       const cards = ruleType === 'SubscribeFilterRules' ? subscribeFilterCards : bestVersionFilterCards
       cards.value = groups?.map((group: string, index: number) => {
         return {
@@ -91,119 +91,119 @@ async function queryCustomFilters(ruleType: string) {
   }
 }
 
-// 保存用户设置的规则
+//  Save user-set rules
 async function saveCustomFilters(ruleType: string) {
   try {
-    // 有值才处理
+    //  Process sth. when it has a value
     let value = ''
     const cards = ruleType === 'SubscribeFilterRules' ? subscribeFilterCards : bestVersionFilterCards
     if (cards.value.length !== 0) {
-      // 将卡片规则接装为字符串
+      //  Splice card rules into strings
       value = cards.value
         .filter(card => card.rules.length > 0)
         .map(card => card.rules.join('&'))
         .join('>')
     }
-    // 保存
+    //  Save (a file etc) (computing)
     const result: { [key: string]: any } = await api.post(
       `system/setting/${ruleType}`,
       value,
     )
 
-    const msg = ruleType === 'SubscribeFilterRules' ? '订阅优先级' : '洗版优先级'
+    const msg = ruleType === 'SubscribeFilterRules' ? ' Subscription priority' : ' Prioritization of plate washing'
 
     if (result.success)
-      $toast.success(`${msg}保存成功`)
+      $toast.success(`${msg} Save successful`)
     else
-      $toast.error(`${msg}保存失败！`)
+      $toast.error(`${msg} Fail to save！`)
   }
   catch (error) {
     console.log(error)
   }
 }
 
-// 更新规则卡片的值
+//  Updating the value of a rule card
 function updateFilterCardValue(pri: string, rules: string[]) {
   const card = subscribeFilterCards.value.find(card => card.pri === pri)
   if (card)
     card.rules = rules
 }
 
-// 更新洗版规则卡片的值
+//  Update the value of the wash rule card
 function updateFilterCardValue2(pri: string, rules: string[]) {
   const card = bestVersionFilterCards.value.find(card => card.pri === pri)
   if (card)
     card.rules = rules
 }
 
-// 移除卡片
+//  Remove cards
 function filterCardClose(ruleType: string, pri: string) {
-  // 将pri对应的卡片从列表中删除，并更新剩余卡片的序号
+  //  Commander-in-chief (military)pri The corresponding card is removed from the list， And update the serial numbers of the remaining cards
   const updatedCards = (ruleType === 'SubscribeFilterRules' ? subscribeFilterCards.value : bestVersionFilterCards.value)
     .filter(card => card.pri !== pri)
     .map((card, index) => {
       card.pri = (index + 1).toString()
       return card
     })
-  // 更新 subscribeFilterCards.value
+  //  Update subscribeFilterCards.value
   if (ruleType === 'SubscribeFilterRules')
     subscribeFilterCards.value = updatedCards
   else
     bestVersionFilterCards.value = updatedCards
 }
 
-// 增加卡片
+//  Add cards
 function addFilterCard(ruleType: string) {
   const cards = ruleType === 'SubscribeFilterRules' ? subscribeFilterCards : bestVersionFilterCards
-  // 优先级
+  //  Prioritization
   const pri = (cards.value.length + 1).toString()
 
-  // 新卡片
+  //  New card
   const newCard: FilterCard = { pri, rules: [] }
 
-  // 添加到列表
+  //  Add to list
   cards.value.push(newCard)
 }
 
-// 上调优先级
+//  Upward prioritization
 function onLevelUp(filterCards: FilterCard[], pri: string) {
-  // 找到当前卡片
+  //  Find the current card
   const card = filterCards.find(card => card.pri === pri)
   if (!card)
     return
 
-  // 找到当前卡片的上一张卡片
+  //  Find the current card的上一张卡片
   const prevCard = filterCards.find(card => card.pri === (parseInt(pri) - 1).toString())
   if (!prevCard)
     return
 
-  // 交换两张卡片的优先级
+  //  Exchanging the priority of two cards
   const temp = card.pri
   card.pri = prevCard.pri
   prevCard.pri = temp
 
-  // 卡片重新按优先级排序
+  //  Cards re-prioritized
   filterCards.sort((a, b) => parseInt(a.pri) - parseInt(b.pri))
 }
 
-// 下调优先级
+//  Downward prioritization
 function onLevelDown(filterCards: FilterCard[], pri: string) {
-  // 找到当前卡片
+  //  Find the current card
   const card = filterCards.find(card => card.pri === pri)
   if (!card)
     return
 
-  // 找到当前卡片的下一张卡片
+  //  Find the current card的下一张卡片
   const nextCard = filterCards.find(card => card.pri === (parseInt(pri) + 1).toString())
   if (!nextCard)
     return
 
-  // 交换两张卡片的优先级
+  //  Exchanging the priority of two cards
   const temp = card.pri
   card.pri = nextCard.pri
   nextCard.pri = temp
 
-  // 卡片重新按优先级排序
+  //  Cards re-prioritized
   filterCards.sort((a, b) => parseInt(a.pri) - parseInt(b.pri))
 }
 
@@ -217,8 +217,8 @@ onMounted(() => {
 <template>
   <VRow>
     <VCol cols="12">
-      <VCard title="订阅站点">
-        <VCardSubtitle> 只有选中的站点才会在订阅中使用。</VCardSubtitle>
+      <VCard title=" Subscribe to the site">
+        <VCardSubtitle>  Only selected sites will be available in the subscription。</VCardSubtitle>
 
         <VCardItem>
           <VChipGroup v-model="selectedRssSites" column multiple>
@@ -237,14 +237,14 @@ onMounted(() => {
 
         <VCardItem>
           <VBtn type="submit" @click="saveSelectedRssSites">
-            保存
+            Save (a file etc) (computing)
           </VBtn>
         </VCardItem>
       </VCard>
     </VCol>
     <VCol cols="12">
-      <VCard title="订阅优先级">
-        <VCardSubtitle> 设置在正常订阅时默认使用的优先级，未在优先级中的资源将不会自动下载。 </VCardSubtitle>
+      <VCard title=" Subscription priority">
+        <VCardSubtitle>  Set the priority to be used by default during normal subscription， Resources that are not prioritized will not be automatically downloaded。 </VCardSubtitle>
         <VCardItem>
           <div class="grid gap-3 grid-filterrule-card">
             <FilterRuleCard
@@ -266,7 +266,7 @@ onMounted(() => {
             class="me-2"
             @click="saveCustomFilters('SubscribeFilterRules')"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
           <VBtn
             color="success"
@@ -279,8 +279,8 @@ onMounted(() => {
       </VCard>
     </VCol>
     <VCol cols="12">
-      <VCard title="洗版优先级">
-        <VCardSubtitle> 设置在订阅洗版时使用的优先级，匹配优先级1时洗版完成。 </VCardSubtitle>
+      <VCard title=" Prioritization of plate washing">
+        <VCardSubtitle>  Set the priority to be used when subscribing to a wash version， Matching priority1 Finished at the time of washing。 </VCardSubtitle>
         <VCardItem>
           <div class="grid gap-3 grid-filterrule-card">
             <FilterRuleCard
@@ -302,7 +302,7 @@ onMounted(() => {
             class="me-2"
             @click="saveCustomFilters('BestVersionFilterRules')"
           >
-            保存
+            Save (a file etc) (computing)
           </VBtn>
           <VBtn
             color="success"
